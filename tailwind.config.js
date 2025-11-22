@@ -1,0 +1,91 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    './pages/**/*.{js,ts,jsx,tsx}',
+    './components/**/*.{js,ts,jsx,tsx}',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          50: '#ecfdf5',
+          100: '#d1fae5',
+          200: '#a7f3d0',
+          300: '#6ee7b7',
+          400: '#34d399',
+          500: '#10b981',
+          600: '#059669',
+          700: '#047857',
+          800: '#065f46',
+          900: '#064e3b',
+        },
+        secondary: {
+          50: '#eff6ff',
+          100: '#dbeafe',
+          200: '#bfdbfe',
+          300: '#93c5fd',
+          400: '#60a5fa',
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8',
+          800: '#1e40af',
+          900: '#1e3a8a',
+        },
+        accent: {
+          50: '#f5f3ff',
+          100: '#ede9fe',
+          200: '#ddd6fe',
+          300: '#c4b5fd',
+          400: '#a78bfa',
+          500: '#8b5cf6',
+          600: '#7c3aed',
+          700: '#6d28d9',
+          800: '#5b21b6',
+          900: '#4c1d95',
+        },
+      },
+      fontFamily: {
+        sans: [
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          'Arial',
+          'sans-serif',
+        ],
+      },
+      fontSize: {
+        'display': ['3.5rem', { lineHeight: '1.1', fontWeight: '700' }],
+        'h1': ['3rem', { lineHeight: '1.2', fontWeight: '700' }],
+        'h2': ['2.25rem', { lineHeight: '1.2', fontWeight: '700' }],
+        'h3': ['1.875rem', { lineHeight: '1.3', fontWeight: '600' }],
+        'h4': ['1.5rem', { lineHeight: '1.4', fontWeight: '600' }],
+        'h5': ['1.25rem', { lineHeight: '1.4', fontWeight: '600' }],
+        'h6': ['1.125rem', { lineHeight: '1.4', fontWeight: '600' }],
+        'body-lg': ['1.125rem', { lineHeight: '1.6', fontWeight: '400' }],
+        'body': ['1rem', { lineHeight: '1.6', fontWeight: '400' }],
+        'body-sm': ['0.875rem', { lineHeight: '1.6', fontWeight: '400' }],
+        'caption': ['0.75rem', { lineHeight: '1.5', fontWeight: '400' }],
+      },
+      spacing: {
+        '18': '4.5rem',
+        '88': '22rem',
+        '128': '32rem',
+      },
+      boxShadow: {
+        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
+        'medium': '0 4px 25px -2px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+      },
+      borderRadius: {
+        'xl': '1rem',
+        '2xl': '1.5rem',
+      },
+      transitionDuration: {
+        '400': '400ms',
+        '600': '600ms',
+      },
+    },
+  },
+  plugins: [],
+};

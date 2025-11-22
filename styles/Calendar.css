@@ -1,0 +1,77 @@
+.react-calendar {
+    width: 100%;
+    max-width: 400px;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb; /* Tailwind gray-200 */
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif; /* Mantén consistente la fuente */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tailwind shadow-md */
+  }
+  
+  .react-calendar__navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    background-color: #f3f4f6; /* Tailwind gray-100 */
+    border-bottom: 1px solid #e5e7eb; /* Tailwind gray-200 */
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .react-calendar__navigation button {
+    color: #1f2937; /* Tailwind gray-800 */
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+  }
+  
+  .react-calendar__navigation button:hover {
+    background-color: #e5e7eb; /* Tailwind gray-200 */
+  }
+  
+  .react-calendar__month-view__days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    padding: 8px;
+  }
+  
+  .react-calendar__tile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+    font-size: 0.875rem; /* Tailwind text-sm */
+    color: #4b5563; /* Tailwind gray-600 */
+    border-radius: 6px;
+    transition: all 0.3s ease;
+  }
+  
+  .react-calendar__tile:hover {
+    background-color: #f3f4f6; /* Tailwind gray-100 */
+    color: #1f2937; /* Tailwind gray-800 */
+  }
+  
+  .react-calendar__tile--now {
+    background-color: #dbeafe; /* Tailwind blue-100 */
+    border: 1px solid #3b82f6; /* Tailwind blue-500 */
+    color: #1e40af; /* Tailwind blue-700 */
+  }
+  
+  .react-calendar__tile--active {
+    background-color: #3b82f6; /* Tailwind blue-500 */
+    color: white;
+    border-radius: 6px;
+  }
+  
+  .react-calendar__tile--hasActive {
+    background-color: #e0f2fe; /* Tailwind blue-100 */
+  }
+  
+  .react-calendar__tile--highlighted {
+    background-color: #6ee7b7; /* Tailwind green-300 */
+    color: white;
+  }
+  
