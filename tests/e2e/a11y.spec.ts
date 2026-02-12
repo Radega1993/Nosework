@@ -96,3 +96,113 @@ test.describe('Accessibility Tests', () => {
     expect(contrastViolations.length).toBe(0);
   });
 });
+
+test.describe('Events List Page Accessibility', () => {
+  test('events list page has no critical a11y violations', async ({ page }) => {
+    await page.goto('/events');
+    
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'best-practice'])
+      .analyze();
+    
+    const criticalViolations = results.violations.filter(v => 
+      v.impact === 'critical' || v.impact === 'serious'
+    );
+    
+    expect(criticalViolations).toEqual([]);
+  });
+
+  test('events list page keyboard navigation works', async ({ page }) => {
+    await page.goto('/events');
+    
+    // Tab through interactive elements
+    await page.keyboard.press('Tab');
+    await expect(page.locator(':focus')).toBeVisible();
+    
+    // Verify focus is on a focusable element
+    const focusedElement = page.locator(':focus');
+    const tagName = await focusedElement.evaluate((el) => el.tagName.toLowerCase());
+    expect(['a', 'button', 'input', 'textarea', 'select']).toContain(tagName);
+  });
+
+  test('events list page filters are accessible', async ({ page }) => {
+    await page.goto('/events');
+    
+    // Switch to grid view to see filters
+    await page.getByRole('tab', { name: 'Grid' }).click();
+    
+    // Check that filters use proper semantic HTML
+    const fieldsets = page.locator('fieldset');
+    const fieldsetCount = await fieldsets.count();
+    
+    if (fieldsetCount > 0) {
+      // Verify fieldset has legend
+      const firstFieldset = fieldsets.first();
+      const legend = firstFieldset.locator('legend');
+      await expect(legend).toBeVisible();
+    }
+  });
+});
+
+test.describe('Event Detail Page Accessibility', () => {
+  test('event detail page has no critical a11y violations', async ({ page }) => {
+    // Navigate to an event detail page
+    await page.goto('/events');
+    await page.waitForTimeout(1000);
+    
+    const eventLinks = page.locator('a[href^="/events/"]');
+    const linkCount = await eventLinks.count();
+    
+    if (linkCount > 0) {
+      await eventLinks.first().click();
+      
+      const results = await new AxeBuilder({ page })
+        .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'best-practice'])
+        .analyze();
+      
+      const criticalViolations = results.violations.filter(v => 
+        v.impact === 'critical' || v.impact === 'serious'
+      );
+      
+      expect(criticalViolations).toEqual([]);
+    } else {
+      test.skip();
+    }
+  });
+
+  test('event detail page keyboard navigation works', async ({ page }) => {
+    await page.goto('/events');
+    await page.waitForTimeout(1000);
+    
+    const eventLinks = page.locator('a[href^="/events/"]');
+    const linkCount = await eventLinks.count();
+    
+    if (linkCount > 0) {
+      await eventLinks.first().click();
+      
+      // Tab through interactive elements
+      await page.keyboard.press('Tab');
+      await expect(page.locator(':focus')).toBeVisible();
+    } else {
+      test.skip();
+    }
+  });
+
+  test('event detail page heading hierarchy is correct', async ({ page }) => {
+    await page.goto('/events');
+    await page.waitForTimeout(1000);
+    
+    const eventLinks = page.locator('a[href^="/events/"]');
+    const linkCount = await eventLinks.count();
+    
+    if (linkCount > 0) {
+      await eventLinks.first().click();
+      
+      // Verify H1 exists (should be only one)
+      const h1Count = await page.locator('h1').count();
+      expect(h1Count).toBe(1);
+    } else {
+      test.skip();
+    }
+  });
+});

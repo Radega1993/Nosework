@@ -1,8 +1,12 @@
 {
   "ci": {
     "collect": {
-      "startServerCommand": "npm run start -- -p 3000",
-      "url": ["http://localhost:3000/"],
+      "startServerCommand": "npm run build && npm run start -- -p 3000",
+      "url": [
+        "http://localhost:3000/",
+        "http://localhost:3000/events",
+        "http://localhost:3000/events/1"
+      ],
       "numberOfRuns": 3
     },
     "assert": {
@@ -15,7 +19,7 @@
     },
     "upload": {
       "target": "filesystem",
-      "outputDir": "./openspec/changes/homepage-hero-section/evidence/lighthouse"
+      "outputDir": "./openspec/changes/events-public-pages/evidence/lighthouse"
     }
   }
 }

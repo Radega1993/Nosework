@@ -13,7 +13,8 @@
     "test:a11y": "playwright test tests/e2e/a11y.spec.ts",
     "test:visual": "playwright test tests/e2e/visual.spec.ts",
     "test:lighthouse": "lhci autorun",
-    "test:qa": "npm run test:e2e && npm run test:lighthouse"
+    "test:qa": "npm run test:e2e && npm run test:lighthouse",
+    "verify:schema": "node scripts/verify-schema.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -24,7 +25,8 @@
     "react": "^19.0.0",
     "react-calendar": "^5.1.0",
     "react-dom": "^19.0.0",
-    "sweetalert2": "^11.15.10"
+    "sweetalert2": "^11.15.10",
+    "use-debounce": "^10.1.0"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.1",

@@ -1,16 +1,6 @@
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import Button from "./Button";
-
-// Date formatting utility function
-function formatDateSpanish(dateString) {
-  const date = new Date(dateString);
-  return new Intl.DateTimeFormat("es-ES", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }).format(date);
-}
+import EventCardPublic from "./Event/EventCardPublic";
 
 // Skeleton loading component
 function EventCardSkeleton() {
@@ -105,46 +95,12 @@ export default function FeaturedEvents() {
         {!loading && !error && events.length > 0 && (
           <div className={`grid ${getGridCols()} gap-6 mb-8`}>
             {events.map((event) => (
-              <article
+              <EventCardPublic
                 key={event.id}
-                className="card text-left"
-                aria-labelledby={`event-title-${event.id}`}
-              >
-                <h3
-                  id={`event-title-${event.id}`}
-                  className="text-h4 font-bold mb-3 text-primary-600"
-                >
-                  {event.title}
-                </h3>
-                <div className="space-y-2 mb-4">
-                  <p className="text-body text-gray-700">
-                    <span className="font-semibold">Fecha:</span>{" "}
-                    {formatDateSpanish(event.date)}
-                  </p>
-                  {event.location && (
-                    <p className="text-body text-gray-700">
-                      <span className="font-semibold">Ubicación:</span> {event.location}
-                    </p>
-                  )}
-                  {event.level && (
-                    <span className="inline-block px-3 py-1 text-sm font-semibold rounded-full bg-primary-100 text-primary-700">
-                      {event.level === "base" ? "Base" : event.level === "avanzado" ? "Avanzado" : event.level}
-                    </span>
-                  )}
-                </div>
-                {event.description && (
-                  <p className="text-body-sm text-gray-600 mb-4 line-clamp-2">
-                    {event.description}
-                  </p>
-                )}
-                <Link
-                  href={`/events`}
-                  className="text-primary-600 hover:text-primary-700 font-semibold text-sm inline-flex items-center"
-                  aria-label={`Ver detalles de ${event.title}`}
-                >
-                  Ver detalles →
-                </Link>
-              </article>
+                event={event}
+                compact={false}
+                showImage={false}
+              />
             ))}
           </div>
         )}

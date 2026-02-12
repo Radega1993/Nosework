@@ -31,13 +31,14 @@ Each featured event SHALL display the event title, date (formatted in Spanish lo
 - **AND** all information is readable and properly formatted
 
 ### Requirement: Featured events link to event details
-Each featured event SHALL include a link or button that navigates to the event detail page or event listing page.
+Each featured event SHALL include a link or button that navigates to the event detail page (`/events/[id]`) using the reusable `EventCardPublic` component for visual consistency with the events list page and event detail pages.
 
 #### Scenario: Event links are functional
 - **WHEN** user clicks on a featured event or its "Ver detalles" button
-- **THEN** the user is navigated to the event detail page (e.g., `/events/[id]`) or events listing page
+- **THEN** the user is navigated to the event detail page (e.g., `/events/[id]`)
 - **AND** the link uses proper Next.js Link component for client-side navigation
 - **AND** the link is accessible via keyboard navigation
+- **AND** the event is displayed using the `EventCardPublic` component for visual consistency
 
 ### Requirement: Featured events component is responsive
 The featured events component SHALL adapt its layout for mobile, tablet, and desktop viewports, displaying events in an appropriate grid or list format.
@@ -97,4 +98,20 @@ The featured events component SHALL meet WCAG 2.1 AA accessibility standards inc
 - **AND** event information is properly structured with headings and lists
 - **AND** links have descriptive text or ARIA labels
 - **AND** the component has an appropriate heading (e.g., "Próximos Eventos")
+
+### Requirement: Featured events component uses EventCardPublic component
+The featured events component SHALL use the reusable `EventCardPublic` component to display events for visual consistency with the events list page and event detail pages.
+
+#### Scenario: EventCardPublic component is used for featured events
+- **WHEN** featured events are displayed on the homepage
+- **THEN** each featured event is rendered using the `EventCardPublic` component
+- **AND** the EventCardPublic displays event title, date, location, level, and other available information
+- **AND** the EventCardPublic links to the event detail page (`/events/[id]`)
+- **AND** the EventCardPublic styling is consistent with EventCardPublic usage in the events list page
+
+#### Scenario: EventCardPublic maintains component consistency
+- **WHEN** EventCardPublic is used in featured events, events list, and other pages
+- **THEN** the visual design and layout are consistent across all usages
+- **AND** the component accepts props to customize display if needed (e.g., compact mode for list view)
+- **AND** changes to EventCardPublic design automatically apply to all usages
 
