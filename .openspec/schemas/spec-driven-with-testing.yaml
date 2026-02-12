@@ -1,0 +1,8 @@
+name: spec-driven-with-testing
+description: Extended spec-driven workflow with automated testing - proposal → specs → design → tasks → testing
+artifacts:
+  - proposal
+  - specs
+  - design
+  - tasks
+  - testing

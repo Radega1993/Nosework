@@ -1,11 +1,18 @@
 import Head from "next/head";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
+import HeroSection from "@/components/HeroSection";
 import Calendar from "react-calendar";
 import { useEffect, useState } from "react";
 import "react-calendar/dist/Calendar.css";
+
+// Lazy load FeaturedEvents component to reduce initial bundle size
+const FeaturedEvents = dynamic(() => import("@/components/FeaturedEvents"), {
+  ssr: false, // Client-side only since it uses useEffect for data fetching
+});
 
 export default function Home() {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -42,7 +49,7 @@ export default function Home() {
         <title>Nosework Trial – Deporte de perros detectores y olfato canino</title>
         <meta
           name="description"
-          content="Descubre Nosework Trial, la modalidad deportiva para perros detectores y trabajo de olfato. Pruebas oficiales, reglamento, calendario de competiciones y clubs en España."
+          content="Descubre Nosework Trial, modalidad deportiva para perros detectores. Pruebas oficiales, reglamento y calendario de competiciones en España."
         />
         <meta
           name="keywords"
@@ -53,11 +60,16 @@ export default function Home() {
         <meta property="og:title" content="Nosework Trial – Deporte de perros detectores y olfato canino" />
         <meta
           property="og:description"
-          content="Descubre Nosework Trial, la modalidad deportiva para perros detectores y trabajo de olfato."
+          content="Descubre Nosework Trial, modalidad deportiva para perros detectores. Pruebas oficiales, reglamento y calendario de competiciones."
         />
         <meta property="og:image" content="/images/og-image.jpg" />
         <meta property="og:url" content="https://www.noseworktrialcommunity.com" />
         <meta property="og:type" content="website" />
+        {/* Twitter Card meta tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Nosework Trial – Deporte de perros detectores y olfato canino" />
+        <meta name="twitter:description" content="Descubre Nosework Trial, modalidad deportiva para perros detectores. Pruebas oficiales, reglamento y calendario de competiciones." />
+        <meta name="twitter:image" content="/images/og-image.jpg" />
         <link rel="canonical" href="https://www.noseworktrialcommunity.com" />
       </Head>
 
@@ -80,28 +92,10 @@ export default function Home() {
       <Navbar />
 
       {/* Hero Section */}
-      <header className="relative bg-gradient-to-r from-primary-600 to-primary-700 text-white py-20 md:py-24 lg:py-28">
-        <div className="absolute inset-0 bg-black opacity-20"></div>
-        <div className="container-custom relative z-10 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            Nosework Trial
-          </h1>
-          <p className="text-xl md:text-2xl mb-4 font-semibold max-w-3xl mx-auto">
-            Deporte de perros detectores y nosework deportivo
-          </p>
-          <p className="text-lg md:text-xl mb-8 text-primary-50 max-w-2xl mx-auto">
-            Una modalidad inclusiva para perros de todas las razas y edades
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button href="/como-empezar" variant="secondary" size="large">
-              Cómo Empezar
-            </Button>
-            <Button href="/reglamento" variant="outline" size="large" className="bg-white/10 border-white text-white hover:bg-white hover:text-primary-700">
-              Ver Reglamento
-            </Button>
-          </div>
-        </div>
-      </header>
+      <HeroSection />
+
+      {/* Featured Events */}
+      <FeaturedEvents />
 
       {/* Main Content */}
       <main className="section">

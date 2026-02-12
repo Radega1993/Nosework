@@ -285,6 +285,23 @@ Este documento define todos los requisitos funcionales y no funcionales del proy
 - **REQ-NF-028** [P1] [F2] El proyecto debe tener tests unitarios para funciones críticas (auth, API)
 - **REQ-NF-029** [P1] [F2] El proyecto debe tener tests de integración para flujos principales
 
+
+### 2.7 Loggs
+
+- **REQ-NF-030** [P0][F4] El sistema debe registrar logs de auditoría para acciones críticas (creación eventos, pagos, sanciones, cambios de rol)
+- **REQ-NF-031** [P1][F5] El sistema debe mantener historial de cambios de datos sensibles
+- **REQ-NF-032** [P1][F5] Los administradores deben poder consultar logs de actividad
+
+### 2.8 Más seguridad
+
+- **REQ-NF-033** [P0][F4] El sistema debe invalidar JWT tras cambio de contraseña
+- **REQ-NF-034** [P1][F5] El sistema debe permitir 2FA para administradores y jueces
+
+### 2.9 Más escalabilidad
+
+- **REQ-NF-035** [P1][F3] El sistema debe implementar caché para endpoints públicos de eventos y resultados
+
+
 ---
 
 ## 3. Requisitos Legales y de Cumplimiento
