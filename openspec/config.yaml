@@ -1,0 +1,110 @@
+schema: spec-driven
+
+# Project context (optional)
+# This is shown to AI when creating artifacts.
+# Add your tech stack, conventions, style guides, domain knowledge, etc.
+# Example:
+#   context: |
+#     Tech stack: TypeScript, React, Node.js
+#     We use conventional commits
+#     Domain: e-commerce platform
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+# Example:
+#   rules:
+#     proposal:
+#       - Keep proposals under 500 words
+#       - Always include a "Non-goals" section
+#     tasks:
+#       - Break tasks into chunks of max 2 hours
+
+context: |
+  Project: Nosework Trial (detección deportiva). Comunidad/organización independiente, sin relación con FEPDE.
+  Naming: Se usará "Nosework Trial" como marca principal; en documentos puede aparecer "Nosework Trial Community (NTC)".
+  Languages (i18n): es, ca, en, eu. Default: es. (Supuesto: se lanza ES primero; CA en segunda iteración; EN/EU después.)
+  Target region: España (prioridad Cataluña), escalable a nivel estatal e internacional.
+  Goal: Empezar como web pública de información y evolucionar a app web (eventos, inscripciones, resultados, clubs, licencias, rankings, jueces).
+
+  Sport rules (source of truth: normativas participantes):
+  - Niveles: Base y Avanzado.
+  - Olores: Kong + aceite esencial de salvia; en avanzado puede añadirse olor de referencia.
+  - Marca mínima: 3 segundos.
+  - Evaluación: sistemática, focalización, intensidad (+ impresión general). Coeficientes ajustables por organizador si se anuncia.
+  - Perros con problemas de comportamiento pueden participar avisando.
+  - Juez/organizador puede sancionar (p.ej. 6 meses) y puede tener ayudantes.
+  - Sin pódiums; sí reconocimientos alternativos.
+  (Estas reglas deben reflejarse en la web pública y en el modelo de datos de resultados.)
+
+  Tech stack:
+  - Frontend: Next.js 15.1.6 (Pages Router), React 19, TailwindCSS 3.4.17
+  - Backend: Next.js API Routes (/pages/api/*)
+  - DB (MVP): SQLite con better-sqlite3. Plan: migrar a PostgreSQL en producción.
+  - Auth: JWT (jsonwebtoken) + bcryptjs. Token en localStorage. Middleware de auth/roles.
+  - Dev tooling: ESLint, Turbopack en dev, path aliases @/*.
+  - UI patterns: componentes funcionales con hooks; AuthContext para estado global; PrivateRoute para rutas protegidas.
+
+  Current implemented features:
+  - Auth: login/register, JWT, roles (user/organizador/administrador), rutas protegidas.
+  - Events: CRUD (GET/POST/PUT/DELETE), calendario (react-calendar), dashboard organizador.
+  - Pages exist (some placeholders): index, about, events, community, contact, join, normativas.
+
+  Non-functional requirements:
+  - SEO-first: SSG/SSR adecuado, meta tags completos, schema.org (SportsOrganization + SportsEvent), sitemap/robots.
+  - Performance: Core Web Vitals priorizado.
+  - Security: secrets en env, input validation, rate limiting (mínimo en API), sanitización.
+  - Privacy: GDPR/LOPDGDD. (Supuesto: analítica mínima; si GA4, implementar consentimiento cookies.)
+  - Accessibility: objetivo WCAG 2.1 AA para páginas públicas.
+
+  Data model direction:
+  - Ya existe users y events.
+  - Futuro: clubs, dogs, registrations, results, payments, judges, licenses, rankings, titles, blog_posts.
+  - IDs: autoincrement en SQLite (MVP). Evaluar UUID en Postgres.
+
+rules:
+  proposal:
+    - Include: Vision, Problem, Audience, Scope by phase (F1..F7), Non-goals, Risks, Milestones.
+    - Keep under 900 words.
+    - Must explicitly state "No relationship with FEPDE".
+
+  sitemap:
+    - Output must include public pages and app/private routes separately.
+    - Include i18n URL strategy and canonical rules.
+
+  requirements:
+    - Split into: Functional (by module), Non-functional, Legal/Compliance, Analytics/SEO.
+    - Tag each requirement with: [P0|P1|P2] and phase (F1..F7).
+    - Include sport-rule requirements derived from "normativas participantes".
+
+  user_stories:
+    - Use format: "As a <role>, I want <goal> so that <benefit>."
+    - Include acceptance criteria (Given/When/Then) for all P0 stories.
+    - Roles must include: visitante, guia(user), organizador, administrador, juez (future).
+
+  data_model:
+    - Provide SQLite schema for MVP + migration notes to PostgreSQL.
+    - Must include constraints (unique, FK) and indexes for date, slug, foreign keys.
+    - Results model must support: level(Base/Avanzado), criteria scores (sistemática/focalización/intensidad), general impression, and judge notes.
+
+  api_spec:
+    - REST endpoints under /api with auth/role rules.
+    - Must document request/response examples and error formats.
+    - Include rate-limiting strategy (even minimal) and validation approach.
+
+  ui_spec:
+    - Define layout components (Navbar/Footer), main templates, and forms.
+    - Must include multilingual switcher behavior and fallback language.
+    - For dashboard, define navigation items by role.
+
+  seo_plan:
+    - Must include: titles/meta patterns, schema.org JSON-LD templates for SportsOrganization and SportsEvent, sitemap/robots, canonical/hreflang for 4 languages.
+    - Include initial content plan: 5 pillar pages + 5 blog posts + internal linking map.
+
+  tasks:
+    - Break tasks into chunks of max 2 hours.
+    - Each task must include: goal, files touched, acceptance check.
+    - Organize by phases (F1..F7) and mark "already implemented" where applicable.
+
+  test_plan:
+    - Minimum: unit tests for auth utils + API events; basic integration tests for protected routes.
+    - E2E: smoke tests for public pages + login + create/edit event flow.
