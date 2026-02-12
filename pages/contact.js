@@ -1,32 +1,21 @@
-import Head from "next/head";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 
 export default function Contact() {
     return (
         <div className="bg-gray-100 min-h-screen pt-16">
             {/* SEO */}
-            <Head>
-                <title>Contacto Nosework Trial – Preguntas y Consultas</title>
-                <meta
-                    name="description"
-                    content="Contacta con Nosework Trial. Formulario de contacto, email y redes sociales. Resolvemos tus dudas sobre nosework deportivo."
-                />
-                <meta
-                    name="keywords"
-                    content="contacto nosework trial, email nosework, consultas nosework, información nosework"
-                />
-                <meta property="og:title" content="Contacto Nosework Trial – Preguntas y Consultas" />
-                <meta
-                    property="og:description"
-                    content="Contacta con Nosework Trial para consultas, eventos o dudas sobre detección canina deportiva."
-                />
-                <meta property="og:image" content="/images/og-image.jpg" />
-                <meta property="og:url" content="https://www.noseworktrialcommunity.com/contact" />
-                <meta property="og:type" content="website" />
-                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                <link rel="canonical" href="https://www.noseworktrialcommunity.com/contact" />
-            </Head>
+            <SEOHead
+                title="Contacto Nosework Trial – Preguntas y Consultas"
+                description="Contacta con Nosework Trial. Formulario de contacto, email y redes sociales. Resolvemos tus dudas sobre nosework deportivo."
+                canonical="/contact"
+                ogImage="/images/og-image.jpg"
+                additionalMeta={{
+                    keywords:
+                        "contacto nosework trial, email nosework, consultas nosework, información nosework",
+                }}
+            />
 
             {/* Navbar */}
             <Navbar />

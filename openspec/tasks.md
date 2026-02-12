@@ -74,12 +74,12 @@ Este documento desglosa todas las tareas del proyecto en chunks de máximo 2 hor
 
 ### Tareas Pendientes Fase 1
 
-#### TASK-F1-011 ⏳ Mejorar página de inicio con hero completo
+#### TASK-F1-011 ✅ Mejorar página de inicio con hero completo
 **Goal:** Hero section con CTAs, explicación corta de modalidad, próximos eventos destacados  
 **Archivos:** `pages/index.js`  
 **Tiempo estimado:** 2 horas  
 **Acceptance:** Hero muestra CTAs funcionales, explicación clara, eventos destacados  
-**Estado:** ⏳ Pendiente
+**Estado:** ✅ Completado (2026-02-12: homepage-hero-section)
 
 #### TASK-F1-012 ⏳ Crear página "Qué es Nosework Trial"
 **Goal:** Página completa explicando la modalidad, historia, beneficios, estructura  
@@ -109,33 +109,33 @@ Este documento desglosa todas las tareas del proyecto en chunks de máximo 2 hor
 **Acceptance:** Contenido completo y bien estructurado  
 **Estado:** ⏳ Pendiente
 
-#### TASK-F1-016 ⏳ Añadir meta tags SEO en todas las páginas públicas
+#### TASK-F1-016 ✅ Añadir meta tags SEO en todas las páginas públicas
 **Goal:** Title y meta description únicos en cada página  
 **Archivos:** `pages/index.js`, `pages/about.js`, `pages/eventos.js`, `pages/contact.js`, `pages/que-es-nosework-trial.js`, `pages/reglamento.js`, `pages/como-empezar.js`  
 **Tiempo estimado:** 1 hora  
 **Acceptance:** Todas las páginas tienen meta tags únicos y optimizados  
-**Estado:** ⏳ Pendiente
+**Estado:** ✅ Completado (2026-02-12: seo-foundation - SEOHead component)
 
-#### TASK-F1-017 ⏳ Implementar Schema.org SportsOrganization
+#### TASK-F1-017 ✅ Implementar Schema.org SportsOrganization
 **Goal:** JSON-LD schema en página principal  
 **Archivos:** `pages/index.js`  
 **Tiempo estimado:** 30 minutos  
 **Acceptance:** Schema válido según Google Rich Results Test  
-**Estado:** ⏳ Pendiente
+**Estado:** ✅ Completado (2026-02-12: seo-foundation - Schema completo con todos los campos)
 
-#### TASK-F1-018 ⏳ Generar sitemap.xml básico
+#### TASK-F1-018 ✅ Generar sitemap.xml básico
 **Goal:** Sitemap con páginas estáticas principales  
 **Archivos:** `pages/sitemap.xml.js` o `public/sitemap.xml`  
 **Tiempo estimado:** 1 hora  
-**Acceptance:** Sitemap accesible en /sitemap.xml, válido y contiene URLs canónicas con /es/ (si el prefijo es obligatorio)
-**Estado:** ⏳ Pendiente
+**Acceptance:** Sitemap accesible en /sitemap.xml, válido y contiene URLs canónicas  
+**Estado:** ✅ Completado (2026-02-12: seo-foundation - Sitemap dinámico con páginas estáticas y eventos)
 
-#### TASK-F1-019 ⏳ Crear robots.txt
+#### TASK-F1-019 ✅ Crear robots.txt
 **Goal:** Robots.txt con sitemap y reglas básicas  
 **Archivos:** `public/robots.txt`  
 **Tiempo estimado:** 15 minutos  
 **Acceptance:** Robots.txt accesible, bloquea rutas privadas  
-**Estado:** ⏳ Pendiente
+**Estado:** ✅ Completado (2026-02-12: seo-foundation)
 
 #### TASK-F1-020 ⏳ Implementar redirecciones legacy y i18n base
 **Goal:** Asegurar consistencia de URLs (legacy + prefijo /es/)
@@ -187,12 +187,12 @@ Este documento desglosa todas las tareas del proyecto en chunks de máximo 2 hor
 **Acceptance:** 5 artículos publicados con contenido de calidad  
 **Estado:** ⏳ Pendiente
 
-#### TASK-F2-006 ⏳ Implementar Schema.org SportsEvent
+#### TASK-F2-006 ✅ Implementar Schema.org SportsEvent
 **Goal:** Schema en páginas de eventos  
 **Archivos:** `pages/eventos/[id].js`  
 **Tiempo estimado:** 1 hora  
 **Acceptance:** Schema válido para eventos  
-**Estado:** ⏳ Pendiente
+**Estado:** ✅ Completado (2026-02-12: events-public-pages y seo-foundation)
 
 #### TASK-F2-007 ⏳ Implementar Schema.org Article para blog
 **Goal:** Schema en artículos del blog  
@@ -201,12 +201,12 @@ Este documento desglosa todas las tareas del proyecto en chunks de máximo 2 hor
 **Acceptance:** Schema válido para artículos  
 **Estado:** ⏳ Pendiente
 
-#### TASK-F2-008 ⏳ Implementar breadcrumbs con schema
+#### TASK-F2-008 ✅ Implementar breadcrumbs con schema
 **Goal:** Breadcrumbs navegables con BreadcrumbList schema  
 **Archivos:** `components/Breadcrumbs.js`, páginas que lo usen  
 **Tiempo estimado:** 1 hora  
 **Acceptance:** Breadcrumbs funcionan y tienen schema válido  
-**Estado:** ⏳ Pendiente
+**Estado:** ✅ Completado (2026-02-12: seo-foundation - Componente Breadcrumbs reutilizable con Schema.org)
 
 #### TASK-F2-009 ⏳ Implementar selector de idioma básico (ES/CA)
 **Goal:** Componente para cambiar entre español y catalán  
@@ -222,12 +222,12 @@ Este documento desglosa todas las tareas del proyecto en chunks de máximo 2 hor
 **Acceptance:** Hreflang tags presentes y correctos  
 **Estado:** ⏳ Pendiente
 
-#### TASK-F2-011 ⏳ Implementar canonical URLs
+#### TASK-F2-011 ✅ Implementar canonical URLs
 **Goal:** Canonical tags en todas las páginas  
 **Archivos:** Utilidad para generar canonical, páginas  
 **Tiempo estimado:** 1 hora  
 **Acceptance:** Canonical tags presentes y correctos  
-**Estado:** ⏳ Pendiente
+**Estado:** ✅ Completado (2026-02-12: seo-foundation - getCanonicalUrl utility y SEOHead component)
 
 ---
 
@@ -247,19 +247,19 @@ Este documento desglosa todas las tareas del proyecto en chunks de máximo 2 hor
 **Acceptance:** Formulario permite crear eventos completos  
 **Estado:** ⏳ Pendiente
 
-#### TASK-F3-003 ⏳ Crear página de detalle de evento
+#### TASK-F3-003 ✅ Crear página de detalle de evento
 **Goal:** Página individual con toda la información del evento  
 **Archivos:** `pages/eventos/[id].js`  
 **Tiempo estimado:** 2 horas  
 **Acceptance:** Página muestra toda la información, Schema.org incluido  
-**Estado:** ⏳ Pendiente
+**Estado:** ✅ Completado (2026-02-12: events-public-pages - Página completa con breadcrumbs, SEO, Schema.org)
 
-#### TASK-F3-004 ⏳ Implementar filtros en calendario
+#### TASK-F3-004 ✅ Implementar filtros en calendario
 **Goal:** Filtrar eventos por nivel, tipo, localidad, fecha  
 **Archivos:** `pages/eventos.js`  
 **Tiempo estimado:** 2 horas  
 **Acceptance:** Filtros funcionan correctamente  
-**Estado:** ⏳ Pendiente
+**Estado:** ✅ Completado (2026-02-12: events-public-pages - Sistema completo de filtros con URL sync)
 
 #### TASK-F3-005 ⏳ Crear modelo de resultados en BD
 **Goal:** Tabla results con todos los campos según reglamento  
@@ -513,15 +513,19 @@ Este documento desglosa todas las tareas del proyecto en chunks de máximo 2 hor
 ## Resumen por Fase
 
 ### Fase 1
-- **Completadas:** 10 tareas ✅
-- **Pendientes:** 9 tareas ⏳
+- **Completadas:** 15 tareas ✅
+- **Pendientes:** 4 tareas ⏳
 - **Total:** 19 tareas
 
 ### Fase 2
-- **Pendientes:** 11 tareas ⏳
+- **Completadas:** 3 tareas ✅
+- **Pendientes:** 8 tareas ⏳
+- **Total:** 11 tareas
 
 ### Fase 3
-- **Pendientes:** 9 tareas ⏳
+- **Completadas:** 2 tareas ✅
+- **Pendientes:** 7 tareas ⏳
+- **Total:** 9 tareas
 
 ### Fase 4
 - **Pendientes:** 11 tareas ⏳
@@ -535,8 +539,8 @@ Este documento desglosa todas las tareas del proyecto en chunks de máximo 2 hor
 ### Fase 7
 - **Pendientes:** 2 tareas ⏳ (opcionales)
 
-**Total de tareas:** 67 tareas (10 completadas, 57 pendientes)
+**Total de tareas:** 67 tareas (20 completadas, 47 pendientes)
 
 ---
 
-**Última actualización:** Enero 2025
+**Última actualización:** Febrero 2026

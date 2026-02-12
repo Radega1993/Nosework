@@ -1,31 +1,23 @@
-import Head from "next/head";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
+import SEOHead from "@/components/SEOHead";
 
 export default function ComoEmpezar() {
     return (
         <div className="bg-gray-50 min-h-screen pt-16">
             {/* SEO */}
-            <Head>
-                <title>Cómo Empezar en Nosework Trial – Guía para Principiantes 2025</title>
-                <meta
-                    name="description"
-                    content="Guía completa para empezar en Nosework Trial. Requisitos, material necesario, cómo encontrar un club y preparar a tu perro para su primera competición."
-                />
-                <meta
-                    name="keywords"
-                    content="cómo empezar nosework, cómo iniciar detección deportiva con mi perro, guía nosework trial, empezar nosework"
-                />
-                <meta property="og:title" content="Cómo Empezar en Nosework Trial – Guía para Principiantes" />
-                <meta
-                    property="og:description"
-                    content="Guía paso a paso para empezar en Nosework Trial con tu perro. Requisitos, material y consejos para tu primera competición."
-                />
-                <meta property="og:type" content="website" />
-                <link rel="canonical" href="https://www.noseworktrialcommunity.com/como-empezar" />
-            </Head>
+            <SEOHead
+                title="Cómo Empezar en Nosework Trial – Guía para Principiantes 2025"
+                description="Guía completa para empezar en Nosework Trial. Requisitos, material necesario, cómo encontrar un club y preparar a tu perro para su primera competición."
+                canonical="/como-empezar"
+                ogImage="/images/og-image.jpg"
+                additionalMeta={{
+                    keywords:
+                        "cómo empezar nosework, cómo iniciar detección deportiva con mi perro, guía nosework trial, empezar nosework",
+                }}
+            />
 
             {/* Navbar */}
             <Navbar />

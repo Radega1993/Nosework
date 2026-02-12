@@ -1,10 +1,11 @@
-import Head from "next/head";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 import HeroSection from "@/components/HeroSection";
+import SEOHead from "@/components/SEOHead";
+import { getSportsOrganizationSchema } from "@/utils/seo";
 import Calendar from "react-calendar";
 import { useEffect, useState } from "react";
 import "react-calendar/dist/Calendar.css";
@@ -42,49 +43,22 @@ export default function Home() {
     setSelectedEvents(filteredEvents);
   };
 
+  // Generate Schema.org SportsOrganization with complete fields
+  const sportsOrganizationSchema = getSportsOrganizationSchema();
+
   return (
     <>
       {/* SEO Optimization */}
-      <Head>
-        <title>Nosework Trial – Deporte de perros detectores y olfato canino</title>
-        <meta
-          name="description"
-          content="Descubre Nosework Trial, modalidad deportiva para perros detectores. Pruebas oficiales, reglamento y calendario de competiciones en España."
-        />
-        <meta
-          name="keywords"
-          content="nosework trial, deporte perros detectores, nosework deportivo, deporte olfato canino, detección deportiva perros"
-        />
-        <meta name="author" content="Nosework Trial Community" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta property="og:title" content="Nosework Trial – Deporte de perros detectores y olfato canino" />
-        <meta
-          property="og:description"
-          content="Descubre Nosework Trial, modalidad deportiva para perros detectores. Pruebas oficiales, reglamento y calendario de competiciones."
-        />
-        <meta property="og:image" content="/images/og-image.jpg" />
-        <meta property="og:url" content="https://www.noseworktrialcommunity.com" />
-        <meta property="og:type" content="website" />
-        {/* Twitter Card meta tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Nosework Trial – Deporte de perros detectores y olfato canino" />
-        <meta name="twitter:description" content="Descubre Nosework Trial, modalidad deportiva para perros detectores. Pruebas oficiales, reglamento y calendario de competiciones." />
-        <meta name="twitter:image" content="/images/og-image.jpg" />
-        <link rel="canonical" href="https://www.noseworktrialcommunity.com" />
-      </Head>
-
-      {/* Schema.org */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "SportsOrganization",
-            "name": "Nosework Trial Community",
-            "description": "Organización deportiva de Nosework Trial en España",
-            "url": "https://www.noseworktrialcommunity.com",
-            "sport": "Nosework Trial"
-          })
+      <SEOHead
+        title="Nosework Trial – Deporte de olfato canino"
+        description="Descubre Nosework Trial, la modalidad deportiva para perros detectores y trabajo de olfato. Pruebas oficiales, reglamento, calendario de competiciones y clubs en España."
+        canonical="/"
+        ogImage="/images/og-image.jpg"
+        schema={sportsOrganizationSchema}
+        additionalMeta={{
+          keywords:
+            "nosework trial, deporte perros detectores, nosework deportivo, deporte olfato canino, detección deportiva perros",
+          author: "Nosework Trial Community",
         }}
       />
 

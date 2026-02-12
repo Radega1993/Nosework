@@ -1,29 +1,21 @@
-import Head from "next/head";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 
 export default function About() {
   return (
     <div className="bg-gray-100 min-h-screen pt-16">
       {/* SEO */}
-      <Head>
-        <title>Sobre Nosework Trial – Asociación y Modalidad</title>
-        <meta
-          name="description"
-          content="Conoce la historia, misión y valores de Nosework Trial. El equipo promotor y la visión de la modalidad deportiva de olfato canino."
-        />
-        <meta
-          name="keywords"
-          content="sobre nosework trial, asociación nosework, historia nosework, misión valores nosework"
-        />
-        <meta property="og:title" content="Sobre Nosework Trial – Asociación y Modalidad" />
-        <meta
-          property="og:description"
-          content="Conoce la historia, misión y valores de Nosework Trial."
-        />
-        <meta property="og:type" content="website" />
-        <link rel="canonical" href="https://www.noseworktrialcommunity.com/about" />
-      </Head>
+      <SEOHead
+        title="Sobre Nosework Trial – Asociación y Modalidad"
+        description="Conoce la historia, misión y valores de Nosework Trial. El equipo promotor y la visión de la modalidad deportiva de olfato canino."
+        canonical="/about"
+        ogImage="/images/og-image.jpg"
+        additionalMeta={{
+          keywords:
+            "sobre nosework trial, asociación nosework, historia nosework, misión valores nosework",
+        }}
+      />
 
       {/* Navbar */}
       <Navbar />

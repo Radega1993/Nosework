@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /admin/
+
+# Sitemaps
+Sitemap: https://www.noseworktrialcommunity.com/sitemap.xml
+Sitemap: https://www.noseworktrialcommunity.com/sitemap-events.xml

@@ -1,31 +1,23 @@
-import Head from "next/head";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
+import SEOHead from "@/components/SEOHead";
 
 export default function Reglamento() {
     return (
         <div className="bg-gray-50 min-h-screen pt-16">
             {/* SEO */}
-            <Head>
-                <title>Reglamento Nosework Trial – Normativa oficial 2025</title>
-                <meta
-                    name="description"
-                    content="Consulta el reglamento oficial de Nosework Trial. Normativa completa, niveles, tipos de búsqueda, sistema de puntuación y código ético."
-                />
-                <meta
-                    name="keywords"
-                    content="reglamento nosework, reglamento detección deportiva perros, normativa nosework trial, reglamento oficial"
-                />
-                <meta property="og:title" content="Reglamento Nosework Trial – Normativa oficial" />
-                <meta
-                    property="og:description"
-                    content="Consulta el reglamento oficial completo de Nosework Trial con toda la normativa, niveles y sistema de puntuación."
-                />
-                <meta property="og:type" content="website" />
-                <link rel="canonical" href="https://www.noseworktrialcommunity.com/reglamento" />
-            </Head>
+            <SEOHead
+                title="Reglamento Nosework Trial – Normativa oficial 2025"
+                description="Consulta el reglamento oficial de Nosework Trial. Normativa completa, niveles Base y Avanzado, tipos de búsqueda, sistema de puntuación y código ético."
+                canonical="/reglamento"
+                ogImage="/images/og-image.jpg"
+                additionalMeta={{
+                    keywords:
+                        "reglamento nosework, reglamento detección deportiva perros, normativa nosework trial, reglamento oficial",
+                }}
+            />
 
             {/* Navbar */}
             <Navbar />

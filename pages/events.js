@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
-import Head from "next/head";
 import dynamic from "next/dynamic";
 import Calendar from "react-calendar";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 import EventCardPublic from "@/components/Event/EventCardPublic";
 import { useEventFilters } from "@/hooks/useEventFilters";
 import { useEventSearch } from "@/hooks/useEventSearch";
@@ -105,31 +105,17 @@ export default function Events() {
 
   return (
     <div className="bg-gray-50 min-h-screen pt-16">
-      <Head>
-        <title>Calendario Nosework Trial 2025 – Próximas Pruebas</title>
-        <meta
-          name="description"
-          content="Consulta el calendario completo de pruebas y eventos de Nosework Trial. Fechas, localidades y clubs organizadores."
-        />
-        <meta
-          name="keywords"
-          content="calendario nosework, pruebas nosework 2025, eventos nosework, competiciones nosework España"
-        />
-        <meta property="og:title" content="Calendario Nosework Trial 2025 – Próximas Pruebas" />
-        <meta
-          property="og:description"
-          content="Consulta el calendario completo de pruebas y eventos de Nosework Trial."
-        />
-        <meta property="og:image" content="/images/og-image.jpg" />
-        <meta property="og:url" content="https://www.noseworktrialcommunity.com/events" />
-        <meta property="og:type" content="website" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="canonical" href="https://www.noseworktrialcommunity.com/events" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}
-        />
-      </Head>
+      <SEOHead
+        title="Calendario de Eventos Nosework Trial – Pruebas y Competiciones 2025"
+        description="Consulta el calendario completo de eventos y competiciones de Nosework Trial. Encuentra pruebas cerca de ti e inscríbete online."
+        canonical="/events"
+        ogImage="/images/og-image.jpg"
+        schema={schemaMarkup}
+        additionalMeta={{
+          keywords:
+            "calendario nosework, pruebas nosework 2025, eventos nosework, competiciones nosework España",
+        }}
+      />
 
       <Navbar />
 

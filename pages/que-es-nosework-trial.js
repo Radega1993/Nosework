@@ -1,31 +1,23 @@
-import Head from "next/head";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
+import SEOHead from "@/components/SEOHead";
 
 export default function QueEsNoseworkTrial() {
     return (
         <div className="bg-gray-100 min-h-screen pt-16">
             {/* SEO */}
-            <Head>
-                <title>Qué es Nosework Trial – Nosework deportivo para todos los perros</title>
-                <meta
-                    name="description"
-                    content="Conoce en detalle qué es Nosework Trial, cómo funciona el nosework deportivo, qué tipos de pruebas hay y qué perros pueden practicar este deporte de olfato."
-                />
-                <meta
-                    name="keywords"
-                    content="qué es nosework deportivo, deporte olfato canino, nosework trial, detección deportiva perros"
-                />
-                <meta property="og:title" content="Qué es Nosework Trial – Nosework deportivo" />
-                <meta
-                    property="og:description"
-                    content="Conoce en detalle qué es Nosework Trial, cómo funciona el nosework deportivo y qué perros pueden practicarlo."
-                />
-                <meta property="og:type" content="website" />
-                <link rel="canonical" href="https://www.noseworktrialcommunity.com/que-es-nosework-trial" />
-            </Head>
+            <SEOHead
+                title="Qué es Nosework Trial – Nosework deportivo para todos los perros"
+                description="Conoce en detalle qué es Nosework Trial, cómo funciona el nosework deportivo, qué tipos de pruebas hay y qué perros pueden practicar este deporte de olfato."
+                canonical="/que-es-nosework-trial"
+                ogImage="/images/og-image.jpg"
+                additionalMeta={{
+                    keywords:
+                        "qué es nosework deportivo, deporte olfato canino, nosework trial, detección deportiva perros",
+                }}
+            />
 
             {/* Schema.org */}
             <script

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import Head from "next/head";
-import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import EventDetail from "@/components/Event/EventDetail";
 
 // Lazy load EventCardPublic for related events (below the fold)
@@ -175,62 +175,30 @@ export default function EventDetailPage() {
     );
   }
 
+  // Breadcrumb items
+  const breadcrumbItems = [
+    { label: "Inicio", href: "/" },
+    { label: "Eventos", href: "/events" },
+    { label: event.title, href: `/events/${id}` },
+  ];
+
   return (
     <div className="bg-gray-50 min-h-screen pt-16">
-      <Head>
-        <title>{event.title} - Nosework Trial</title>
-        <meta
-          name="description"
-          content={event.description?.substring(0, 160) || `Evento de Nosework Trial: ${event.title}`}
-        />
-        <meta property="og:title" content={`${event.title} - Nosework Trial`} />
-        <meta
-          property="og:description"
-          content={event.description?.substring(0, 160) || `Evento de Nosework Trial`}
-        />
-        <meta property="og:image" content="/images/og-image.jpg" />
-        <meta property="og:url" content={`https://www.noseworktrialcommunity.com/events/${id}`} />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${event.title} - Nosework Trial`} />
-        <meta
-          name="twitter:description"
-          content={event.description?.substring(0, 160) || `Evento de Nosework Trial`}
-        />
-        <meta name="twitter:image" content="/images/og-image.jpg" />
-        <link rel="canonical" href={`https://www.noseworktrialcommunity.com/events/${id}`} />
-        {schemaMarkup && (
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}
-          />
-        )}
-      </Head>
+      <SEOHead
+        title={`${event.title} - Nosework Trial`}
+        description={
+          event.description?.substring(0, 160) || `Evento de Nosework Trial: ${event.title}`
+        }
+        canonical={`/events/${id}`}
+        ogImage="/images/og-image.jpg"
+        schema={schemaMarkup}
+        breadcrumbs={breadcrumbItems}
+      />
 
       <Navbar />
 
       {/* Breadcrumbs */}
-      <nav className="bg-white border-b border-gray-200" aria-label="Breadcrumb">
-        <div className="container-custom py-4">
-          <ol className="flex items-center space-x-2 text-sm">
-            <li>
-              <Link href="/" className="text-gray-500 hover:text-gray-700">
-                Inicio
-              </Link>
-            </li>
-            <li className="text-gray-400">/</li>
-            <li>
-              <Link href="/events" className="text-gray-500 hover:text-gray-700">
-                Eventos
-              </Link>
-            </li>
-            <li className="text-gray-400">/</li>
-            <li className="text-gray-900 font-medium" aria-current="page">
-              {event.title}
-            </li>
-          </ol>
-        </div>
-      </nav>
+      <Breadcrumbs items={breadcrumbItems} />
 
       {/* Main Content */}
       <main className="section">
