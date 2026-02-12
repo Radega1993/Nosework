@@ -112,6 +112,8 @@ Este documento define las historias de usuario organizadas por roles y prioridad
   - Recibo confirmación por email
   - Puedo iniciar sesión con mis credenciales
   - Mi rol por defecto es "user" (guía)
+  - La contraseña cumple requisitos de fortaleza (2026-02-12: auth-hardening)
+  - Los datos son validados y sanitizados (2026-02-12: auth-hardening)
 
 #### US-007 [P0] [F4] Iniciar sesión en mi cuenta
 **Como** guía registrado  
@@ -123,9 +125,11 @@ Este documento define las historias de usuario organizadas por roles y prioridad
 - **When** ingreso mi email y contraseña correctos
 - **Then**:
   - Inicio sesión exitosamente
-  - Recibo un token JWT que se almacena en localStorage
+  - Recibo un token JWT y refresh token que se almacenan (2026-02-12: auth-hardening)
   - Soy redirigido a mi dashboard o página solicitada
   - Puedo acceder a rutas protegidas
+  - Si fallo múltiples veces, mi cuenta se bloquea temporalmente (2026-02-12: auth-hardening)
+  - Los intentos fallidos se registran en logs de auditoría (2026-02-12: auth-hardening)
 
 #### US-008 [P0] [F4] Gestionar mi perfil personal
 **Como** guía  
@@ -597,4 +601,6 @@ Este documento define las historias de usuario organizadas por roles y prioridad
 
 ---
 
-**Última actualización:** Enero 2025
+**Última actualización:** Febrero 2026
+
+**Nota:** Las historias US-006 y US-007 han sido mejoradas con medidas de seguridad implementadas en auth-hardening (2026-02-12): validación robusta, sanitización, rate limiting, account lockout, audit logging, refresh tokens.

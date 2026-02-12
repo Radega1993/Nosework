@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { getCanonicalUrl } from "@/utils/seo";
+import { useLocalizedLink } from "@/hooks/useLocalizedLink";
 
 /**
  * Breadcrumbs component - Renders visual breadcrumb navigation and Schema.org BreadcrumbList
@@ -25,6 +27,9 @@ import { getCanonicalUrl } from "@/utils/seo";
  * @returns {JSX.Element|null} Returns null if items array is empty or undefined
  */
 export default function Breadcrumbs({ items = [] }) {
+  const router = useRouter();
+  const { localizedHref } = useLocalizedLink();
+  
   if (!items || items.length === 0) {
     return null;
   }
@@ -37,7 +42,7 @@ export default function Breadcrumbs({ items = [] }) {
       "@type": "ListItem",
       position: index + 1,
       name: item.label,
-      item: getCanonicalUrl(item.href),
+      item: getCanonicalUrl(item.href, router),
     })),
   };
 
@@ -65,7 +70,7 @@ export default function Breadcrumbs({ items = [] }) {
                     </span>
                   ) : (
                     <Link
-                      href={item.href}
+                      href={localizedHref(item.href)}
                       className="text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded"
                     >
                       {item.label}

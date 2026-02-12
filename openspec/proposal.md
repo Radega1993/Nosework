@@ -41,7 +41,25 @@ Esto dificulta el crecimiento de la modalidad, la organización de eventos y la 
 - Diseño responsive y optimización SEO básica
 - Documentación de reglamentos (PDF + HTML)
 
-**Estado:** 60% completado
+**Estado:** 85% completado
+
+**Completado:**
+- ✅ Estructura base Next.js y componentes principales
+- ✅ Páginas esenciales (Inicio, About, Eventos, Contacto)
+- ✅ Sistema de autenticación básico
+- ✅ CRUD básico de eventos
+- ✅ Hero section mejorada con eventos destacados
+- ✅ SEO foundation completa (meta tags, Schema.org, sitemap, robots.txt, canonical URLs, breadcrumbs)
+- ✅ Páginas públicas de eventos (detalle y listado con filtros)
+- ✅ Hardening de seguridad de autenticación (87% completo: rate limiting, validación, sanitización, token management, CSRF, password security, account lockout, audit logging, refresh tokens)
+- ✅ Tests unitarios, de integración y E2E implementados
+
+**Pendiente:**
+- ⏳ Página "Qué es Nosework Trial" completa
+- ⏳ Página de reglamento completa
+- ⏳ Página "Cómo Empezar" completa
+- ⏳ Mejoras en página About
+- ⏳ Redirecciones legacy e i18n base
 
 ### Fase 2: Contenido Ampliado + SEO
 **Objetivo:** Posicionamiento en buscadores y contenido completo.
@@ -51,7 +69,7 @@ Esto dificulta el crecimiento de la modalidad, la organización de eventos y la 
 - Directorio de Clubs y centros
 - Blog/Noticias con artículos SEO
 - Optimización SEO avanzada (schema.org, sitemap, meta tags)
-- Contenido multilingüe (ES, CA)
+- Contenido multilingüe (ES, CA, US, EUSKERA)
 
 ### Fase 3: Calendario Dinámico y Resultados
 **Objetivo:** Gestión activa de eventos y resultados.

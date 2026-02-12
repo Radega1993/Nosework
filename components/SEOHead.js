@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { getCanonicalUrl } from "@/utils/seo";
 
 /**
@@ -52,14 +53,16 @@ export default function SEOHead({
   breadcrumbs = null,
   additionalMeta = {},
 }) {
+  const router = useRouter();
+  
   // Truncate description to 160 characters
   const truncatedDescription =
     description && description.length > 160
       ? description.substring(0, 157) + "..."
       : description;
 
-  // Generate canonical URL
-  const canonicalUrl = getCanonicalUrl(canonical);
+  // Generate canonical URL with automatic language detection from router
+  const canonicalUrl = getCanonicalUrl(canonical, router);
 
   // Generate Open Graph URL (same as canonical)
   const ogUrl = canonicalUrl;
@@ -73,7 +76,7 @@ export default function SEOHead({
           "@type": "ListItem",
           position: index + 1,
           name: item.label,
-          item: getCanonicalUrl(item.href),
+          item: getCanonicalUrl(item.href, router),
         })),
       }
     : null;
@@ -107,7 +110,7 @@ export default function SEOHead({
       {truncatedDescription && (
         <meta property="og:description" content={truncatedDescription} />
       )}
-      <meta property="og:image" content={getCanonicalUrl(ogImage)} />
+      <meta property="og:image" content={getCanonicalUrl(ogImage, router)} />
       <meta property="og:url" content={ogUrl} />
       <meta property="og:type" content="website" />
 
@@ -117,7 +120,7 @@ export default function SEOHead({
       {truncatedDescription && (
         <meta name="twitter:description" content={truncatedDescription} />
       )}
-      <meta name="twitter:image" content={getCanonicalUrl(ogImage)} />
+      <meta name="twitter:image" content={getCanonicalUrl(ogImage, router)} />
 
       {/* Additional meta tags */}
       {Object.entries(additionalMeta).map(([key, value]) => (

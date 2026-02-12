@@ -61,11 +61,13 @@ export async function getServerSideProps({ res }) {
     }
 
     // Generate XML sitemap
+    // Use Spanish language prefix for all event URLs
     const urls = events.map((event) => {
       const lastmod = event.updated_at
         ? new Date(event.updated_at).toISOString().split("T")[0]
         : new Date().toISOString().split("T")[0];
-      const loc = getCanonicalUrl(`/events/${event.id}`);
+      // Use /eventos/[id] path - getCanonicalUrl will add /es/ prefix automatically
+      const loc = getCanonicalUrl(`/eventos/${event.id}`, "es");
 
       return `  <url>
     <loc>${escapeXml(loc)}</loc>

@@ -8,7 +8,7 @@ import EventModal from "@/components/Event/EventModal";
 import useEvents from "@/hooks/useEvents";
 
 export default function OrganizerDashboard() {
-    const { user } = useContext(AuthContext);
+    const { user, loading } = useContext(AuthContext);
     const router = useRouter();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
@@ -19,10 +19,22 @@ export default function OrganizerDashboard() {
 
     // Redirige al usuario al login si no tiene acceso, pero solo en el cliente
     useEffect(() => {
-        if (!user || user.role !== "organizador") {
-            router.push("/login");
+        // Wait for auth to finish loading and router to be ready before redirecting
+        if (typeof window !== "undefined" && !loading && router.isReady && router.pathname !== "/login") {
+            if (!user || user.role !== "organizador") {
+                // Only redirect if not already redirecting
+                if (router.pathname !== "/login") {
+                    try {
+                        router.replace("/login");
+                    } catch (error) {
+                        // Fallback to window.location if router.push fails
+                        console.error("Router push failed, using window.location:", error);
+                        window.location.href = "/login";
+                    }
+                }
+            }
         }
-    }, [user, router]);
+    }, [user, loading, router.isReady, router.pathname]);
 
     const handleEdit = (event) => {
         setEventData(event);
@@ -35,6 +47,11 @@ export default function OrganizerDashboard() {
         await saveEvent(eventData, isEditMode);
         setIsModalOpen(false);
     };
+
+    // Show loading state while auth is initializing
+    if (loading) {
+        return null;
+    }
 
     if (!user || user.role !== "organizador") {
         // Muestra un estado vacío mientras se redirige

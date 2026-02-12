@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { useLocalizedLink } from "@/hooks/useLocalizedLink";
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
+    const { localizedHref } = useLocalizedLink();
 
     const footerLinks = {
         principal: [
@@ -11,7 +13,7 @@ export default function Footer() {
             { name: "Cómo Empezar", path: "/como-empezar" },
         ],
         recursos: [
-            { name: "Eventos", path: "/events" },
+            { name: "Eventos", path: "/eventos" }, // Updated from /events to /eventos
             { name: "Quiénes Somos", path: "/about" },
             { name: "Contacto", path: "/contact" },
         ],
@@ -56,7 +58,7 @@ export default function Footer() {
                             {footerLinks.principal.map((link) => (
                                 <li key={link.path}>
                                     <Link
-                                        href={link.path}
+                                        href={localizedHref(link.path)}
                                         className="text-gray-400 hover:text-white transition-colors duration-200"
                                     >
                                         {link.name}
@@ -73,7 +75,7 @@ export default function Footer() {
                             {footerLinks.recursos.map((link) => (
                                 <li key={link.path}>
                                     <Link
-                                        href={link.path}
+                                        href={localizedHref(link.path)}
                                         className="text-gray-400 hover:text-white transition-colors duration-200"
                                     >
                                         {link.name}

@@ -147,6 +147,23 @@ Este documento desglosa todas las tareas del proyecto en chunks de máximo 2 hor
 - `/eventos` → 301 a `/es/eventos` (si el prefijo es obligatorio)
 **Estado:** ⏳ Pendiente
 
+#### TASK-F1-021 ✅ Hardening de seguridad de autenticación
+**Goal:** Implementar medidas de seguridad avanzadas en el sistema de autenticación
+**Archivos:** `utils/validation.js`, `utils/sanitization.js`, `utils/rateLimiter.js`, `utils/tokenBlacklist.js`, `utils/refreshTokens.js`, `utils/auditLogger.js`, `utils/csrf.js`, `utils/passwordSecurity.js`, `pages/api/auth/*`, `middlewares/auth.js`, `contexts/AuthContext.js`, `pages/login.js`, `pages/register.js`, `pages/dashboard/change-password.js`
+**Tiempo estimado:** 20 horas
+**Acceptance:** 
+- Rate limiting implementado en endpoints de autenticación
+- Validación robusta en cliente y servidor con Joi
+- Sanitización de inputs para prevenir XSS e inyección
+- Token blacklist para invalidar tokens tras cambio de contraseña
+- Refresh tokens para renovación segura de sesiones
+- Protección CSRF en formularios críticos
+- Validación de fortaleza de contraseñas
+- Bloqueo temporal de cuentas tras intentos fallidos
+- Logging de auditoría para acciones críticas
+- Tests unitarios, de integración y E2E pasando
+**Estado:** ✅ Completado (2026-02-12: auth-hardening - 154/178 tareas, 87% completo)
+
 
 ---
 
@@ -513,9 +530,9 @@ Este documento desglosa todas las tareas del proyecto en chunks de máximo 2 hor
 ## Resumen por Fase
 
 ### Fase 1
-- **Completadas:** 15 tareas ✅
+- **Completadas:** 16 tareas ✅
 - **Pendientes:** 4 tareas ⏳
-- **Total:** 19 tareas
+- **Total:** 20 tareas
 
 ### Fase 2
 - **Completadas:** 3 tareas ✅
@@ -528,7 +545,9 @@ Este documento desglosa todas las tareas del proyecto en chunks de máximo 2 hor
 - **Total:** 9 tareas
 
 ### Fase 4
-- **Pendientes:** 11 tareas ⏳
+- **Completadas:** 1 tarea ✅ (Hardening de seguridad)
+- **Pendientes:** 10 tareas ⏳
+- **Total:** 11 tareas
 
 ### Fase 5
 - **Pendientes:** 5 tareas ⏳
@@ -539,7 +558,9 @@ Este documento desglosa todas las tareas del proyecto en chunks de máximo 2 hor
 ### Fase 7
 - **Pendientes:** 2 tareas ⏳ (opcionales)
 
-**Total de tareas:** 67 tareas (20 completadas, 47 pendientes)
+**Total de tareas:** 68 tareas (22 completadas, 46 pendientes)
+
+**Nota:** El hardening de seguridad (TASK-F1-021) está 87% completo (154/178 subtareas). Incluye rate limiting, validación, sanitización, token management, CSRF, password security, account lockout, audit logging y refresh tokens. Tests: 46 unitarios pasando, tests de integración creados, 11 tests E2E pasando.
 
 ---
 

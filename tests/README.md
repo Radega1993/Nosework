@@ -1,103 +1,138 @@
-# QA Automation Tests
+# Testing Documentation
 
-This directory contains automated QA tests for the Nosework Trial website.
+## Test Structure
 
-## Setup
+This project uses multiple testing approaches:
 
-### 1. Install Playwright Browsers
+- **Unit Tests**: Jest for testing utility functions and components
+- **E2E Tests**: Playwright for end-to-end testing
+- **Accessibility Tests**: Playwright with axe-core
+- **Visual Regression**: Playwright for visual testing
+- **Performance**: Lighthouse CI for performance audits
+
+## Unit Tests
+
+Unit tests are located in `utils/__tests__/` and test individual utility functions.
+
+### Running Unit Tests
 
 ```bash
-npx playwright install --with-deps
+# Run all unit tests
+npm test
+
+# Run in watch mode
+npm run test:unit:watch
+
+# Run with coverage
+npm run test:unit:coverage
 ```
 
-This installs Chromium, Firefox, and WebKit browsers required for testing.
+### Test Coverage
 
-### 2. Run Tests
+Current unit test coverage includes:
 
-**All E2E Tests:**
+- ✅ **Validation** (`utils/validation.js`)
+  - Login schema validation
+  - Register schema validation
+  - Change password schema validation
+  - Refresh token schema validation
+
+- ✅ **Password Security** (`utils/passwordSecurity.js`)
+  - Password strength validation
+  - Common password detection
+  - Password strength calculation
+
+- ✅ **Sanitization** (`utils/sanitization.js`)
+  - HTML sanitization
+  - Email normalization
+  - URL validation
+  - Text sanitization
+  - Object sanitization
+
+### Adding New Unit Tests
+
+1. Create test file: `utils/__tests__/yourModule.test.js`
+2. Import the module to test
+3. Write test cases using Jest's `describe` and `it` blocks
+4. Run tests: `npm test`
+
+Example:
+
+```javascript
+import { yourFunction } from '../yourModule';
+
+describe('YourModule', () => {
+  it('should do something', () => {
+    const result = yourFunction('input');
+    expect(result).toBe('expected');
+  });
+});
+```
+
+## E2E Tests
+
+E2E tests are located in `tests/e2e/` and use Playwright.
+
+### Running E2E Tests
+
 ```bash
+# Run all E2E tests
 npm run test:e2e
-```
 
-**Accessibility Tests Only:**
-```bash
-npm run test:a11y
-```
-
-**Visual Regression Tests:**
-```bash
-npm run test:visual
-```
-
-**Lighthouse CI:**
-```bash
-npm run build
-npm run test:lighthouse
-```
-
-**Full QA Suite:**
-```bash
-npm run test:qa
-```
-
-**Interactive UI Mode:**
-```bash
+# Run with UI
 npm run test:e2e:ui
-```
 
-**Headed Mode (see browser):**
-```bash
+# Run in headed mode
 npm run test:e2e:headed
+
+# Run accessibility tests
+npm run test:a11y
+
+# Run visual regression tests
+npm run test:visual
+
+# Run security E2E tests specifically
+npm run test:e2e -- tests/e2e/auth-security.spec.ts
 ```
 
-## Test Coverage
+### Security E2E Tests
 
-### E2E Tests (`tests/e2e/home.spec.ts`)
-- Homepage loads correctly
-- Hero section displays
-- Featured events section displays
-- CTA buttons navigate correctly
-- Responsive layouts (mobile, tablet, desktop)
+The `auth-security.spec.ts` file contains comprehensive E2E tests for authentication security features:
 
-### Accessibility Tests (`tests/e2e/a11y.spec.ts`)
-- WCAG 2.1 AA compliance (axe-core)
-- Keyboard navigation
-- Image alt text
-- Heading hierarchy
-- Color contrast
+- **Login Security**: Validation, rate limiting, invalid credentials
+- **Registration Security**: Password strength, validation, duplicate email
+- **Change Password Security**: Password strength, current password validation
+- **CSRF Protection**: CSRF token requirements
+- **Account Lockout**: Account locking after failed attempts
+- **Token Management**: Token storage and cleanup on logout
 
-### Visual Regression Tests (`tests/e2e/visual.spec.ts`)
-- Desktop visual snapshot
-- Mobile visual snapshot
-- Tablet visual snapshot
-- Hero section snapshot
+These tests verify security features from the user's perspective and ensure the UI properly handles security scenarios.
 
-### Lighthouse CI (`.lighthouserc.json`)
-- Performance score >= 90
-- Accessibility score >= 95
-- SEO score >= 90
-- Best Practices score >= 95
+## Test Coverage Goals
 
-## Test Execution
+- **Unit Tests**: Aim for >80% coverage on utility functions
+- **E2E Tests**: Cover critical user flows
+- **Accessibility**: All public pages should pass WCAG 2.1 AA
+- **Performance**: Lighthouse score >90
 
-Tests run against a production build (`npm run build && npm start`) to ensure accurate performance metrics.
+## Continuous Integration
 
-## CI/CD Integration
+Tests should be run:
+- Before committing (pre-commit hook recommended)
+- In CI/CD pipeline
+- Before deploying to production
 
-These tests can be integrated into CI/CD pipelines:
+## Test Data
 
-```yaml
-# Example GitHub Actions
-- run: npm ci
-- run: npx playwright install --with-deps
-- run: npm run build
-- run: npm run test:qa
-```
+- Use test databases for E2E tests
+- Clean up test data after tests
+- Use factories or fixtures for consistent test data
 
-## Updating Visual Snapshots
+## Best Practices
 
-If visual changes are intentional:
-
-```bash
-npx playwright test tests/e2e/visual.spec.ts --update-snapshots
-```
+1. **Isolation**: Each test should be independent
+2. **Naming**: Use descriptive test names
+3. **Arrange-Act-Assert**: Structure tests clearly
+4. **Mock External Dependencies**: Don't rely on external services
+5. **Fast Tests**: Unit tests should run quickly
+6. **Deterministic**: Tests should produce consistent results

@@ -248,14 +248,14 @@ Este documento define todos los requisitos funcionales y no funcionales del proy
 
 ### 2.2 Seguridad
 
-- **REQ-NF-006** [P0] [F1] Los secrets (JWT secret, DB credentials) deben estar en variables de entorno, nunca en código
-- **REQ-NF-007** [P0] [F1] Todas las contraseñas deben estar hasheadas con bcrypt (mínimo 10 rounds)
-- **REQ-NF-008** [P0] [F1] Todas las entradas de usuario deben ser validadas y sanitizadas
-- **REQ-NF-009** [P0] [F1] Las API routes deben implementar rate limiting mínimo (p.ej. 100 req/min por IP)
+- **REQ-NF-006** [P0] [F1] ✅ Los secrets (JWT secret, DB credentials) deben estar en variables de entorno, nunca en código
+- **REQ-NF-007** [P0] [F1] ✅ Todas las contraseñas deben estar hasheadas con bcrypt (mínimo 10 rounds)
+- **REQ-NF-008** [P0] [F1] ✅ Todas las entradas de usuario deben ser validadas y sanitizadas (2026-02-12: auth-hardening)
+- **REQ-NF-009** [P0] [F1] ✅ Las API routes deben implementar rate limiting mínimo (p.ej. 100 req/min por IP) (2026-02-12: auth-hardening - 5 intentos/15min login, 3/hora registro)
 - **REQ-NF-010** [P0] [F1] El sitio debe usar HTTPS en producción
-- **REQ-NF-011** [P0] [F1] Las rutas protegidas deben verificar autenticación y autorización por roles
-- **REQ-NF-012** [P1] [F2] El sistema debe implementar protección CSRF en formularios
-- **REQ-NF-013** [P1] [F2] El sistema debe implementar validación de entrada en cliente y servidor
+- **REQ-NF-011** [P0] [F1] ✅ Las rutas protegidas deben verificar autenticación y autorización por roles
+- **REQ-NF-012** [P1] [F2] ✅ El sistema debe implementar protección CSRF en formularios (2026-02-12: auth-hardening)
+- **REQ-NF-013** [P1] [F2] ✅ El sistema debe implementar validación de entrada en cliente y servidor (2026-02-12: auth-hardening - Joi schemas)
 
 ### 2.3 Escalabilidad
 
@@ -280,10 +280,10 @@ Este documento define todos los requisitos funcionales y no funcionales del proy
 
 ### 2.6 Mantenibilidad
 
-- **REQ-NF-026** [P0] [F1] El código debe seguir convenciones de Next.js y React
-- **REQ-NF-027** [P0] [F1] El código debe estar documentado con comentarios donde sea necesario
-- **REQ-NF-028** [P1] [F2] El proyecto debe tener tests unitarios para funciones críticas (auth, API)
-- **REQ-NF-029** [P1] [F2] El proyecto debe tener tests de integración para flujos principales
+- **REQ-NF-026** [P0] [F1] ✅ El código debe seguir convenciones de Next.js y React
+- **REQ-NF-027** [P0] [F1] ✅ El código debe estar documentado con comentarios donde sea necesario (2026-02-12: docs/SECURITY.md creado)
+- **REQ-NF-028** [P1] [F2] ✅ El proyecto debe tener tests unitarios para funciones críticas (auth, API) (2026-02-12: 46 tests unitarios pasando)
+- **REQ-NF-029** [P1] [F2] ✅ El proyecto debe tener tests de integración para flujos principales (2026-02-12: tests de integración creados y pasando)
 
 
 ### 2.7 Loggs

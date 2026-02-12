@@ -1,17 +1,20 @@
 import Link from "next/link";
 import { useContext, useState } from "react";
 import AuthContext from "@/contexts/AuthContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useLocalizedLink } from "@/hooks/useLocalizedLink";
 
 export default function Navbar() {
     const { user, logout } = useContext(AuthContext);
     const [menuOpen, setMenuOpen] = useState(false);
+    const { localizedHref } = useLocalizedLink();
 
     const navLinks = [
         { name: "Inicio", path: "/" },
         { name: "Qué es", path: "/que-es-nosework-trial" },
         { name: "Reglamento", path: "/reglamento" },
         { name: "Cómo Empezar", path: "/como-empezar" },
-        { name: "Eventos", path: "/events" },
+        { name: "Eventos", path: "/eventos" }, // Updated from /events to /eventos
         { name: "Quiénes Somos", path: "/about" },
         { name: "Contacto", path: "/contact" },
     ];
@@ -23,7 +26,7 @@ export default function Navbar() {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center space-x-2 group">
+                    <Link href={localizedHref("/")} className="flex items-center space-x-2 group">
                         <span className="text-2xl font-bold text-primary-600 group-hover:text-primary-700 transition-colors">
                             NTC
                         </span>
@@ -37,7 +40,7 @@ export default function Navbar() {
                         {navLinks.map((link) => (
                             <li key={link.path}>
                                 <Link
-                                    href={link.path}
+                                    href={localizedHref(link.path)}
                                     className="px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200 font-medium text-sm"
                                 >
                                     {link.name}
@@ -58,6 +61,7 @@ export default function Navbar() {
 
                     {/* Login/Logout Desktop */}
                     <div className="hidden lg:flex items-center space-x-4">
+                        <LanguageSwitcher />
                         {user ? (
                             <button
                                 onClick={logout}
@@ -109,7 +113,7 @@ export default function Navbar() {
                     {navLinks.map((link) => (
                         <Link
                             key={link.path}
-                            href={link.path}
+                            href={localizedHref(link.path)}
                             className="block px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200 font-medium"
                             onClick={() => setMenuOpen(false)}
                         >
@@ -125,7 +129,10 @@ export default function Navbar() {
                             Dashboard
                         </Link>
                     )}
-                    <div className="pt-4 border-t border-gray-200">
+                    <div className="pt-4 border-t border-gray-200 space-y-3">
+                        <div className="px-4">
+                            <LanguageSwitcher />
+                        </div>
                         {user ? (
                             <button
                                 onClick={() => {

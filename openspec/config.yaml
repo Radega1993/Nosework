@@ -46,13 +46,16 @@ context: |
 
   Current implemented features:
   - Auth: login/register, JWT, roles (user/organizador/administrador), rutas protegidas.
-  - Events: CRUD (GET/POST/PUT/DELETE), calendario (react-calendar), dashboard organizador.
-  - Pages exist (some placeholders): index, about, events, community, contact, join, normativas.
+  - Auth Security (2026-02-12: auth-hardening): rate limiting, input validation/sanitization, CSRF protection, token blacklist, refresh tokens, password security, account lockout, audit logging.
+  - Events: CRUD (GET/POST/PUT/DELETE), calendario (react-calendar), dashboard organizador, páginas públicas con filtros y detalle.
+  - SEO (2026-02-12: seo-foundation): meta tags, Schema.org (SportsOrganization, SportsEvent), sitemap dinámico, robots.txt, canonical URLs, breadcrumbs.
+  - Pages exist (some placeholders): index (con hero mejorado), about, events (con filtros y detalle), community, contact, join, normativas.
+  - Testing: 46 unit tests, integration tests, 11 E2E tests (Playwright).
 
   Non-functional requirements:
-  - SEO-first: SSG/SSR adecuado, meta tags completos, schema.org (SportsOrganization + SportsEvent), sitemap/robots.
+  - SEO-first: SSG/SSR adecuado, meta tags completos, schema.org (SportsOrganization + SportsEvent), sitemap/robots. ✅ Implementado (2026-02-12: seo-foundation)
   - Performance: Core Web Vitals priorizado.
-  - Security: secrets en env, input validation, rate limiting (mínimo en API), sanitización.
+  - Security: secrets en env, input validation, rate limiting (mínimo en API), sanitización. ✅ Implementado (2026-02-12: auth-hardening)
   - Privacy: GDPR/LOPDGDD. (Supuesto: analítica mínima; si GA4, implementar consentimiento cookies.)
   - Accessibility: objetivo WCAG 2.1 AA para páginas públicas.
 

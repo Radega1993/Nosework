@@ -624,19 +624,19 @@ Cada página debe enlazar a:
 
 ### Fase 1 (MVP)
 
-- [ ] Meta tags en todas las páginas públicas
-- [ ] Schema.org SportsOrganization en home
-- [ ] Sitemap.xml básico
-- [ ] Robots.txt
-- [ ] URLs amigables
+- [x] Meta tags en todas las páginas públicas (2026-02-12: seo-foundation - SEOHead component)
+- [x] Schema.org SportsOrganization en home (2026-02-12: seo-foundation)
+- [x] Sitemap.xml básico (2026-02-12: seo-foundation - sitemap dinámico)
+- [x] Robots.txt (2026-02-12: seo-foundation)
+- [x] URLs amigables
 
 ### Fase 2 (Contenido + SEO)
 
-- [ ] Schema.org SportsEvent en eventos
+- [x] Schema.org SportsEvent en eventos (2026-02-12: events-public-pages)
 - [ ] Schema.org Article en blog
-- [ ] Breadcrumbs con schema
+- [x] Breadcrumbs con schema (2026-02-12: seo-foundation - componente Breadcrumbs)
 - [ ] Hreflang tags (ES, CA)
-- [ ] Canonical URLs
+- [x] Canonical URLs (2026-02-12: seo-foundation - getCanonicalUrl utility)
 - [ ] 5 páginas pilar completas
 - [ ] 5 artículos de blog iniciales
 - [ ] Enlaces internos estratégicos
@@ -650,4 +650,6 @@ Cada página debe enlazar a:
 
 ---
 
-**Última actualización:** Enero 2025
+**Última actualización:** Febrero 2026
+
+**Estado:** Fase 1 SEO completada (100%), Fase 2 parcialmente completada (40%)

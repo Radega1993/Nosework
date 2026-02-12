@@ -9,20 +9,22 @@ function generateSitemapIndex() {
     process.env.NEXT_PUBLIC_SITE_URL || "https://www.noseworktrialcommunity.com";
 
   // Static pages with priorities and change frequencies
+  // Note: Paths without language prefix - getCanonicalUrl will add /es/ prefix automatically
   const staticPages = [
     { path: "/", priority: "1.0", changefreq: "daily" },
     { path: "/que-es-nosework-trial", priority: "0.9", changefreq: "weekly" },
     { path: "/reglamento", priority: "0.9", changefreq: "weekly" },
     { path: "/como-empezar", priority: "0.8", changefreq: "weekly" },
-    { path: "/events", priority: "0.8", changefreq: "daily" },
+    { path: "/eventos", priority: "0.8", changefreq: "daily" }, // Updated from /events to /eventos
     { path: "/about", priority: "0.7", changefreq: "monthly" },
     { path: "/contact", priority: "0.7", changefreq: "monthly" },
     { path: "/normativas", priority: "0.7", changefreq: "monthly" },
   ];
 
   // Generate URLs for static pages
+  // getCanonicalUrl will automatically add /es/ prefix since we're in server-side context
   const staticUrls = staticPages.map((page) => {
-    const loc = getCanonicalUrl(page.path);
+    const loc = getCanonicalUrl(page.path, "es"); // Explicitly use Spanish for sitemap
     const lastmod = new Date().toISOString().split("T")[0];
 
     return `  <url>
@@ -34,8 +36,9 @@ function generateSitemapIndex() {
   });
 
   // Generate sitemap index that references events sitemap
+  // Note: sitemap-events.xml doesn't need language prefix (it's a sitemap file, not a page)
   const sitemapIndex = `  <sitemap>
-    <loc>${escapeXml(getCanonicalUrl("/sitemap-events.xml"))}</loc>
+    <loc>${escapeXml(getCanonicalUrl("/sitemap-events.xml", "es"))}</loc>
     <lastmod>${new Date().toISOString().split("T")[0]}</lastmod>
   </sitemap>`;
 

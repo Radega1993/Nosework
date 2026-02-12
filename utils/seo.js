@@ -4,28 +4,68 @@
  * These utilities ensure consistent SEO implementation across the site.
  */
 
+import {
+  getLanguageFromPath,
+  addLanguagePrefix,
+  DEFAULT_LANGUAGE,
+} from './i18n';
+
 /**
  * Generates an absolute canonical URL for a given path
  * 
  * Uses NEXT_PUBLIC_SITE_URL environment variable or defaults to production domain.
  * Ensures consistent URL format (with leading slash, no trailing slash unless required).
+ * Automatically detects and adds language prefix if not present.
  * 
  * @example
  * ```js
+ * // Client-side (with router context)
  * getCanonicalUrl("/events") 
- * // Returns: "https://www.noseworktrialcommunity.com/events"
+ * // Returns: "https://www.noseworktrialcommunity.com/es/eventos" (if current page is /es/...)
  * 
- * getCanonicalUrl("events")
- * // Returns: "https://www.noseworktrialcommunity.com/events"
+ * // Server-side or explicit language
+ * getCanonicalUrl("/events", "es")
+ * // Returns: "https://www.noseworktrialcommunity.com/es/eventos"
  * ```
  * 
  * @param {string} path - The path (with or without leading slash)
- * @returns {string} Absolute canonical URL with domain
+ * @param {string|Object} [langOrRouter] - Optional language code (e.g., "es") or Next.js router object for automatic detection
+ * @returns {string} Absolute canonical URL with domain and language prefix
  */
-export function getCanonicalUrl(path) {
+export function getCanonicalUrl(path, langOrRouter = null) {
   const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://www.noseworktrialcommunity.com";
-  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+  
+  // Clean path
+  let cleanPath = path.startsWith("/") ? path : `/${path}`;
+  
+  // Detect language
+  let lang = DEFAULT_LANGUAGE;
+  
+  // Check if path already has language prefix
+  const pathLang = getLanguageFromPath(cleanPath);
+  if (pathLang) {
+    lang = pathLang;
+  } else if (langOrRouter) {
+    // If langOrRouter is a string, use it as language code
+    if (typeof langOrRouter === 'string') {
+      lang = langOrRouter;
+    } 
+    // If langOrRouter is a router object (from useRouter), try to detect from current path
+    else if (langOrRouter && typeof langOrRouter === 'object' && langOrRouter.asPath) {
+      const routerLang = getLanguageFromPath(langOrRouter.asPath) || 
+                        getLanguageFromPath(langOrRouter.pathname);
+      if (routerLang) {
+        lang = routerLang;
+      }
+    }
+  }
+  
+  // Add language prefix if not already present
+  if (!pathLang) {
+    cleanPath = addLanguagePrefix(cleanPath, lang);
+  }
+  
   return `${baseUrl}${cleanPath}`;
 }
 

@@ -1,10 +1,17 @@
 import jwt from "jsonwebtoken";
+import { isTokenBlacklisted } from "@/utils/tokenBlacklist";
 
 export function authenticateToken(req, res, next) {
     const token = req.headers["authorization"]?.split(" ")[1]; // Obtén el token del encabezado
     if (!token) {
         console.log("Token no proporcionado");
         return res.status(401).json({ error: "Token requerido" });
+    }
+
+    // Check if token is blacklisted before verifying signature
+    if (isTokenBlacklisted(token)) {
+        console.log("Token está en blacklist");
+        return res.status(403).json({ error: "Token inválido" });
     }
 
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {

@@ -4,6 +4,12 @@ Este documento define la estrategia de testing del proyecto, incluyendo tests un
 
 **Cobertura objetivo:** Mínimo 70% para código crítico (auth, API, validaciones)
 
+**Estado actual (2026-02-12):**
+- ✅ 46 tests unitarios pasando (utils/validation, utils/passwordSecurity, utils/sanitization)
+- ✅ Tests de integración creados (tests/integration/auth.test.js)
+- ✅ 11 tests E2E pasando (tests/e2e/auth-security.spec.ts)
+- ⏳ Tests adicionales opcionales pendientes
+
 ---
 
 ## Estrategia de Testing
@@ -515,4 +521,31 @@ jobs:
 
 ---
 
-**Última actualización:** Enero 2025
+**Última actualización:** Febrero 2026
+
+## Tests Implementados (auth-hardening - 2026-02-12)
+
+### Unit Tests ✅
+
+**Archivos de test:**
+- `utils/__tests__/validation.test.js` - Tests para esquemas Joi (login, register, changePassword, refreshToken)
+- `utils/__tests__/passwordSecurity.test.js` - Tests para validación de fortaleza de contraseñas y detección de contraseñas comunes
+- `utils/__tests__/sanitization.test.js` - Tests para sanitización de HTML, emails, URLs y texto
+
+**Cobertura:** 46 tests unitarios pasando
+
+### Integration Tests ✅
+
+**Archivo:** `tests/integration/auth.test.js`
+- Tests para endpoints de autenticación usando `node-mocks-http`
+- Cobertura: login, register, logout, refresh, change-password
+- Verificación de rate limiting, validación, sanitización
+
+### E2E Tests ✅
+
+**Archivo:** `tests/e2e/auth-security.spec.ts` (Playwright)
+- 11 tests pasando, 6 saltados (requieren autenticación completa)
+- Cobertura: Login Security, Registration Security, CSRF Protection, Account Lockout
+- Tests saltados: Change Password Security, Token Management (verificados con tests de integración)
+
+**Resultados:** Ver `tests/e2e/AUTH_SECURITY_TEST_RESULTS.md`

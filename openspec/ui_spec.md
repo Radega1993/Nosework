@@ -244,25 +244,33 @@ export default function QueEsNoseworkTrial() {
 ### Form de Login
 
 **Archivo:** `pages/login.js`  
-**Estado:** ✅ Implementado (básico)
+**Estado:** ✅ Implementado con seguridad avanzada (2026-02-12: auth-hardening)
 
 **Campos:**
 
 - Email (input type="email")
 - Password (input type="password")
+- CSRF token (hidden input) (2026-02-12: auth-hardening)
 - Botón "Iniciar Sesión"
 - Enlace "¿Olvidaste tu contraseña?" (Fase 4)
 
 **Validación:**
 
-- Cliente: HTML5 validation básica
-- Servidor: Validación completa en API
+- Cliente: Validación en tiempo real con Joi schema (2026-02-12: auth-hardening)
+- Servidor: Validación completa con Joi, sanitización de inputs (2026-02-12: auth-hardening)
+- Rate limiting: 5 intentos por 15 minutos por IP (2026-02-12: auth-hardening)
+- Account lockout: Bloqueo temporal tras múltiples intentos fallidos (2026-02-12: auth-hardening)
+
+**Mejoras Implementadas:**
+
+- ✅ Validación en tiempo real con mensajes descriptivos
+- ✅ Mensajes de error específicos para rate limiting y account lockout
+- ✅ Loading state durante submit
+- ✅ Protección CSRF
+- ✅ Audit logging de intentos de login
 
 **Mejoras Pendientes:**
 
-- [ ] Validación en tiempo real
-- [ ] Mensajes de error más descriptivos
-- [ ] Loading state durante submit
 - [ ] Recuperación de contraseña
 
 ---
@@ -270,18 +278,32 @@ export default function QueEsNoseworkTrial() {
 ### Form de Registro
 
 **Archivo:** `pages/register.js`  
-**Estado:** ✅ Implementado (básico)
+**Estado:** ✅ Implementado con seguridad avanzada (2026-02-12: auth-hardening)
 
 **Campos:**
 
-- Email
-- Password
+- Email (con validación y sanitización)
+- Password (con indicador de fortaleza en tiempo real)
 - Confirm Password
+- CSRF token (hidden input) (2026-02-12: auth-hardening)
 - Checkbox "Acepto términos y condiciones" (Fase 2)
+
+**Validación:**
+
+- Cliente: Validación en tiempo real con Joi schema, indicador de fortaleza de contraseña (2026-02-12: auth-hardening)
+- Servidor: Validación completa con Joi, sanitización de inputs, validación de fortaleza de contraseña (2026-02-12: auth-hardening)
+- Rate limiting: 3 intentos por hora por IP (2026-02-12: auth-hardening)
+
+**Mejoras Implementadas:**
+
+- ✅ Validación de fortaleza de contraseña con feedback visual
+- ✅ Validación en tiempo real con mensajes descriptivos
+- ✅ Sanitización de inputs
+- ✅ Protección CSRF
+- ✅ Rechazo de contraseñas comunes
 
 **Mejoras Pendientes:**
 
-- [ ] Validación de fortaleza de contraseña
 - [ ] Verificación de email (Fase 4)
 - [ ] Términos y condiciones clickeables
 
@@ -631,8 +653,11 @@ Dashboard
 - EventCard
 - EventForm (básico)
 - Calendario (react-calendar)
-- Login form
-- Register form
+- Login form (con seguridad avanzada - 2026-02-12: auth-hardening)
+- Register form (con seguridad avanzada - 2026-02-12: auth-hardening)
+- Change Password form (2026-02-12: auth-hardening)
+- SEOHead component (2026-02-12: seo-foundation)
+- Breadcrumbs component (2026-02-12: seo-foundation)
 
 ### ⚠️ Parcialmente Implementados
 
@@ -648,4 +673,6 @@ Dashboard
 
 ---
 
-**Última actualización:** Enero 2025
+**Última actualización:** Febrero 2026
+
+**Nota:** Se implementaron mejoras de seguridad avanzadas en los formularios de autenticación (2026-02-12: auth-hardening): validación robusta, sanitización, CSRF protection, rate limiting, account lockout, y validación de fortaleza de contraseñas. Se añadió la página de cambio de contraseña (`pages/dashboard/change-password.js`).

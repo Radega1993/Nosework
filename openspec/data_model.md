@@ -18,6 +18,8 @@ CREATE TABLE users (
     email TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,  -- Hash bcrypt (mínimo 10 rounds)
     role TEXT DEFAULT 'user' NOT NULL,  -- 'user', 'organizador', 'administrador', 'juez'
+    failed_login_attempts INTEGER DEFAULT 0,  -- Para bloqueo de cuenta (2026-02-12: auth-hardening)
+    account_locked_until TEXT,  -- Timestamp de desbloqueo (2026-02-12: auth-hardening)
     created_at TEXT DEFAULT CURRENT_TIMESTAMP,
     updated_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
@@ -496,6 +498,61 @@ CREATE INDEX idx_blog_categories_slug ON blog_categories(slug);
 
 ---
 
+### Tablas de Seguridad (auth-hardening - 2026-02-12)
+
+#### `token_blacklist`
+```sql
+CREATE TABLE token_blacklist (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    token_hash TEXT NOT NULL UNIQUE,  -- Hash SHA-256 del token JWT
+    expires_at TEXT NOT NULL,  -- Timestamp de expiración del token
+    user_id INTEGER,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE INDEX idx_token_blacklist_token_hash ON token_blacklist(token_hash);
+CREATE INDEX idx_token_blacklist_expires_at ON token_blacklist(expires_at);
+CREATE INDEX idx_token_blacklist_user ON token_blacklist(user_id);
+```
+
+#### `refresh_tokens`
+```sql
+CREATE TABLE refresh_tokens (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    token_hash TEXT NOT NULL UNIQUE,  -- Hash SHA-256 del refresh token
+    expires_at TEXT NOT NULL,  -- Timestamp de expiración
+    revoked BOOLEAN DEFAULT 0,  -- Si el token fue revocado manualmente
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE INDEX idx_refresh_tokens_token_hash ON refresh_tokens(token_hash);
+CREATE INDEX idx_refresh_tokens_user ON refresh_tokens(user_id);
+CREATE INDEX idx_refresh_tokens_expires_at ON refresh_tokens(expires_at);
+```
+
+#### `audit_logs`
+```sql
+CREATE TABLE audit_logs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,  -- NULL si acción no autenticada
+    action TEXT NOT NULL,  -- 'login_success', 'login_failed', 'password_changed', 'account_locked', etc.
+    ip_address TEXT,
+    user_agent TEXT,
+    details TEXT,  -- JSON con detalles adicionales
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+CREATE INDEX idx_audit_logs_user ON audit_logs(user_id);
+CREATE INDEX idx_audit_logs_action ON audit_logs(action);
+CREATE INDEX idx_audit_logs_created_at ON audit_logs(created_at);
+```
+
+---
+
 ## Notas de Migración a PostgreSQL
 
 ### 1. Cambios de Tipos de Datos
@@ -702,4 +759,6 @@ CREATE TABLE audit_logs (
 
 ---
 
-**Última actualización:** Enero 2025
+**Última actualización:** Febrero 2026
+
+**Nota:** Se añadieron tablas de seguridad (`token_blacklist`, `refresh_tokens`, `audit_logs`) y campos adicionales en `users` (`failed_login_attempts`, `account_locked_until`) como parte del cambio auth-hardening (2026-02-12).
