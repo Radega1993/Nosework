@@ -81,12 +81,12 @@ Este documento desglosa todas las tareas del proyecto en chunks de máximo 2 hor
 **Acceptance:** Hero muestra CTAs funcionales, explicación clara, eventos destacados  
 **Estado:** ✅ Completado (2026-02-12: homepage-hero-section)
 
-#### TASK-F1-012 ⏳ Crear página "Qué es Nosework Trial"
+#### TASK-F1-012 ✅ Crear página "Qué es Nosework Trial"
 **Goal:** Página completa explicando la modalidad, historia, beneficios, estructura  
 **Archivos:** `pages/que-es-nosework-trial.js`  
 **Tiempo estimado:** 2 horas  
-**Acceptance:** Página completa con todo el contenido requerido, SEO optimizado  
-**Estado:** ⏳ Pendiente
+**Acceptance:** Página completa con todo el contenido requerido, SEO optimizado, enlaces internos (reglamento, cómo empezar, eventos)  
+**Estado:** ✅ Completado (2026-02-15: content-what-is-nosework-trial)
 
 #### TASK-F1-013 ✅ Crear página de reglamento completa
 **Goal:** Reglamento en HTML navegable por secciones + PDF descargable  

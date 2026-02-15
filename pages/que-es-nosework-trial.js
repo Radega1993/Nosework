@@ -356,12 +356,15 @@ export default function QueEsNoseworkTrial() {
                                 <p className="text-body-redesign-lg text-neutral-text-medium mb-8">
                                     Descubre cómo puedes comenzar tu camino en Nosework Trial con tu perro.
                                 </p>
-                                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <div className="flex flex-col sm:flex-row gap-4 justify-center flex-wrap">
                                     <Button href={localizedHref("/como-empezar")} variant="primary">
                                         Guía para Principiantes
                                     </Button>
                                     <Button href={localizedHref("/reglamento")} variant="secondary">
                                         Ver Reglamento
+                                    </Button>
+                                    <Button href={localizedHref("/events")} variant="outline">
+                                        Ver eventos
                                     </Button>
                                 </div>
                             </div>
