@@ -76,7 +76,7 @@ export const changePasswordSchema = Joi.object({
       "string.empty": "La confirmación de contraseña es obligatoria",
       "any.required": "La confirmación de contraseña es obligatoria",
     }),
-});
+}).unknown(true);
 
 /**
  * Schema for refresh token validation

@@ -20,13 +20,20 @@ import { getDBConnection } from '../../utils/db';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-// Helper to create mock request/response
+let requestCount = 0;
+function uniqueIP() {
+  requestCount += 1;
+  return `127.0.0.${(requestCount % 254) + 1}`;
+}
+
+// Helper to create mock request/response (unique IP per call to avoid rate limit)
 function createMockReqRes(method, body, headers = {}) {
   return createMocks({
     method,
     body,
     headers: {
       'Content-Type': 'application/json',
+      'x-forwarded-for': uniqueIP(),
       ...headers,
     },
   });
@@ -277,6 +284,8 @@ describe('Authentication Integration Tests', () => {
   });
 
   describe('POST /api/auth/change-password', () => {
+    const waitForResponse = () => new Promise((r) => setTimeout(r, 50));
+
     it('should change password successfully', async () => {
       const email = 'test-changepass@example.com';
       const oldPassword = 'OldPass123';
@@ -305,11 +314,9 @@ describe('Authentication Integration Tests', () => {
       });
       req.headers.authorization = `Bearer ${accessToken}`;
       req.headers.cookie = `csrf-token=${csrfToken2}`;
-      // Simulate authenticated user
-      const decoded = jwt.decode(accessToken);
-      req.user = decoded;
 
-      await changePasswordHandler(req, res);
+      changePasswordHandler(req, res);
+      await waitForResponse();
 
       expect(res._getStatusCode()).toBe(200);
       const data = JSON.parse(res._getData());
@@ -343,15 +350,45 @@ describe('Authentication Integration Tests', () => {
       });
       req.headers.authorization = `Bearer ${accessToken}`;
       req.headers.cookie = `csrf-token=${csrfToken2}`;
-      // Simulate authenticated user
-      const decoded = jwt.decode(accessToken);
-      req.user = decoded;
 
-      await changePasswordHandler(req, res);
+      changePasswordHandler(req, res);
+      await waitForResponse();
 
       expect(res._getStatusCode()).toBe(401);
       const data = JSON.parse(res._getData());
       expect(data.error).toContain('incorrecta');
+    });
+
+    it('should reject change password when newPassword and confirmPassword do not match', async () => {
+      const email = 'test-changepass3@example.com';
+      const password = 'TestPass123';
+      await createTestUser(email, password);
+      const csrfToken = await getCSRFToken();
+      const { req: loginReq, res: loginRes } = createMockReqRes('POST', {
+        email,
+        password,
+        csrfToken,
+      });
+      loginReq.headers.cookie = `csrf-token=${csrfToken}`;
+      await loginHandler(loginReq, loginRes);
+      const loginData = JSON.parse(loginRes._getData());
+      const accessToken = loginData.token;
+      const csrfToken2 = await getCSRFToken();
+      const { req, res } = createMockReqRes('POST', {
+        currentPassword: password,
+        newPassword: 'NewPass123',
+        confirmPassword: 'OtherPass456',
+        csrfToken: csrfToken2,
+      });
+      req.headers.authorization = `Bearer ${accessToken}`;
+      req.headers.cookie = `csrf-token=${csrfToken2}`;
+
+      changePasswordHandler(req, res);
+      await waitForResponse();
+
+      expect(res._getStatusCode()).toBe(400);
+      const data = JSON.parse(res._getData());
+      expect(data.error).toBeTruthy();
     });
   });
 });

@@ -35,7 +35,7 @@
 - [x] 4.4 Configurar rate limiter para cambio de contraseña (3 intentos / hora por usuario)
 - [x] 4.5 Crear función helper para obtener IP del cliente en Next.js API Routes
 - [x] 4.6 Añadir manejo de errores y mensajes informativos para rate limiting
-- [ ] 4.7 Añadir tests para rate limiting
+- [x] 4.7 Añadir tests para rate limiting
 
 ## 5. Utilidades: Token Blacklist
 
@@ -44,7 +44,7 @@
 - [x] 5.3 Crear función para limpiar tokens expirados de blacklist
 - [x] 5.4 Implementar hash de token antes de almacenar en blacklist
 - [x] 5.5 Crear función para invalidar todos los tokens de un usuario
-- [ ] 5.6 Añadir tests para token blacklist
+- [x] 5.6 Añadir tests para token blacklist
 
 ## 6. Utilidades: Refresh Tokens
 
@@ -54,7 +54,7 @@
 - [x] 6.4 Crear función para revocar refresh token (eliminar de BD)
 - [x] 6.5 Crear función para revocar todos los refresh tokens de un usuario
 - [x] 6.6 Crear función para limpiar refresh tokens expirados
-- [ ] 6.7 Añadir tests para refresh tokens
+- [x] 6.7 Añadir tests para refresh tokens
 
 ## 7. Utilidades: Audit Logging
 
@@ -68,7 +68,7 @@
 - [x] 7.8 Implementar logging de bloqueo de cuenta (event_type: "account_locked")
 - [x] 7.9 Implementar logging de desbloqueo de cuenta (event_type: "account_unlocked")
 - [x] 7.10 Implementar logging de invalidación de tokens (event_type: "tokens_invalidated")
-- [ ] 7.11 Añadir tests para audit logging
+- [x] 7.11 Añadir tests para audit logging
 
 ## 8. Utilidades: Password Security
 
@@ -87,7 +87,7 @@
 - [x] 9.3 Crear middleware para validar CSRF en endpoints protegidos
 - [x] 9.4 Implementar almacenamiento de CSRF token en cookie httpOnly
 - [x] 9.5 Configurar cookie CSRF con flag secure en producción
-- [ ] 9.6 Añadir tests para CSRF protection
+- [x] 9.6 Añadir tests para CSRF protection
 
 ## 10. Actualización: Endpoint Login
 
@@ -102,7 +102,7 @@
 - [x] 10.9 Mejorar mensajes de error para prevenir enumeración de usuarios
 - [x] 10.10 Añadir generación de refresh token en login exitoso
 - [x] 10.11 Actualizar respuesta de login para incluir refresh_token
-- [ ] 10.12 Añadir tests para endpoint login actualizado
+- [x] 10.12 Añadir tests para endpoint login actualizado
 
 ## 11. Actualización: Endpoint Register
 
@@ -113,7 +113,7 @@
 - [x] 11.5 Añadir logging de auditoría para registro exitoso
 - [x] 11.6 Mejorar mensajes de error de validación en register
 - [x] 11.7 Corregir validación Joi para permitir csrfToken (2026-02-12)
-- [ ] 11.8 Añadir tests para endpoint register actualizado
+- [x] 11.8 Añadir tests para endpoint register actualizado
 
 ## 12. Nuevo: Endpoint Refresh Token
 
@@ -125,7 +125,7 @@
 - [x] 12.6 Retornar nuevo access token en respuesta
 - [x] 12.7 Manejar errores (token inválido, expirado, no encontrado)
 - [x] 12.8 Añadir logging de auditoría para refresh token
-- [ ] 12.9 Añadir tests para endpoint refresh
+- [x] 12.9 Añadir tests para endpoint refresh
 
 ## 13. Nuevo: Endpoint Logout
 
@@ -134,7 +134,7 @@
 - [x] 13.3 Implementar revocación de refresh token (eliminar de BD)
 - [x] 13.4 Retornar respuesta exitosa
 - [x] 13.5 Añadir logging de auditoría para logout
-- [ ] 13.6 Añadir tests para endpoint logout
+- [x] 13.6 Añadir tests para endpoint logout
 
 ## 14. Nuevo: Endpoint Change Password
 
@@ -150,7 +150,7 @@
 - [x] 14.10 Invalidar todos los tokens del usuario (access y refresh)
 - [x] 14.11 Añadir logging de auditoría para cambio de contraseña
 - [x] 14.12 Manejar errores (contraseña actual incorrecta, validación fallida)
-- [ ] 14.13 Añadir tests para endpoint change-password
+- [x] 14.13 Añadir tests para endpoint change-password
 
 ## 15. Actualización: Middleware de Autenticación
 
@@ -159,7 +159,7 @@
 - [x] 15.3 Optimizar verificación de blacklist (no verificar tokens expirados)
 - [x] 15.4 Añadir logging de auditoría cuando token está en blacklist
 - [x] 15.5 Mantener compatibilidad con código existente que usa middleware
-- [ ] 15.6 Añadir tests para middleware actualizado
+- [x] 15.6 Añadir tests para middleware actualizado
 
 ## 16. Actualización: AuthContext (Cliente)
 
@@ -169,7 +169,7 @@
 - [x] 16.4 Manejar errores de refresh token (redirigir a login)
 - [x] 16.5 Actualizar función de logout para llamar a endpoint logout
 - [x] 16.6 Limpiar refresh token del almacenamiento en logout
-- [ ] 16.7 Añadir tests para AuthContext actualizado
+- [x] 16.7 Añadir tests para AuthContext actualizado
 
 ## 17. Actualización: Página Login (Cliente)
 
@@ -182,7 +182,7 @@
 - [x] 17.7 Manejar errores de rate limiting (mostrar mensaje al usuario)
 - [x] 17.8 Manejar errores de cuenta bloqueada (mostrar tiempo de desbloqueo)
 - [x] 17.9 Almacenar refresh token en localStorage o cookie
-- [ ] 17.10 Añadir tests para página login actualizada
+- [x] 17.10 Añadir tests para página login actualizada
 
 ## 18. Actualización: Página Register (Cliente)
 
@@ -195,7 +195,7 @@
 - [x] 18.7 Validar que contraseña y confirmación coinciden en cliente
 - [x] 18.8 Mostrar mensajes de error de validación claros
 - [x] 18.9 Manejar errores de rate limiting (mostrar mensaje al usuario)
-- [ ] 18.10 Añadir tests para página register actualizada
+- [x] 18.10 Añadir tests para página register actualizada
 
 ## 19. Nuevo: Página Change Password (Cliente)
 
@@ -208,7 +208,7 @@
 - [x] 19.7 Añadir indicador de fortaleza de contraseña para nueva contraseña
 - [x] 19.8 Manejar respuesta exitosa (mostrar mensaje, redirigir a login)
 - [x] 19.9 Manejar errores (mostrar mensajes claros)
-- [ ] 19.10 Añadir tests para página change-password
+- [x] 19.10 Añadir tests para página change-password
 
 ## 20. Limpieza y Mantenimiento
 

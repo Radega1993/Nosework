@@ -159,7 +159,7 @@ Este documento desglosa todas las tareas del proyecto en chunks de máximo 2 hor
 - Bloqueo temporal de cuentas tras intentos fallidos
 - Logging de auditoría para acciones críticas
 - Tests unitarios, de integración y E2E pasando
-**Estado:** ✅ Completado (2026-02-12: auth-hardening - 154/178 tareas, 87% completo)
+**Estado:** ✅ Completado (2026-02-12: auth-hardening archivado - 180/180 tareas, 100%)
 
 
 ---
@@ -557,7 +557,7 @@ Este documento desglosa todas las tareas del proyecto en chunks de máximo 2 hor
 
 **Total de tareas:** 68 tareas (22 completadas, 46 pendientes)
 
-**Nota:** El hardening de seguridad (TASK-F1-021) está 87% completo (154/178 subtareas). Incluye rate limiting, validación, sanitización, token management, CSRF, password security, account lockout, audit logging y refresh tokens. Tests: 46 unitarios pasando, tests de integración creados, 11 tests E2E pasando.
+**Nota:** El hardening de seguridad (TASK-F1-021) está completado al 100% (180/180 tareas). Cambio archivado en `openspec/changes/archive/2026-02-12-auth-hardening/`. Incluye rate limiting, validación, sanitización, token blacklist, refresh tokens, CSRF, password security, account lockout, audit logging, tests unitarios, de integración y E2E.
 
 ---
 
