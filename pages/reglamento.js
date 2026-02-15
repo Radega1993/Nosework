@@ -1,8 +1,10 @@
-import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 import SEOHead from "@/components/SEOHead";
+
+const REGLEMENTO_VERSION = "v1.0";
+const REGLEMENTO_DATE = "2025-02-01";
 
 export default function Reglamento() {
     return (
@@ -33,8 +35,11 @@ export default function Reglamento() {
             {/* Main Content */}
             <main>
                 <div className="container-redesign py-12 space-y-8">
-                    {/* Descarga PDF */}
+                    {/* Descarga PDF y versionado */}
                     <section className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8 text-center max-w-3xl mx-auto">
+                        <p className="text-body-redesign text-neutral-text-medium mb-4" aria-label="Versión del reglamento">
+                            Versión {REGLEMENTO_VERSION} · Fecha: {REGLEMENTO_DATE}
+                        </p>
                         <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-4">Descarga el Reglamento Completo</h2>
                         <p className="text-body-redesign-lg text-neutral-text-medium mb-6">
                             Descarga el reglamento oficial en formato PDF para consulta offline.
@@ -44,8 +49,9 @@ export default function Reglamento() {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-block px-6 py-3 border-2 border-navy text-navy hover:bg-navy hover:text-white font-semibold rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                            aria-label="Descargar reglamento en PDF"
                         >
-                            📄 Descargar PDF del Reglamento
+                            📄 Descargar reglamento en PDF
                         </a>
                     </section>
 
@@ -53,76 +59,62 @@ export default function Reglamento() {
                     <section className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8">
                         <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-6">Índice del Reglamento</h2>
                         <nav className="space-y-3">
-                            <a href="#niveles" className="block text-secondary-600 hover:text-secondary-700 hover:bg-secondary-50 p-3 rounded-lg transition-colors text-body-lg font-medium">
-                                1. Niveles y Grados
+                            <a href="#niveles" className="block text-navy hover:text-gold hover:bg-white/10 p-3 rounded-lg transition-colors text-body-lg font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2">
+                                1. Niveles (Base y Avanzado)
                             </a>
-                            <a href="#tipos-busqueda" className="block text-secondary-600 hover:text-secondary-700 hover:bg-secondary-50 p-3 rounded-lg transition-colors text-body-lg font-medium">
+                            <a href="#tipos-busqueda" className="block text-navy hover:text-gold hover:bg-white/10 p-3 rounded-lg transition-colors text-body-lg font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2">
                                 2. Tipos de Búsqueda
                             </a>
-                            <a href="#puntuacion" className="block text-secondary-600 hover:text-secondary-700 hover:bg-secondary-50 p-3 rounded-lg transition-colors text-body-lg font-medium">
+                            <a href="#puntuacion" className="block text-navy hover:text-gold hover:bg-white/10 p-3 rounded-lg transition-colors text-body-lg font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2">
                                 3. Sistema de Puntuación
                             </a>
-                            <a href="#titulos" className="block text-secondary-600 hover:text-secondary-700 hover:bg-secondary-50 p-3 rounded-lg transition-colors text-body-lg font-medium">
-                                4. Títulos y Certificaciones
+                            <a href="#titulos" className="block text-navy hover:text-gold hover:bg-white/10 p-3 rounded-lg transition-colors text-body-lg font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2">
+                                4. Títulos y Reconocimientos
                             </a>
-                            <a href="#codigo-etico" className="block text-secondary-600 hover:text-secondary-700 hover:bg-secondary-50 p-3 rounded-lg transition-colors text-body-lg font-medium">
+                            <a href="#codigo-etico" className="block text-navy hover:text-gold hover:bg-white/10 p-3 rounded-lg transition-colors text-body-lg font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2">
                                 5. Código Ético y Bienestar del Perro
                             </a>
                         </nav>
                     </section>
 
-                    {/* Sección 1: Niveles y Grados */}
-                    <section id="niveles" className="card scroll-mt-20">
-                        <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-6">1. Niveles y Grados</h2>
+                    {/* Sección 1: Niveles Base y Avanzado */}
+                    <section id="niveles" className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8 scroll-mt-20">
+                        <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-6">1. Niveles: Base y Avanzado</h2>
                         <div className="space-y-8 text-neutral-text-medium">
                             <div>
-                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Grado 1 - Nivel Inicial</h3>
+                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Nivel Base</h3>
                                 <p className="text-body-redesign mb-3">
-                                    El Grado 1 está diseñado para perros y guías que se inician en Nosework Trial. En este nivel:
+                                    El nivel Base está pensado para perros y guías que se inician en Nosework Trial:
                                 </p>
                                 <ul className="list-disc list-inside space-y-2 ml-4 text-body">
-                                    <li>Las búsquedas son más simples y con menos distracciones</li>
-                                    <li>El tiempo límite es más amplio</li>
-                                    <li>Se permite más guía y apoyo del handler</li>
-                                    <li>El objetivo es la familiarización con el formato de prueba</li>
+                                    <li>Búsquedas con menor complejidad y menos distracciones</li>
+                                    <li>Tiempo límite más amplio</li>
+                                    <li>Familiarización con el formato de prueba y con el olor objetivo</li>
                                 </ul>
                             </div>
                             <div>
-                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Grado 2 - Nivel Intermedio</h3>
+                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Nivel Avanzado</h3>
                                 <p className="text-body-redesign mb-3">
-                                    El Grado 2 aumenta la complejidad y requiere mayor precisión:
+                                    El nivel Avanzado exige mayor precisión y autonomía del perro:
                                 </p>
                                 <ul className="list-disc list-inside space-y-2 ml-4 text-body">
-                                    <li>Mayor número de distracciones</li>
-                                    <li>Áreas de búsqueda más grandes</li>
-                                    <li>Tiempo límite más estricto</li>
-                                    <li>Mayor independencia del perro</li>
+                                    <li>Mayor complejidad, distracciones y áreas de búsqueda</li>
+                                    <li>Tiempos y criterios más estrictos</li>
+                                    <li>Puede añadirse olor de referencia además del olor base</li>
                                 </ul>
                             </div>
                             <div>
-                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Grado 3 - Nivel Avanzado</h3>
+                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Olores oficiales</h3>
                                 <p className="text-body-redesign mb-3">
-                                    El Grado 3 es para perros experimentados:
-                                </p>
-                                <ul className="list-disc list-inside space-y-2 ml-4 text-body">
-                                    <li>Máxima complejidad en las búsquedas</li>
-                                    <li>Múltiples olores objetivo</li>
-                                    <li>Ambientes desafiantes</li>
-                                    <li>Alto nivel de precisión requerido</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Progresión entre Niveles</h3>
-                                <p className="text-body">
-                                    Para avanzar de un grado al siguiente, el perro debe obtener un número determinado de títulos o
-                                    certificaciones en el grado actual, según se especifica en el reglamento completo.
+                                    Los olores de trabajo son: Kong + aceite esencial de salvia. En nivel Avanzado el organizador puede
+                                    anunciar la posibilidad de añadir un olor de referencia.
                                 </p>
                             </div>
                         </div>
                     </section>
 
                     {/* Sección 2: Tipos de Búsqueda */}
-                    <section id="tipos-busqueda" className="card scroll-mt-20">
+                    <section id="tipos-busqueda" className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8 scroll-mt-20">
                         <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-6">2. Tipos de Búsqueda</h2>
                         <div className="grid md:grid-cols-2 gap-6">
                             <div className="border-l-4 border-secondary-500 pl-4">
@@ -157,113 +149,87 @@ export default function Reglamento() {
                     </section>
 
                     {/* Sección 3: Sistema de Puntuación */}
-                    <section id="puntuacion" className="card scroll-mt-20">
+                    <section id="puntuacion" className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8 scroll-mt-20">
                         <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-6">3. Sistema de Puntuación</h2>
                         <div className="space-y-8 text-neutral-text-medium">
                             <div>
-                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Puntuación por Búsqueda</h3>
+                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Criterios de evaluación</h3>
                                 <p className="text-body-redesign mb-4">
-                                    Cada búsqueda se puntúa según los siguientes criterios:
+                                    La evaluación incluye: sistemática de búsqueda, focalización en el olor objetivo e intensidad de la indicación,
+                                    más la impresión general. Los organizadores pueden anunciar coeficientes ajustables para cada criterio.
                                 </p>
-                                <ul className="list-disc list-inside space-y-2 ml-4 text-body">
-                                    <li><strong>Localización correcta:</strong> Puntos completos si el perro identifica correctamente el olor objetivo</li>
-                                    <li><strong>Tiempo:</strong> Bonificaciones por rapidez (según el nivel)</li>
-                                    <li><strong>Precisión:</strong> Puntos adicionales por indicación clara y precisa</li>
-                                    <li><strong>Independencia:</strong> Evaluación de la autonomía del perro</li>
-                                </ul>
                             </div>
                             <div>
-                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Penalizaciones</h3>
-                                <p className="text-body-redesign mb-4">
-                                    Se aplican penalizaciones por:
+                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Marca mínima</h3>
+                                <p className="text-body-redesign">
+                                    La marca mínima que el perro debe mantener sobre el olor para que se considere indicación válida es de <strong>3 segundos</strong>.
                                 </p>
-                                <ul className="list-disc list-inside space-y-2 ml-4 text-body">
-                                    <li>Falsos positivos (indicar olor donde no hay)</li>
-                                    <li>Exceso de tiempo</li>
-                                    <li>Ayuda excesiva del guía (según el nivel)</li>
-                                    <li>Comportamiento inadecuado</li>
-                                </ul>
                             </div>
                             <div>
-                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Tiempos Límite</h3>
-                                <p className="text-body">
-                                    Cada tipo de búsqueda y nivel tiene un tiempo límite específico. El tiempo se cuenta desde que el perro
-                                    entra en el área de búsqueda hasta que completa la tarea o se agota el tiempo.
+                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Puntuación por búsqueda</h3>
+                                <p className="text-body-redesign mb-4">
+                                    Cada búsqueda se puntúa según localización correcta, tiempo y precisión. Se aplican penalizaciones por falsos positivos,
+                                    exceso de tiempo, ayuda excesiva del guía (según el nivel) y comportamiento inadecuado. Cada tipo de búsqueda y nivel
+                                    tiene un tiempo límite específico desde que el perro entra en el área hasta que finaliza o se agota el tiempo.
                                 </p>
                             </div>
                         </div>
                     </section>
 
-                    {/* Sección 4: Títulos y Certificaciones */}
-                    <section id="titulos" className="card scroll-mt-20">
-                        <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-6">4. Títulos y Certificaciones</h2>
+                    {/* Sección 4: Títulos y Reconocimientos */}
+                    <section id="titulos" className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8 scroll-mt-20">
+                        <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-6">4. Títulos y Reconocimientos</h2>
                         <div className="space-y-6 text-neutral-text-medium">
                             <p className="text-body-lg">
-                                Los títulos se otorgan según el rendimiento del perro en las competiciones. Cada grado tiene sus propios
-                                títulos y requisitos específicos.
+                                Los títulos se otorgan según el rendimiento del perro en las pruebas. Cada nivel (Base y Avanzado) tiene sus propios
+                                títulos y requisitos, detallados en el reglamento completo en PDF.
                             </p>
                             <div>
-                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Tipos de Títulos</h3>
-                                <ul className="list-disc list-inside space-y-2 ml-4 text-body">
-                                    <li><strong>Título de Grado:</strong> Obtenido al completar exitosamente pruebas en un grado específico</li>
-                                    <li><strong>Título de Especialidad:</strong> Por destacar en un tipo de búsqueda específico</li>
-                                    <li><strong>Título de Campeón:</strong> Para perros que han demostrado excelencia en múltiples niveles</li>
-                                </ul>
+                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Reconocimientos</h3>
+                                <p className="text-body-redesign">
+                                    En Nosework Trial no hay pódiums tradicionales. Sí se otorgan reconocimientos alternativos a los participantes
+                                    según su actuación y los criterios establecidos en el reglamento.
+                                </p>
                             </div>
-                            <p className="text-body">
-                                Los requisitos específicos para cada título se detallan en el reglamento completo en PDF.
-                            </p>
                         </div>
                     </section>
 
-                    {/* Sección 5: Código Ético */}
-                    <section id="codigo-etico" className="card scroll-mt-20">
+                    {/* Sección 5: Código Ético y Bienestar */}
+                    <section id="codigo-etico" className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8 scroll-mt-20">
                         <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-6">5. Código Ético y Bienestar del Perro</h2>
                         <div className="space-y-6 text-neutral-text-medium">
-                            <div className="bg-primary-50 border-l-4 border-primary-500 p-6 rounded-r-lg">
-                                <h3 className="text-h4 font-bold mb-4 text-primary-700">Prioridad: El Bienestar del Perro</h3>
+                            <div className="border-l-4 border-navy bg-[#F4F6F8] p-6 rounded-r-lg">
+                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Prioridad: el bienestar del perro</h3>
                                 <p className="text-body-redesign mb-4">
-                                    El bienestar del perro es la máxima prioridad en Nosework Trial. Todos los participantes deben:
+                                    El bienestar del perro es la máxima prioridad. Todos los participantes deben respetar el ritmo y las capacidades
+                                    de su perro, no forzarlo si muestra estrés o incomodidad, proporcionar descansos adecuados y usar métodos
+                                    de entrenamiento positivos. Los perros con problemas de comportamiento pueden participar, avisando previamente
+                                    al organizador.
                                 </p>
-                                <ul className="list-disc list-inside space-y-2 ml-4 text-body">
-                                    <li>Respetar el ritmo y las capacidades de su perro</li>
-                                    <li>No forzar al perro a participar si muestra signos de estrés o incomodidad</li>
-                                    <li>Proporcionar descansos adecuados</li>
-                                    <li>Mantener al perro en condiciones óptimas de salud</li>
-                                    <li>Usar métodos de entrenamiento positivos y respetuosos</li>
-                                </ul>
                             </div>
                             <div>
-                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Comportamiento del Guía</h3>
+                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Comportamiento del guía</h3>
                                 <ul className="list-disc list-inside space-y-2 ml-4 text-body">
                                     <li>Respeto hacia otros participantes, jueces y staff</li>
-                                    <li>Honestidad en la competición</li>
-                                    <li>Aceptación de las decisiones de los jueces</li>
+                                    <li>Honestidad y aceptación de las decisiones de los jueces</li>
                                     <li>Colaboración y espíritu deportivo</li>
                                 </ul>
                             </div>
                             <div>
-                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Sanciones</h3>
-                                <p className="text-body">
-                                    El incumplimiento del código ético puede resultar en advertencias, descalificación o suspensión,
-                                    dependiendo de la gravedad de la infracción.
+                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Sanciones y ayudantes</h3>
+                                <p className="text-body-redesign">
+                                    El juez u organizador puede sancionar (por ejemplo, suspensión de 6 meses) en caso de incumplimiento del código ético.
+                                    El juez u organizador puede contar con ayudantes en el desarrollo de las pruebas.
                                 </p>
                             </div>
                         </div>
                     </section>
 
-                    {/* Histórico de Versiones */}
-                    <section className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8">
-                        <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-6">Histórico de Versiones</h2>
-                        <div className="space-y-4 text-neutral-text-medium">
-                            <div className="border-l-4 border-gray-300 pl-4">
-                                <h3 className="text-h5 font-bold">Versión 1.0 - 2025</h3>
-                                <p className="text-body-sm text-gray-600">Versión inicial del reglamento</p>
-                            </div>
-                            <p className="text-body-sm text-gray-600 italic">
-                                Las actualizaciones del reglamento se publicarán aquí y se notificarán a todos los participantes.
-                            </p>
-                        </div>
+                    {/* Versionado */}
+                    <section className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8" aria-label="Versión del reglamento">
+                        <p className="text-body-redesign text-neutral-text-medium">
+                            Reglamento vigente: <strong>{REGLEMENTO_VERSION}</strong> ({REGLEMENTO_DATE}). Las actualizaciones se publicarán en esta página.
+                        </p>
                     </section>
 
                     {/* CTA Section */}
