@@ -137,15 +137,12 @@ Este documento desglosa todas las tareas del proyecto en chunks de máximo 2 hor
 **Acceptance:** Robots.txt accesible, bloquea rutas privadas  
 **Estado:** ✅ Completado (2026-02-12: seo-foundation)
 
-#### TASK-F1-020 ⏳ Implementar redirecciones legacy y i18n base
+#### TASK-F1-020 ✅ Implementar redirecciones legacy y i18n base
 **Goal:** Asegurar consistencia de URLs (legacy + prefijo /es/)
-**Archivos:** `next.config.mjs` (redirects), opcional `middleware.js` si aplicas i18n por prefijo
+**Archivos:** `next.config.mjs` (redirects)
 **Tiempo estimado:** 1 hora
-**Acceptance:** 
-- `/events` → 301 a `/eventos`
-- `/que-es-nosework-trial` → 301 a `/es/que-es-nosework-trial`
-- `/eventos` → 301 a `/es/eventos` (si el prefijo es obligatorio)
-**Estado:** ⏳ Pendiente
+**Acceptance:** Redirects 301 desde rutas sin prefijo a /es/...; decisión: prefijo /es obligatorio para español
+**Estado:** ✅ Completado (2026-02-15: routing-redirects-i18n-base)
 
 #### TASK-F1-021 ✅ Hardening de seguridad de autenticación
 **Goal:** Implementar medidas de seguridad avanzadas en el sistema de autenticación

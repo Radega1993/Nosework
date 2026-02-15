@@ -2,17 +2,18 @@
 const nextConfig = {
   async redirects() {
     return [
-      // Legacy redirects to Spanish equivalents with language prefix
-      {
-        source: '/events',
-        destination: '/es/eventos',
-        permanent: true, // 301 redirect
-      },
-      {
-        source: '/que-es-nosework-trial',
-        destination: '/es/que-es-nosework-trial',
-        permanent: true, // 301 redirect
-      },
+      // Prefijo /es obligatorio: rutas sin prefijo → 301 a /es/... (TASK-F1-020, routing-redirects-i18n-base)
+      { source: '/events', destination: '/es/eventos', permanent: true },
+      { source: '/eventos', destination: '/es/eventos', permanent: true },
+      { source: '/que-es-nosework-trial', destination: '/es/que-es-nosework-trial', permanent: true },
+      { source: '/about', destination: '/es/about', permanent: true },
+      { source: '/reglamento', destination: '/es/reglamento', permanent: true },
+      { source: '/como-empezar', destination: '/es/como-empezar', permanent: true },
+      { source: '/contact', destination: '/es/contact', permanent: true },
+      { source: '/normativas', destination: '/es/normativas', permanent: true },
+      { source: '/community', destination: '/es/community', permanent: true },
+      { source: '/join', destination: '/es/join', permanent: true },
+      { source: '/clubs', destination: '/es/clubs', permanent: true },
     ];
   },
   async rewrites() {
@@ -106,6 +107,14 @@ const nextConfig = {
       {
         source: '/ca/join',
         destination: '/join',
+      },
+      {
+        source: '/es/clubs',
+        destination: '/clubs',
+      },
+      {
+        source: '/ca/clubs',
+        destination: '/clubs',
       },
       // Rewrites for dynamic routes with language prefixes
       {
