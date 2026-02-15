@@ -4,7 +4,7 @@ import SEOHead from "@/components/SEOHead";
 
 export default function Contact() {
     return (
-        <div className="bg-gray-100 min-h-screen pt-16">
+        <div className="bg-[#F4F6F8] min-h-screen pt-20">
             {/* SEO */}
             <SEOHead
                 title="Contacto Nosework Trial – Preguntas y Consultas"
@@ -21,19 +21,19 @@ export default function Contact() {
             <Navbar />
 
             {/* Hero Section */}
-            <header className="bg-gradient-to-r from-primary-600 to-primary-700 text-white py-16 md:py-20 text-center">
-                <div className="container-custom">
-                    <h1 className="text-h1 font-bold mb-4">Contacto</h1>
-                    <p className="text-xl md:text-2xl text-primary-50">Ponte en contacto con nosotros</p>
+            <header className="bg-navy text-white py-16 md:py-20 text-center">
+                <div className="container-redesign">
+                    <h1 className="text-h1-redesign-mobile md:text-h1-redesign font-bold mb-4">Contacto</h1>
+                    <p className="text-xl md:text-2xl text-white/90">Ponte en contacto con nosotros</p>
                 </div>
             </header>
 
             {/* Contenido Principal */}
-            <main className="section">
-                <div className="container-custom space-y-12">
+            <main>
+                <div className="container-redesign py-12 space-y-12">
                     {/* Formulario de Contacto */}
-                    <section className="card max-w-2xl mx-auto">
-                        <h2 className="text-h2 font-bold mb-6 text-center">Formulario de Contacto</h2>
+                    <section className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8 max-w-2xl mx-auto">
+                        <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-6 text-center">Formulario de Contacto</h2>
                         <form className="space-y-6">
                             <input
                                 type="text"
@@ -63,9 +63,9 @@ export default function Contact() {
                     </section>
 
                     {/* Grupo de WhatsApp */}
-                    <section className="card max-w-2xl mx-auto text-center">
-                        <h2 className="text-h2 font-bold mb-4">Grupo de WhatsApp</h2>
-                        <p className="text-body-lg text-gray-700 mb-4">
+                    <section className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8 max-w-2xl mx-auto text-center">
+                        <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-4">Grupo de WhatsApp</h2>
+                        <p className="text-body-redesign-lg text-neutral-text-medium mb-4">
                             Únete a nuestro grupo de WhatsApp para coordinadores y miembros:
                         </p>
                         <a
@@ -79,19 +79,19 @@ export default function Contact() {
                     </section>
 
                     {/* Redes Sociales */}
-                    <section className="card max-w-2xl mx-auto text-center">
-                        <h2 className="text-h2 font-bold mb-6">Redes Sociales</h2>
+                    <section className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8 max-w-2xl mx-auto text-center">
+                        <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-6">Redes Sociales</h2>
                         <div className="space-y-4">
                             <div>
-                                <strong className="text-body-lg">Email:</strong>
-                                <p className="text-body text-gray-700">contacto@noseworktrialcommunity.com</p>
+                                <strong className="text-body-redesign-lg">Email:</strong>
+                                <p className="text-body-redesign text-neutral-text-medium">contacto@noseworktrialcommunity.com</p>
                             </div>
                             <div className="flex justify-center gap-4">
-                                <a href="https://facebook.com/nosework" className="text-secondary-600 hover:text-secondary-700 font-semibold">
+                                <a href="https://facebook.com/nosework" className="text-navy hover:text-gold font-semibold transition-colors">
                                     Facebook
                                 </a>
-                                <span className="text-gray-400">|</span>
-                                <a href="https://instagram.com/nosework" className="text-secondary-600 hover:text-secondary-700 font-semibold">
+                                <span className="text-neutral-text-medium">|</span>
+                                <a href="https://instagram.com/nosework" className="text-navy hover:text-gold font-semibold transition-colors">
                                     Instagram
                                 </a>
                             </div>

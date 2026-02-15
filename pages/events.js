@@ -24,25 +24,23 @@ export default function Events() {
   const [view, setView] = useState("calendar"); // 'calendar', 'list', 'grid'
   const [selectedDate, setSelectedDate] = useState(null);
 
-  // Fetch events from API
-  useEffect(() => {
-    async function fetchEvents() {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await fetch("/api/events");
-        if (!response.ok) {
-          throw new Error("Error al cargar eventos");
-        }
-        const data = await response.json();
-        setEvents(data.events || []);
-      } catch (err) {
-        console.error("Error al cargar eventos:", err);
-        setError("No se pudieron cargar los eventos. Por favor, intenta más tarde.");
-      } finally {
-        setLoading(false);
-      }
+  const fetchEvents = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch("/api/events");
+      if (!response.ok) throw new Error("Error al cargar eventos");
+      const data = await response.json();
+      setEvents(data.events || []);
+    } catch (err) {
+      console.error("Error al cargar eventos:", err);
+      setError("No se pudieron cargar los eventos. Por favor, intenta más tarde.");
+    } finally {
+      setLoading(false);
     }
+  };
+
+  useEffect(() => {
     fetchEvents();
   }, []);
 
@@ -104,7 +102,7 @@ export default function Events() {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen pt-16">
+    <div className="bg-[#F4F6F8] min-h-screen pt-20">
       <SEOHead
         title="Calendario de Eventos Nosework Trial – Pruebas y Competiciones 2025"
         description="Consulta el calendario completo de eventos y competiciones de Nosework Trial. Encuentra pruebas cerca de ti e inscríbete online."
@@ -120,25 +118,25 @@ export default function Events() {
       <Navbar />
 
       {/* Hero Section */}
-      <header className="bg-gradient-to-r from-secondary-600 to-secondary-700 text-white py-16 md:py-20 text-center">
-        <div className="container-custom">
-          <h1 className="text-h1 font-bold mb-4">Eventos y Pruebas</h1>
-          <p className="text-xl md:text-2xl text-secondary-50">Explora y participa en nuestras actividades</p>
+      <header className="bg-navy text-white py-16 md:py-20 text-center">
+        <div className="container-redesign">
+          <h1 className="text-h1-redesign-mobile md:text-h1-redesign font-bold mb-4">Eventos y Pruebas</h1>
+          <p className="text-xl md:text-2xl text-white/90">Explora y participa en nuestras actividades</p>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="section">
-        <div className="container-custom">
+      <main>
+        <div className="container-redesign py-12">
           {/* View Toggle */}
           <div className="flex justify-center mb-6">
             <div className="inline-flex rounded-lg border border-gray-300 bg-white p-1" role="tablist">
               <button
                 onClick={() => handleViewChange("calendar")}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 ${
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gold ${
                   view === "calendar"
-                    ? "bg-primary-600 text-white"
-                    : "text-gray-700 hover:bg-gray-100"
+                    ? "bg-navy text-white"
+                    : "text-neutral-text-medium hover:bg-[#F4F6F8]"
                 }`}
                 aria-selected={view === "calendar"}
                 role="tab"
@@ -147,10 +145,10 @@ export default function Events() {
               </button>
               <button
                 onClick={() => handleViewChange("list")}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 ${
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gold ${
                   view === "list"
-                    ? "bg-primary-600 text-white"
-                    : "text-gray-700 hover:bg-gray-100"
+                    ? "bg-navy text-white"
+                    : "text-neutral-text-medium hover:bg-[#F4F6F8]"
                 }`}
                 aria-selected={view === "list"}
                 role="tab"
@@ -159,10 +157,10 @@ export default function Events() {
               </button>
               <button
                 onClick={() => handleViewChange("grid")}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 ${
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gold ${
                   view === "grid"
-                    ? "bg-primary-600 text-white"
-                    : "text-gray-700 hover:bg-gray-100"
+                    ? "bg-navy text-white"
+                    : "text-neutral-text-medium hover:bg-[#F4F6F8]"
                 }`}
                 aria-selected={view === "grid"}
                 role="tab"
@@ -188,24 +186,32 @@ export default function Events() {
           {/* Loading State */}
           {loading && (
             <div className="text-center py-12">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
-              <p className="mt-4 text-gray-600">Cargando eventos...</p>
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-navy"></div>
+              <p className="mt-4 text-neutral-text-medium">Cargando eventos...</p>
             </div>
           )}
 
-          {/* Error State */}
+          {/* Error State — 8.2 retry */}
           {error && !loading && (
-            <div className="card text-center max-w-2xl mx-auto">
-              <p className="text-body-lg text-gray-600">{error}</p>
+            <div className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8 text-center max-w-2xl mx-auto">
+              <p className="text-body-redesign-lg text-neutral-text-medium mb-6">{error}</p>
+              <button
+                type="button"
+                onClick={fetchEvents}
+                className="px-6 py-3 bg-gold hover:bg-gold-hover text-navy font-semibold rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                aria-label="Reintentar cargar eventos"
+              >
+                Reintentar
+              </button>
             </div>
           )}
 
           {/* Calendar View */}
           {!loading && !error && view === "calendar" && (
             <section className="card">
-              <h2 className="text-h2 font-bold text-center mb-6">Calendario de Eventos</h2>
+              <h2 className="text-h2-redesign font-bold text-neutral-text-dark text-center mb-6">Calendario de Eventos</h2>
               <div className="flex justify-center mb-6">
-                <div className="card-bordered">
+                <div className="border border-neutral-border rounded-lg bg-white p-4">
                   <Calendar
                     onChange={handleDateChange}
                     value={selectedDate}
@@ -214,13 +220,13 @@ export default function Events() {
                       events.some(
                         (e) => new Date(e.date).toDateString() === date.toDateString()
                       ) && (
-                        <div className="mt-1 w-2 h-2 bg-primary-500 rounded-full mx-auto"></div>
+                        <div className="mt-1 w-2 h-2 bg-gold rounded-full mx-auto" aria-hidden></div>
                       )
                     }
                   />
                 </div>
               </div>
-              <p className="text-center text-body text-gray-600">
+              <p className="text-center text-body-redesign text-neutral-text-medium">
                 {selectedDate
                   ? `Eventos para: ${selectedDate.toLocaleDateString("es-ES", {
                       weekday: "long",
@@ -259,7 +265,7 @@ export default function Events() {
                   {/* Pagination */}
                   {totalPages > 1 && (
                     <div className="flex flex-col items-center space-y-4">
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-neutral-text-medium">
                         Mostrando {startIndex}-{endIndex} de {totalItems} eventos
                       </p>
                       <div className="flex items-center space-x-2">
@@ -270,7 +276,7 @@ export default function Events() {
                             hasPrevPage
                               ? "bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
                               : "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
-                          } focus:outline-none focus:ring-2 focus:ring-primary-500`}
+                          } focus:outline-none focus:ring-2 focus:ring-gold`}
                         >
                           Anterior
                         </button>
@@ -280,9 +286,9 @@ export default function Events() {
                             onClick={() => goToPage(page)}
                             className={`px-4 py-2 rounded-lg border ${
                               currentPage === page
-                                ? "bg-primary-600 border-primary-600 text-white"
+                                ? "bg-navy border-navy text-white"
                                 : "bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
-                            } focus:outline-none focus:ring-2 focus:ring-primary-500`}
+                            } focus:outline-none focus:ring-2 focus:ring-gold`}
                           >
                             {page}
                           </button>
@@ -294,7 +300,7 @@ export default function Events() {
                             hasNextPage
                               ? "bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
                               : "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
-                          } focus:outline-none focus:ring-2 focus:ring-primary-500`}
+                          } focus:outline-none focus:ring-2 focus:ring-gold`}
                         >
                           Siguiente
                         </button>
@@ -303,22 +309,23 @@ export default function Events() {
                   )}
                 </>
               ) : (
-                <div className="card text-center max-w-2xl mx-auto">
-                  <p className="text-body-lg text-gray-600 mb-4">
+                <div className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8 text-center max-w-2xl mx-auto">
+                  <p className="text-body-redesign-lg text-neutral-text-medium mb-4">
                     No se encontraron eventos que coincidan con los filtros seleccionados.
                   </p>
-                  {Object.values(filters).some((v) => (Array.isArray(v) ? v.length > 0 : v)) ||
-                  searchQuery ? (
+                  {(Object.values(filters).some((v) => (Array.isArray(v) ? v.length > 0 : v)) || searchQuery) && (
                     <button
+                      type="button"
                       onClick={() => {
                         clearFilters();
                         clearSearch();
                       }}
-                      className="text-primary-600 hover:text-primary-700 font-semibold"
+                      className="text-navy hover:text-gold font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 rounded px-3 py-1"
+                      aria-label="Limpiar filtros de búsqueda"
                     >
                       Limpiar filtros
                     </button>
-                  ) : null}
+                  )}
                 </div>
               )}
             </>

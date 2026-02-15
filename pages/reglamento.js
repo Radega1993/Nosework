@@ -6,7 +6,7 @@ import SEOHead from "@/components/SEOHead";
 
 export default function Reglamento() {
     return (
-        <div className="bg-gray-50 min-h-screen pt-16">
+        <div className="bg-[#F4F6F8] min-h-screen pt-20">
             {/* SEO */}
             <SEOHead
                 title="Reglamento Nosework Trial – Normativa oficial 2025"
@@ -23,35 +23,35 @@ export default function Reglamento() {
             <Navbar />
 
             {/* Hero Section */}
-            <header className="bg-gradient-to-r from-secondary-600 to-secondary-700 text-white py-16 md:py-20 text-center">
-                <div className="container-custom">
-                    <h1 className="text-h1 font-bold mb-4">Reglamento Oficial</h1>
-                    <p className="text-xl md:text-2xl text-secondary-50">Normativa completa de Nosework Trial</p>
+            <header className="bg-navy text-white py-16 md:py-20 text-center">
+                <div className="container-redesign">
+                    <h1 className="text-h1-redesign-mobile md:text-h1-redesign font-bold mb-4">Reglamento Oficial</h1>
+                    <p className="text-xl md:text-2xl text-white/90">Normativa completa de Nosework Trial</p>
                 </div>
             </header>
 
             {/* Main Content */}
-            <main className="section">
-                <div className="container-custom space-y-8">
+            <main>
+                <div className="container-redesign py-12 space-y-8">
                     {/* Descarga PDF */}
-                    <section className="card text-center max-w-3xl mx-auto">
-                        <h2 className="text-h2 font-bold mb-4">Descarga el Reglamento Completo</h2>
-                        <p className="text-body-lg text-gray-700 mb-6">
+                    <section className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8 text-center max-w-3xl mx-auto">
+                        <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-4">Descarga el Reglamento Completo</h2>
+                        <p className="text-body-redesign-lg text-neutral-text-medium mb-6">
                             Descarga el reglamento oficial en formato PDF para consulta offline.
                         </p>
                         <a
                             href="/documents/normativas_participantes.pdf"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="btn btn-secondary inline-block"
+                            className="inline-block px-6 py-3 border-2 border-navy text-navy hover:bg-navy hover:text-white font-semibold rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
                         >
                             📄 Descargar PDF del Reglamento
                         </a>
                     </section>
 
                     {/* Navegación por Secciones */}
-                    <section className="card">
-                        <h2 className="text-h2 font-bold mb-6">Índice del Reglamento</h2>
+                    <section className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8">
+                        <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-6">Índice del Reglamento</h2>
                         <nav className="space-y-3">
                             <a href="#niveles" className="block text-secondary-600 hover:text-secondary-700 hover:bg-secondary-50 p-3 rounded-lg transition-colors text-body-lg font-medium">
                                 1. Niveles y Grados
@@ -73,11 +73,11 @@ export default function Reglamento() {
 
                     {/* Sección 1: Niveles y Grados */}
                     <section id="niveles" className="card scroll-mt-20">
-                        <h2 className="text-h2 font-bold mb-6">1. Niveles y Grados</h2>
-                        <div className="space-y-8 text-gray-700">
+                        <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-6">1. Niveles y Grados</h2>
+                        <div className="space-y-8 text-neutral-text-medium">
                             <div>
-                                <h3 className="text-h3 font-bold mb-4 text-secondary-600">Grado 1 - Nivel Inicial</h3>
-                                <p className="text-body mb-3">
+                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Grado 1 - Nivel Inicial</h3>
+                                <p className="text-body-redesign mb-3">
                                     El Grado 1 está diseñado para perros y guías que se inician en Nosework Trial. En este nivel:
                                 </p>
                                 <ul className="list-disc list-inside space-y-2 ml-4 text-body">
@@ -88,8 +88,8 @@ export default function Reglamento() {
                                 </ul>
                             </div>
                             <div>
-                                <h3 className="text-h3 font-bold mb-4 text-secondary-600">Grado 2 - Nivel Intermedio</h3>
-                                <p className="text-body mb-3">
+                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Grado 2 - Nivel Intermedio</h3>
+                                <p className="text-body-redesign mb-3">
                                     El Grado 2 aumenta la complejidad y requiere mayor precisión:
                                 </p>
                                 <ul className="list-disc list-inside space-y-2 ml-4 text-body">
@@ -100,8 +100,8 @@ export default function Reglamento() {
                                 </ul>
                             </div>
                             <div>
-                                <h3 className="text-h3 font-bold mb-4 text-secondary-600">Grado 3 - Nivel Avanzado</h3>
-                                <p className="text-body mb-3">
+                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Grado 3 - Nivel Avanzado</h3>
+                                <p className="text-body-redesign mb-3">
                                     El Grado 3 es para perros experimentados:
                                 </p>
                                 <ul className="list-disc list-inside space-y-2 ml-4 text-body">
@@ -112,7 +112,7 @@ export default function Reglamento() {
                                 </ul>
                             </div>
                             <div>
-                                <h3 className="text-h3 font-bold mb-4 text-secondary-600">Progresión entre Niveles</h3>
+                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Progresión entre Niveles</h3>
                                 <p className="text-body">
                                     Para avanzar de un grado al siguiente, el perro debe obtener un número determinado de títulos o
                                     certificaciones en el grado actual, según se especifica en el reglamento completo.
@@ -123,32 +123,32 @@ export default function Reglamento() {
 
                     {/* Sección 2: Tipos de Búsqueda */}
                     <section id="tipos-busqueda" className="card scroll-mt-20">
-                        <h2 className="text-h2 font-bold mb-6">2. Tipos de Búsqueda</h2>
+                        <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-6">2. Tipos de Búsqueda</h2>
                         <div className="grid md:grid-cols-2 gap-6">
                             <div className="border-l-4 border-secondary-500 pl-4">
                                 <h3 className="text-h4 font-bold mb-2">Búsqueda en Interior</h3>
-                                <p className="text-body text-gray-700">
+                                <p className="text-body-redesign text-neutral-text-medium">
                                     Búsquedas realizadas en espacios cerrados como salas, habitaciones o edificios. El perro debe localizar
                                     el olor objetivo entre distracciones y en diferentes alturas.
                                 </p>
                             </div>
                             <div className="border-l-4 border-secondary-500 pl-4">
                                 <h3 className="text-h4 font-bold mb-2">Búsqueda en Exterior</h3>
-                                <p className="text-body text-gray-700">
+                                <p className="text-body-redesign text-neutral-text-medium">
                                     Búsquedas al aire libre en áreas abiertas, parques o terrenos. Las condiciones ambientales y el viento
                                     añaden complejidad a estas búsquedas.
                                 </p>
                             </div>
                             <div className="border-l-4 border-secondary-500 pl-4">
                                 <h3 className="text-h4 font-bold mb-2">Búsqueda en Vehículos</h3>
-                                <p className="text-body text-gray-700">
+                                <p className="text-body-redesign text-neutral-text-medium">
                                     El perro debe buscar el olor objetivo en vehículos estacionados. Se evalúa la precisión y la
                                     independencia del perro.
                                 </p>
                             </div>
                             <div className="border-l-4 border-secondary-500 pl-4">
                                 <h3 className="text-h4 font-bold mb-2">Búsqueda en Contenedores</h3>
-                                <p className="text-body text-gray-700">
+                                <p className="text-body-redesign text-neutral-text-medium">
                                     Búsquedas en cajas, contenedores o recipientes dispuestos en un área. El perro debe identificar el
                                     contenedor que contiene el olor objetivo.
                                 </p>
@@ -158,11 +158,11 @@ export default function Reglamento() {
 
                     {/* Sección 3: Sistema de Puntuación */}
                     <section id="puntuacion" className="card scroll-mt-20">
-                        <h2 className="text-h2 font-bold mb-6">3. Sistema de Puntuación</h2>
-                        <div className="space-y-8 text-gray-700">
+                        <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-6">3. Sistema de Puntuación</h2>
+                        <div className="space-y-8 text-neutral-text-medium">
                             <div>
-                                <h3 className="text-h3 font-bold mb-4 text-secondary-600">Puntuación por Búsqueda</h3>
-                                <p className="text-body mb-4">
+                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Puntuación por Búsqueda</h3>
+                                <p className="text-body-redesign mb-4">
                                     Cada búsqueda se puntúa según los siguientes criterios:
                                 </p>
                                 <ul className="list-disc list-inside space-y-2 ml-4 text-body">
@@ -173,8 +173,8 @@ export default function Reglamento() {
                                 </ul>
                             </div>
                             <div>
-                                <h3 className="text-h3 font-bold mb-4 text-secondary-600">Penalizaciones</h3>
-                                <p className="text-body mb-4">
+                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Penalizaciones</h3>
+                                <p className="text-body-redesign mb-4">
                                     Se aplican penalizaciones por:
                                 </p>
                                 <ul className="list-disc list-inside space-y-2 ml-4 text-body">
@@ -185,7 +185,7 @@ export default function Reglamento() {
                                 </ul>
                             </div>
                             <div>
-                                <h3 className="text-h3 font-bold mb-4 text-secondary-600">Tiempos Límite</h3>
+                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Tiempos Límite</h3>
                                 <p className="text-body">
                                     Cada tipo de búsqueda y nivel tiene un tiempo límite específico. El tiempo se cuenta desde que el perro
                                     entra en el área de búsqueda hasta que completa la tarea o se agota el tiempo.
@@ -196,14 +196,14 @@ export default function Reglamento() {
 
                     {/* Sección 4: Títulos y Certificaciones */}
                     <section id="titulos" className="card scroll-mt-20">
-                        <h2 className="text-h2 font-bold mb-6">4. Títulos y Certificaciones</h2>
-                        <div className="space-y-6 text-gray-700">
+                        <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-6">4. Títulos y Certificaciones</h2>
+                        <div className="space-y-6 text-neutral-text-medium">
                             <p className="text-body-lg">
                                 Los títulos se otorgan según el rendimiento del perro en las competiciones. Cada grado tiene sus propios
                                 títulos y requisitos específicos.
                             </p>
                             <div>
-                                <h3 className="text-h3 font-bold mb-4 text-secondary-600">Tipos de Títulos</h3>
+                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Tipos de Títulos</h3>
                                 <ul className="list-disc list-inside space-y-2 ml-4 text-body">
                                     <li><strong>Título de Grado:</strong> Obtenido al completar exitosamente pruebas en un grado específico</li>
                                     <li><strong>Título de Especialidad:</strong> Por destacar en un tipo de búsqueda específico</li>
@@ -218,11 +218,11 @@ export default function Reglamento() {
 
                     {/* Sección 5: Código Ético */}
                     <section id="codigo-etico" className="card scroll-mt-20">
-                        <h2 className="text-h2 font-bold mb-6">5. Código Ético y Bienestar del Perro</h2>
-                        <div className="space-y-6 text-gray-700">
+                        <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-6">5. Código Ético y Bienestar del Perro</h2>
+                        <div className="space-y-6 text-neutral-text-medium">
                             <div className="bg-primary-50 border-l-4 border-primary-500 p-6 rounded-r-lg">
                                 <h3 className="text-h4 font-bold mb-4 text-primary-700">Prioridad: El Bienestar del Perro</h3>
-                                <p className="text-body mb-4">
+                                <p className="text-body-redesign mb-4">
                                     El bienestar del perro es la máxima prioridad en Nosework Trial. Todos los participantes deben:
                                 </p>
                                 <ul className="list-disc list-inside space-y-2 ml-4 text-body">
@@ -234,7 +234,7 @@ export default function Reglamento() {
                                 </ul>
                             </div>
                             <div>
-                                <h3 className="text-h3 font-bold mb-4 text-secondary-600">Comportamiento del Guía</h3>
+                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Comportamiento del Guía</h3>
                                 <ul className="list-disc list-inside space-y-2 ml-4 text-body">
                                     <li>Respeto hacia otros participantes, jueces y staff</li>
                                     <li>Honestidad en la competición</li>
@@ -243,7 +243,7 @@ export default function Reglamento() {
                                 </ul>
                             </div>
                             <div>
-                                <h3 className="text-h3 font-bold mb-4 text-secondary-600">Sanciones</h3>
+                                <h3 className="text-h3-redesign font-bold mb-4 text-navy">Sanciones</h3>
                                 <p className="text-body">
                                     El incumplimiento del código ético puede resultar en advertencias, descalificación o suspensión,
                                     dependiendo de la gravedad de la infracción.
@@ -253,9 +253,9 @@ export default function Reglamento() {
                     </section>
 
                     {/* Histórico de Versiones */}
-                    <section className="card">
-                        <h2 className="text-h2 font-bold mb-6">Histórico de Versiones</h2>
-                        <div className="space-y-4 text-gray-700">
+                    <section className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8">
+                        <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-6">Histórico de Versiones</h2>
+                        <div className="space-y-4 text-neutral-text-medium">
                             <div className="border-l-4 border-gray-300 pl-4">
                                 <h3 className="text-h5 font-bold">Versión 1.0 - 2025</h3>
                                 <p className="text-body-sm text-gray-600">Versión inicial del reglamento</p>
@@ -267,11 +267,11 @@ export default function Reglamento() {
                     </section>
 
                     {/* CTA Section */}
-                    <section className="section-alt">
-                        <div className="container-custom">
+                    <section className="bg-[#F4F6F8] py-12">
+                        <div className="container-redesign">
                             <div className="max-w-3xl mx-auto text-center">
-                                <h2 className="text-h2 font-bold mb-4 text-gray-900">¿Tienes Preguntas sobre el Reglamento?</h2>
-                                <p className="text-body-lg text-gray-700 mb-8">
+                                <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-4">¿Tienes Preguntas sobre el Reglamento?</h2>
+                                <p className="text-body-redesign-lg text-neutral-text-medium mb-8">
                                     Si necesitas aclaraciones sobre cualquier aspecto del reglamento, no dudes en contactarnos.
                                 </p>
                                 <Button href="/contact" variant="secondary">

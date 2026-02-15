@@ -4,24 +4,12 @@ export default function Document() {
   return (
     <Html lang="es">
       <Head>
-        {/* Preconnect to external domains if using web fonts in the future */}
-        {/* Example: <link rel="preconnect" href="https://fonts.googleapis.com" /> */}
-        
-        {/* Font display optimization for future web fonts */}
-        {/* When adding web fonts, use font-display: swap in @font-face declarations */}
-        {/* Example:
-        <style dangerouslySetInnerHTML={{
-          __html: `
-            @font-face {
-              font-family: 'CustomFont';
-              src: url('/fonts/custom.woff2') format('woff2');
-              font-weight: 400;
-              font-style: normal;
-              font-display: swap;
-            }
-          `,
-        }} />
-        */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
       </Head>
       <body>
         <Main />

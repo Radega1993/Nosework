@@ -104,13 +104,13 @@ export default function EventDetailPage() {
 
   if (loading) {
     return (
-      <div className="bg-gray-50 min-h-screen pt-16">
+      <div className="bg-[#F4F6F8] min-h-screen pt-20">
         <Navbar />
         <main className="section">
-          <div className="container-custom">
+          <div className="container-redesign">
             <div className="text-center py-12">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
-              <p className="mt-4 text-gray-600">Cargando evento...</p>
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-navy"></div>
+              <p className="mt-4 text-neutral-text-medium">Cargando evento...</p>
             </div>
           </div>
         </main>
@@ -121,21 +121,21 @@ export default function EventDetailPage() {
 
   if (error === "not-found") {
     return (
-      <div className="bg-gray-50 min-h-screen pt-16">
+      <div className="bg-[#F4F6F8] min-h-screen pt-20">
         <Head>
           <title>Evento no encontrado - Nosework Trial</title>
         </Head>
         <Navbar />
         <main className="section">
-          <div className="container-custom">
-            <div className="card text-center max-w-2xl mx-auto">
-              <h1 className="text-h1 font-bold mb-4 text-gray-900">Evento no encontrado</h1>
-              <p className="text-body-lg text-gray-600 mb-6">
+          <div className="container-redesign">
+            <div className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8 text-center max-w-2xl mx-auto">
+              <h1 className="text-h1-redesign font-bold mb-4 text-neutral-text-dark">Evento no encontrado</h1>
+              <p className="text-body-redesign-lg text-neutral-text-medium mb-6">
                 El evento que buscas no existe o ha sido eliminado.
               </p>
               <Link
                 href="/events"
-                className="text-primary-600 hover:text-primary-700 font-semibold"
+                className="text-navy hover:text-gold font-semibold"
               >
                 ← Volver a eventos
               </Link>
@@ -149,21 +149,21 @@ export default function EventDetailPage() {
 
   if (error || !event) {
     return (
-      <div className="bg-gray-50 min-h-screen pt-16">
+      <div className="bg-[#F4F6F8] min-h-screen pt-20">
         <Head>
           <title>Error - Nosework Trial</title>
         </Head>
         <Navbar />
         <main className="section">
-          <div className="container-custom">
-            <div className="card text-center max-w-2xl mx-auto">
-              <h1 className="text-h1 font-bold mb-4 text-gray-900">Error</h1>
-              <p className="text-body-lg text-gray-600 mb-6">
+          <div className="container-redesign">
+            <div className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8 text-center max-w-2xl mx-auto">
+              <h1 className="text-h1-redesign font-bold mb-4 text-neutral-text-dark">Error</h1>
+              <p className="text-body-redesign-lg text-neutral-text-medium mb-6">
                 No se pudo cargar el evento. Por favor, intenta más tarde.
               </p>
               <Link
                 href="/events"
-                className="text-primary-600 hover:text-primary-700 font-semibold"
+                className="text-navy hover:text-gold font-semibold"
               >
                 ← Volver a eventos
               </Link>
@@ -183,7 +183,7 @@ export default function EventDetailPage() {
   ];
 
   return (
-    <div className="bg-gray-50 min-h-screen pt-16">
+    <div className="bg-[#F4F6F8] min-h-screen pt-20">
       <SEOHead
         title={`${event.title} - Nosework Trial`}
         description={
@@ -201,14 +201,14 @@ export default function EventDetailPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       {/* Main Content */}
-      <main className="section">
-        <div className="container-custom">
+      <main>
+        <div className="container-redesign py-12">
           <EventDetail event={event} />
 
           {/* Related Events */}
           {relatedEvents.length > 0 && (
             <section className="mt-12">
-              <h2 className="text-h2 font-bold mb-6 text-gray-900">Próximos Eventos</h2>
+              <h2 className="text-h2-redesign font-bold mb-6 text-neutral-text-dark">Próximos Eventos</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {relatedEvents.map((relatedEvent) => (
                   <EventCardPublic key={relatedEvent.id} event={relatedEvent} showImage={true} />
@@ -218,8 +218,8 @@ export default function EventDetailPage() {
           )}
 
           {/* Social Sharing */}
-          <section className="mt-8 pt-8 border-t border-gray-200">
-            <h3 className="text-h4 font-bold mb-4 text-gray-900">Compartir evento</h3>
+          <section className="mt-8 pt-8 border-t border-neutral-border">
+            <h3 className="text-h3-redesign font-bold mb-4 text-neutral-text-dark">Compartir evento</h3>
             <div className="flex items-center space-x-4">
               <a
                 href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}

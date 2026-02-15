@@ -7,6 +7,42 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // UI redesign: navy & gold palette (spec ui-system)
+        navy: {
+          DEFAULT: '#0F2A44',
+          dark: '#091C2E',
+          50: '#e8eef4',
+          100: '#c5d4e4',
+          200: '#9fb8d1',
+          300: '#799cbe',
+          400: '#5c87b0',
+          500: '#0F2A44',
+          600: '#0d2540',
+          700: '#091C2E',
+          800: '#061624',
+          900: '#04101a',
+        },
+        gold: {
+          DEFAULT: '#F5B400',
+          hover: '#E0A100',
+          50: '#fffbea',
+          100: '#fff3c4',
+          200: '#ffe78e',
+          300: '#F5B400',
+          400: '#E0A100',
+          500: '#c78b00',
+          600: '#9e6f00',
+          700: '#7d5700',
+          800: '#4d3500',
+          900: '#2d1f00',
+        },
+        neutral: {
+          white: '#FFFFFF',
+          'bg-light': '#F4F6F8',
+          border: '#E2E8F0',
+          'text-dark': '#1A202C',
+          'text-medium': '#4A5568',
+        },
         primary: {
           50: '#ecfdf5',
           100: '#d1fae5',
@@ -46,6 +82,7 @@ module.exports = {
       },
       fontFamily: {
         sans: [
+          'var(--font-inter)',
           '-apple-system',
           'BlinkMacSystemFont',
           '"Segoe UI"',
@@ -57,7 +94,14 @@ module.exports = {
       },
       fontSize: {
         'display': ['3.5rem', { lineHeight: '1.1', fontWeight: '700' }],
+        /* UI redesign (spec): H1 56px desktop / 36px mobile, H2 36px, H3 24px, body 16px, highlight 18px */
         'h1': ['3rem', { lineHeight: '1.2', fontWeight: '700' }],
+        'h1-redesign': ['3.5rem', { lineHeight: '1.2', fontWeight: '700' }],
+        'h1-redesign-mobile': ['2.25rem', { lineHeight: '1.2', fontWeight: '700' }],
+        'h2-redesign': ['2.25rem', { lineHeight: '1.2', fontWeight: '700' }],
+        'h3-redesign': ['1.5rem', { lineHeight: '1.2', fontWeight: '700' }],
+        'body-redesign': ['1rem', { lineHeight: '1.6', fontWeight: '400' }],
+        'body-redesign-lg': ['1.125rem', { lineHeight: '1.6', fontWeight: '400' }],
         'h2': ['2.25rem', { lineHeight: '1.2', fontWeight: '700' }],
         'h3': ['1.875rem', { lineHeight: '1.3', fontWeight: '600' }],
         'h4': ['1.5rem', { lineHeight: '1.4', fontWeight: '600' }],
@@ -67,6 +111,9 @@ module.exports = {
         'body': ['1rem', { lineHeight: '1.6', fontWeight: '400' }],
         'body-sm': ['0.875rem', { lineHeight: '1.6', fontWeight: '400' }],
         'caption': ['0.75rem', { lineHeight: '1.5', fontWeight: '400' }],
+      },
+      maxWidth: {
+        'content': '1200px',
       },
       spacing: {
         '18': '4.5rem',

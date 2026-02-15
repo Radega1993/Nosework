@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import AuthContext from "@/contexts/AuthContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useLocalizedLink } from "@/hooks/useLocalizedLink";
@@ -8,6 +8,17 @@ export default function Navbar() {
     const { user, logout } = useContext(AuthContext);
     const [menuOpen, setMenuOpen] = useState(false);
     const { localizedHref } = useLocalizedLink();
+
+    // 9.7 Cerrar drawer con Escape
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.key === "Escape") setMenuOpen(false);
+        };
+        if (menuOpen) {
+            document.addEventListener("keydown", handleKeyDown);
+            return () => document.removeEventListener("keydown", handleKeyDown);
+        }
+    }, [menuOpen]);
 
     const navLinks = [
         { name: "Inicio", path: "/" },
@@ -21,69 +32,75 @@ export default function Navbar() {
 
     const toggleMenu = () => setMenuOpen(!menuOpen);
 
+    const closeMenu = () => setMenuOpen(false);
+
+    const navLinkClass =
+        "relative px-4 py-2 text-white/90 hover:text-gold transition-colors duration-200 font-medium text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy after:absolute after:left-4 after:right-4 after:bottom-1 after:h-0.5 after:bg-gold after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:origin-left";
+
     return (
-        <nav className="bg-white shadow-md fixed top-0 left-0 w-full z-50 border-b border-gray-200">
-            <div className="container mx-auto px-4 md:px-6">
-                <div className="flex justify-between items-center h-16">
-                    {/* Logo */}
-                    <Link href={localizedHref("/")} className="flex items-center space-x-2 group">
-                        <span className="text-2xl font-bold text-primary-600 group-hover:text-primary-700 transition-colors">
-                            NTC
-                        </span>
-                        <span className="hidden sm:inline text-sm text-gray-600 font-medium">
+        <>
+            <nav
+                className="bg-navy fixed top-0 left-0 w-full z-50 shadow-md"
+                role="navigation"
+                aria-label="Menú principal"
+            >
+                <div className="container-redesign flex justify-between items-center h-20">
+                    {/* Logo - izquierda */}
+                    <Link
+                        href={localizedHref("/")}
+                        className="flex items-center space-x-2 text-white font-bold text-xl hover:text-gold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy rounded"
+                    >
+                        <span>NTC</span>
+                        <span className="hidden sm:inline text-sm font-medium text-white/90">
                             Nosework Trial
                         </span>
                     </Link>
 
-                    {/* Menú Desktop */}
+                    {/* Navegación desktop - centro/derecha */}
                     <ul className="hidden lg:flex items-center space-x-1">
                         {navLinks.map((link) => (
                             <li key={link.path}>
-                                <Link
-                                    href={localizedHref(link.path)}
-                                    className="px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200 font-medium text-sm"
-                                >
+                                <Link href={localizedHref(link.path)} className={navLinkClass}>
                                     {link.name}
                                 </Link>
                             </li>
                         ))}
                         {user && (
                             <li>
-                                <Link
-                                    href="/dashboard"
-                                    className="px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200 font-medium text-sm"
-                                >
+                                <Link href="/dashboard" className={navLinkClass}>
                                     Dashboard
                                 </Link>
                             </li>
                         )}
                     </ul>
 
-                    {/* Login/Logout Desktop */}
+                    {/* Idioma + Login/Logout - derecha */}
                     <div className="hidden lg:flex items-center space-x-4">
                         <LanguageSwitcher />
                         {user ? (
                             <button
                                 onClick={logout}
-                                className="px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200 font-medium text-sm"
+                                className="px-4 py-2 text-white/90 hover:text-gold hover:bg-white/10 rounded-lg transition-colors duration-200 font-medium text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
                             >
                                 Cerrar Sesión
                             </button>
                         ) : (
                             <Link
                                 href="/login"
-                                className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors duration-200 font-medium text-sm shadow-md hover:shadow-lg"
+                                className="px-4 py-2 bg-gold hover:bg-gold-hover text-navy font-semibold rounded-lg transition-colors duration-200 text-sm shadow-md hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
                             >
                                 Iniciar Sesión
                             </Link>
                         )}
                     </div>
 
-                    {/* Menú Móvil Toggle */}
+                    {/* Botón hamburguesa móvil */}
                     <button
-                        className="lg:hidden p-2 text-gray-700 hover:text-primary-600 transition-colors"
+                        type="button"
+                        className="lg:hidden p-2 text-white hover:text-gold transition-colors rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
                         onClick={toggleMenu}
-                        aria-label="Toggle menu"
+                        aria-expanded={menuOpen}
+                        aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
                     >
                         <svg
                             className="w-6 h-6"
@@ -93,6 +110,7 @@ export default function Navbar() {
                             strokeWidth="2"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
+                            aria-hidden
                         >
                             {menuOpen ? (
                                 <path d="M6 18L18 6M6 6l12 12" />
@@ -102,52 +120,69 @@ export default function Navbar() {
                         </svg>
                     </button>
                 </div>
-            </div>
+            </nav>
 
-            {/* Menú Móvil Expandible */}
+            {/* Overlay cuando el drawer está abierto */}
+            {menuOpen && (
+                <button
+                    type="button"
+                    className="lg:hidden fixed inset-0 bg-black/50 z-40 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-inset"
+                    onClick={closeMenu}
+                    aria-label="Cerrar menú"
+                />
+            )}
+
+            {/* Drawer móvil - desliza desde la derecha */}
             <div
-                className={`lg:hidden bg-white border-t border-gray-200 transform transition-all duration-300 ease-in-out ${menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0 overflow-hidden"
-                    }`}
+                className={`lg:hidden fixed top-0 right-0 h-full w-72 max-w-[85vw] bg-navy shadow-xl z-50 transform transition-transform duration-300 ease-out ${
+                    menuOpen ? "translate-x-0" : "translate-x-full"
+                }`}
+                role="dialog"
+                aria-modal="true"
+                aria-label="Menú de navegación"
             >
-                <div className="container mx-auto px-4 py-4 space-y-2">
-                    {navLinks.map((link) => (
-                        <Link
-                            key={link.path}
-                            href={localizedHref(link.path)}
-                            className="block px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200 font-medium"
-                            onClick={() => setMenuOpen(false)}
-                        >
-                            {link.name}
-                        </Link>
-                    ))}
-                    {user && (
-                        <Link
-                            href="/dashboard"
-                            className="block px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200 font-medium"
-                            onClick={() => setMenuOpen(false)}
-                        >
-                            Dashboard
-                        </Link>
-                    )}
-                    <div className="pt-4 border-t border-gray-200 space-y-3">
+                <div className="flex flex-col h-full pt-20 px-4 pb-6">
+                    <ul className="space-y-1">
+                        {navLinks.map((link) => (
+                            <Link
+                                key={link.path}
+                                href={localizedHref(link.path)}
+                                className="block px-4 py-3 text-white hover:text-gold hover:bg-white/10 rounded-lg transition-colors duration-200 font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-inset"
+                                onClick={closeMenu}
+                            >
+                                {link.name}
+                            </Link>
+                        ))}
+                        {user && (
+                            <Link
+                                href="/dashboard"
+                                className="block px-4 py-3 text-white hover:text-gold hover:bg-white/10 rounded-lg transition-colors duration-200 font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-inset"
+                                onClick={closeMenu}
+                            >
+                                Dashboard
+                            </Link>
+                        )}
+                    </ul>
+                    <div className="mt-auto pt-4 border-t border-white/20 space-y-2">
                         <div className="px-4">
                             <LanguageSwitcher />
                         </div>
                         {user ? (
                             <button
+                                type="button"
                                 onClick={() => {
                                     logout();
-                                    setMenuOpen(false);
+                                    closeMenu();
                                 }}
-                                className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200 font-medium"
+                                className="w-full text-left px-4 py-3 text-white/90 hover:text-gold hover:bg-white/10 rounded-lg transition-colors duration-200 font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-inset"
                             >
                                 Cerrar Sesión
                             </button>
                         ) : (
                             <Link
                                 href="/login"
-                                className="block px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors duration-200 font-medium text-center"
-                                onClick={() => setMenuOpen(false)}
+                                className="block px-4 py-3 bg-gold hover:bg-gold-hover text-navy font-semibold rounded-lg text-center transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-inset"
+                                onClick={closeMenu}
                             >
                                 Iniciar Sesión
                             </Link>
@@ -155,6 +190,6 @@ export default function Navbar() {
                     </div>
                 </div>
             </div>
-        </nav>
+        </>
     );
 }

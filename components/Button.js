@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+const transitionClass = "transition-all duration-200";
+
 export default function Button({
     children,
     onClick,
@@ -11,14 +13,20 @@ export default function Button({
     type = "button",
     ...props
 }) {
-    const baseClasses = "btn font-semibold transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+    const baseClasses = `font-semibold rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed ${transitionClass}`;
 
     const variants = {
-        primary: "btn-primary bg-primary-600 hover:bg-primary-700 text-white focus:ring-primary-500",
-        secondary: "btn-secondary bg-secondary-600 hover:bg-secondary-700 text-white focus:ring-secondary-500",
-        accent: "btn-accent bg-accent-600 hover:bg-accent-700 text-white focus:ring-accent-500",
-        outline: "btn-outline border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white focus:ring-primary-500 shadow-none",
-        ghost: "btn-ghost text-primary-600 hover:bg-primary-50 focus:ring-primary-500 shadow-none",
+        primary:
+            "bg-gold hover:bg-gold-hover active:bg-gold-500 text-navy shadow-md hover:shadow-lg focus-visible:ring-gold",
+        secondary:
+            "border-2 border-white text-white hover:bg-white hover:text-navy active:bg-white/90 shadow-none focus-visible:ring-white",
+        dark: "bg-navy hover:bg-navy-700 active:bg-navy-dark text-white shadow-md hover:shadow-lg focus-visible:ring-navy",
+        ghost:
+            "text-navy hover:bg-neutral-border/50 active:bg-neutral-border shadow-none focus-visible:ring-neutral-border text-neutral-text-dark",
+        outline:
+            "border-2 border-navy text-navy hover:bg-navy hover:text-white active:bg-navy-700 shadow-none focus-visible:ring-navy",
+        accent:
+            "bg-gold hover:bg-gold-hover active:bg-gold-500 text-navy shadow-md hover:shadow-lg focus-visible:ring-gold",
     };
 
     const sizes = {
@@ -27,9 +35,9 @@ export default function Button({
         large: "py-4 px-8 text-lg",
     };
 
-    const classes = `${baseClasses} ${variants[variant]} ${sizes[size]} ${className}`;
+    const classes = `${baseClasses} ${variants[variant] || variants.primary} ${sizes[size]} ${className}`;
 
-    if (href) {
+    if (href && !disabled) {
         return (
             <Link href={href} className={classes} {...props}>
                 {children}
