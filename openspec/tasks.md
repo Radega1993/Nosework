@@ -88,19 +88,19 @@ Este documento desglosa todas las tareas del proyecto en chunks de máximo 2 hor
 **Acceptance:** Página completa con todo el contenido requerido, SEO optimizado  
 **Estado:** ⏳ Pendiente
 
-#### TASK-F1-013 ⏳ Crear página de reglamento completa
+#### TASK-F1-013 ✅ Crear página de reglamento completa
 **Goal:** Reglamento en HTML navegable por secciones + PDF descargable  
-**Archivos:** `pages/reglamento.js`, `public/documents/reglamento-nosework-trial.pdf`  
+**Archivos:** `pages/reglamento.js`, `public/documents/normativas_participantes.pdf`  
 **Tiempo estimado:** 2 horas  
-**Acceptance:** Reglamento completo en HTML, PDF descargable, navegación por secciones  
-**Estado:** ⏳ Pendiente
+**Acceptance:** Reglamento completo en HTML, PDF descargable, navegación por secciones, versionado v1.0  
+**Estado:** ✅ Completado (2026-02-15: content-reglamento-page)
 
-#### TASK-F1-014 ⏳ Crear página "Cómo Empezar"
+#### TASK-F1-014 ✅ Crear página "Cómo Empezar"
 **Goal:** Guía paso a paso completa con requisitos, material, FAQ  
-**Archivos:** `pages/como-empezar.js`  
+**Archivos:** `pages/como-empezar.js`, `pages/clubs.js` (placeholder)  
 **Tiempo estimado:** 2 horas  
-**Acceptance:** Guía completa, FAQ funcional, enlaces a clubs  
-**Estado:** ⏳ Pendiente
+**Acceptance:** Guía "Soy guía nuevo, ¿qué hago?", FAQ, enlaces a eventos y clubs  
+**Estado:** ✅ Completado (2026-02-15: content-como-empezar-page)
 
 #### TASK-F1-015 ⏳ Mejorar página About con visión y valores
 **Goal:** Completar contenido de About con visión, misión, valores, historia  

@@ -36,15 +36,17 @@ export default function ComoEmpezar() {
                     {/* Introducción */}
                     <section className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8 text-center max-w-4xl mx-auto">
                         <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-4">¡Bienvenido a Nosework Trial!</h2>
-                        <p className="text-body-redesign-lg text-neutral-text-medium">
+                        <p className="text-body-redesign-lg text-neutral-text-medium mb-2">
                             Si eres nuevo en Nosework Trial, esta guía te ayudará a dar los primeros pasos con tu perro. No necesitas
                             experiencia previa, solo ganas de aprender y disfrutar junto a tu compañero canino.
                         </p>
+                        <p className="text-body-redesign font-semibold text-navy">Soy guía nuevo, ¿qué hago? Sigue los pasos siguientes.</p>
                     </section>
 
                     {/* Paso a Paso */}
                     <section className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8">
-                        <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-8">Guía Paso a Paso</h2>
+                        <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-2">Soy guía nuevo, ¿qué hago?</h2>
+                        <p className="text-body-redesign text-neutral-text-medium mb-8">Guía paso a paso para dar tus primeros pasos en Nosework Trial.</p>
                         <div className="space-y-8">
                             {/* Paso 1 */}
                             <div className="flex flex-col md:flex-row gap-6">
@@ -133,7 +135,7 @@ export default function ComoEmpezar() {
                                 <div className="flex-1">
                                     <h3 className="text-h3-redesign font-bold text-navy mb-3">Participar en tu Primera Competición</h3>
                                     <p className="text-body-redesign text-neutral-text-medium mb-3">
-                                        Cuando te sientas preparado, puedes inscribirte en una prueba de Grado 1. No te preocupes por el
+                                        Cuando te sientas preparado, puedes inscribirte en una prueba de nivel Base. No te preocupes por el
                                         resultado, el objetivo es disfrutar y aprender. Todas las competiciones son una oportunidad de
                                         crecimiento.
                                     </p>
@@ -146,7 +148,7 @@ export default function ComoEmpezar() {
                     </section>
 
                     {/* Requisitos Mínimos */}
-                    <section id="requisitos" className="card">
+                    <section id="requisitos" className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8">
                         <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-6">Requisitos Mínimos para Competir</h2>
                         <div className="grid md:grid-cols-2 gap-8">
                             <div>
@@ -200,10 +202,13 @@ export default function ComoEmpezar() {
                                 </ul>
                             </div>
                         </div>
+                        <p className="mt-6 text-body-redesign text-neutral-text-medium italic">
+                            Los requisitos exactos pueden depender de cada evento o convocatoria; consulta la información del organizador antes de inscribirte.
+                        </p>
                     </section>
 
                     {/* Material Básico */}
-                    <section id="material" className="card">
+                    <section id="material" className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8">
                         <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-6">Material Básico Necesario</h2>
                         <div className="grid md:grid-cols-2 gap-6">
                             <div className="border-l-4 border-accent-500 pl-4">
