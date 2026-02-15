@@ -31,6 +31,20 @@ export default function About() {
       {/* Contenido Principal */}
       <main>
         <div className="container-redesign py-12 space-y-12">
+          {/* Quiénes somos */}
+          <section className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8 max-w-4xl mx-auto">
+            <h2 className="text-h2-redesign font-bold text-neutral-text-dark text-center mb-6">Quiénes somos</h2>
+            <p className="text-body-redesign-lg text-neutral-text-medium text-center mb-4">
+              Nosework Trial lo impulsa un equipo promotor de entrenadores, guías y amantes del trabajo de olfato canino que,
+              desde distintos clubs y experiencias, se unieron para dar forma a una modalidad propia: inclusiva, centrada en el
+              bienestar del perro y con un reglamento claro y accesible.
+            </p>
+            <p className="text-body-redesign text-neutral-text-medium text-center">
+              Somos una comunidad fundadora independiente. No dependemos de ninguna federación ni entidad externa; nuestro
+              objetivo es crecer desde la base, con transparencia y con las personas y los perros en el centro.
+            </p>
+          </section>
+
           {/* Sección de Misión */}
           <section className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8 text-center max-w-4xl mx-auto">
             <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-6">Nuestra Misión</h2>
@@ -97,31 +111,34 @@ export default function About() {
           {/* Historia */}
           <section className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8 max-w-4xl mx-auto">
             <h2 className="text-h2-redesign font-bold text-neutral-text-dark text-center mb-6">Historia</h2>
-            <div className="space-y-4 text-gray-700">
-              <p className="text-body-lg">
-                Nosework Trial nace de la necesidad de crear una modalidad deportiva que combine lo mejor de la
-                detección deportiva española (FEPDE) y el nosework tradicional, priorizando siempre el bienestar del
-                perro y la accesibilidad.
+            <div className="space-y-4 text-neutral-text-medium">
+              <p className="text-body-redesign-lg">
+                Nosework Trial nace de la voluntad de ofrecer una modalidad deportiva de olfato canino con identidad propia en España:
+                un reglamento claro, niveles Base y Avanzado, y una filosofía centrada en el bienestar del perro y en la inclusión.
               </p>
-              <p className="text-body-lg">
-                A diferencia de otras modalidades que pueden ser más restrictivas o competitivas, Nosework Trial se
-                diseñó pensando en que todos los perros, independientemente de su raza, edad o nivel de experiencia,
-                puedan participar y disfrutar del trabajo de olfato.
+              <p className="text-body-redesign-lg">
+                En el panorama actual coexisten la detección deportiva vinculada a la federación (FEPDE) y el nosework en sus distintas
+                formas. Nosework Trial es una iniciativa <strong>independiente</strong>: no somos FEPDE ni estamos vinculados a FEPDE.
+                Somos una comunidad y una modalidad propia que crece desde la base, con clubs y guías que comparten esta visión.
               </p>
-              <p className="text-body-lg">
-                La modalidad se inspira en organizaciones internacionales como NACSW y SDDA, adaptando sus conceptos al
-                contexto español y creando un reglamento propio que se ajusta a la realidad de los clubs y guías
-                españoles.
-              </p>
-              <p className="text-body-lg">
-                Desde nuestros inicios, hemos trabajado para crear una comunidad inclusiva donde el aprendizaje, el
-                respeto y el disfrute sean los pilares fundamentales.
+              <p className="text-body-redesign-lg">
+                Nos inspiramos en buenas prácticas de organizaciones internacionales (como NACSW o SDDA) y en la realidad de los clubs
+                españoles, adaptando conceptos a un reglamento propio y accesible. Desde el principio hemos priorizado el aprendizaje,
+                el respeto y el disfrute como pilares de la comunidad.
               </p>
             </div>
           </section>
 
+          {/* Documentos legales */}
+          <section className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8 max-w-4xl mx-auto text-center">
+            <h2 className="text-h2-redesign font-bold text-neutral-text-dark mb-4">Documentos legales</h2>
+            <p className="text-body-redesign text-neutral-text-medium">
+              Estatutos y documentos legales de la asociación estarán disponibles próximamente en esta sección.
+            </p>
+          </section>
+
           {/* Lista de Clubes */}
-          <section>
+          <section className="bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-8">
             <h2 className="text-h2-redesign font-bold text-neutral-text-dark text-center mb-6">Nuestros Clubes</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
@@ -134,9 +151,9 @@ export default function About() {
               ].map((club, index) => (
                 <div
                   key={index}
-                  className="card text-center"
+                  className="text-center p-4 rounded-lg border border-neutral-border bg-[#F4F6F8]"
                 >
-                  <h3 className="text-h5 font-bold">{club}</h3>
+                  <h3 className="text-h3-redesign font-bold text-navy">{club}</h3>
                 </div>
               ))}
             </div>

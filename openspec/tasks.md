@@ -102,12 +102,12 @@ Este documento desglosa todas las tareas del proyecto en chunks de máximo 2 hor
 **Acceptance:** Guía "Soy guía nuevo, ¿qué hago?", FAQ, enlaces a eventos y clubs  
 **Estado:** ✅ Completado (2026-02-15: content-como-empezar-page)
 
-#### TASK-F1-015 ⏳ Mejorar página About con visión y valores
-**Goal:** Completar contenido de About con visión, misión, valores, historia  
+#### TASK-F1-015 ✅ Mejorar página About con visión y valores
+**Goal:** Completar contenido de About con visión, misión, valores, historia, quiénes somos, "no somos FEPDE", documentos legales  
 **Archivos:** `pages/about.js`  
 **Tiempo estimado:** 1 hora  
-**Acceptance:** Contenido completo y bien estructurado  
-**Estado:** ⏳ Pendiente
+**Acceptance:** Quiénes somos, visión/misión/valores, historia con contexto FEPDE e independencia, documentos legales (próximamente)  
+**Estado:** ✅ Completado (2026-02-15: content-about-refresh)
 
 #### TASK-F1-016 ✅ Añadir meta tags SEO en todas las páginas públicas
 **Goal:** Title y meta description únicos en cada página  
