@@ -1,0 +1,30 @@
+# dependencies & build
+node_modules
+.next
+out
+
+# vcs & editor
+.git
+.gitignore
+.cursor
+*.md
+
+# tests & ci (no hace falta en la imagen)
+coverage
+playwright-report
+test-results
+lighthouse
+tests
+**/__tests__
+jest.config.*
+playwright.config.*
+
+# env local (los secretos van por compose / VPS)
+.env
+.env.*
+!.env.example
+!.env.docker.example
+
+# misc
+npm-debug.log*
+.DS_Store

@@ -1,0 +1,35 @@
+# Uso rápido en VPS: copia .env.docker.example → .env y ajusta JWT_SECRET y URL.
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    environment:
+      NODE_ENV: production
+      JWT_SECRET: ${JWT_SECRET:-change-me-generate-with-openssl-rand-hex-32}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+      SQLITE_DATABASE_PATH: /data/database.db
+      # Opcional: email para cabecera User-Agent en geocodificación (Nominatim)
+      NOMINATIM_CONTACT_EMAIL: ${NOMINATIM_CONTACT_EMAIL:-}
+    volumes:
+      - nosework_sqlite:/data
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://127.0.0.1:3000/api/events',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  nosework_sqlite:

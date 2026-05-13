@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "standalone",
   async redirects() {
     return [
       // Prefijo /es obligatorio: rutas sin prefijo → 301 a /es/... (TASK-F1-020, routing-redirects-i18n-base)

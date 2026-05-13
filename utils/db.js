@@ -113,7 +113,8 @@ function ensureClubsMembershipMigrations(conn) {
 
 export function getDBConnection() {
     if (!db) {
-        db = new Database("./database.db", { verbose: console.log });
+        const dbPath = process.env.SQLITE_DATABASE_PATH || "./database.db";
+        db = new Database(dbPath, { verbose: process.env.NODE_ENV !== "production" ? console.log : undefined });
 
         // Inicializar tabla de eventos
         db.prepare(`
