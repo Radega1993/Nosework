@@ -1,23 +1,35 @@
-# Uso rápido en VPS: copia .env.docker.example → .env y ajusta JWT_SECRET y URL.
+# Traefik v1 (frontend.*). Host por defecto: nosework.radega.com — define TRAEFIK_HOST en .env.production si usas otro dominio.
+# Red externa `web` debe existir: docker network create web
+version: "3"
+
 services:
   web:
+    container_name: app-nosework
     build:
       context: .
       dockerfile: Dockerfile
       args:
-        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
-    ports:
-      - "${WEB_PORT:-3000}:3000"
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://nosework.radega.com}
+    env_file:
+      - .env.production
     environment:
       NODE_ENV: production
       JWT_SECRET: ${JWT_SECRET:-change-me-generate-with-openssl-rand-hex-32}
-      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://nosework.radega.com}
       SQLITE_DATABASE_PATH: /data/database.db
-      # Opcional: email para cabecera User-Agent en geocodificación (Nominatim)
       NOMINATIM_CONTACT_EMAIL: ${NOMINATIM_CONTACT_EMAIL:-}
     volumes:
       - nosework_sqlite:/data
     restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.frontend.rule=Host:${TRAEFIK_HOST:-nosework.radega.com}
+      - traefik.port=3000
+      - traefik.docker.network=web
+      - traefik.frontend.protocol=http
+      - traefik.frontend.entryPoints=http,https
+    networks:
+      - web
     healthcheck:
       test:
         [
@@ -33,3 +45,7 @@ services:
 
 volumes:
   nosework_sqlite:
+
+networks:
+  web:
+    external: true
