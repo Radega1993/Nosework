@@ -11,7 +11,7 @@ const navClass = (active) =>
 /**
  * Navegación lateral estilo mock FDDN (área deportista).
  */
-export default function DashboardSidebar({ onLogout, isJudge }) {
+export default function DashboardSidebar({ onLogout, isJudge, isAdmin = false }) {
   const { localizedHref } = useLocalizedLink();
   const goToSection = (id) => {
     if (typeof window === "undefined") return;
@@ -48,17 +48,17 @@ export default function DashboardSidebar({ onLogout, isJudge }) {
           </span>
           Mis perros
         </button>
-        <span className={`${navClass(false)} opacity-50 cursor-not-allowed`} title="Próximamente">
-          <span className="material-symbols-outlined text-xl" aria-hidden>
-            payments
-          </span>
-          Mis pagos
-        </span>
         <Link href={localizedHref("/resultados-rankings")} className={navClass(false)}>
           <span className="material-symbols-outlined text-xl" aria-hidden>
             leaderboard
           </span>
           Resultados
+        </Link>
+        <Link href={localizedHref("/dashboard/club")} className={navClass(false)}>
+          <span className="material-symbols-outlined text-xl" aria-hidden>
+            groups
+          </span>
+          Mi club
         </Link>
         <span className={`${navClass(false)} opacity-50 cursor-not-allowed`} title="Próximamente">
           <span className="material-symbols-outlined text-xl" aria-hidden>
@@ -76,6 +76,20 @@ export default function DashboardSidebar({ onLogout, isJudge }) {
           </span>
           Juez {!isJudge ? "(pronto)" : ""}
         </span>
+        <Link href={localizedHref("/dashboard/invitations")} className={navClass(false)}>
+          <span className="material-symbols-outlined text-xl" aria-hidden>
+            mail
+          </span>
+          Invitaciones
+        </Link>
+        {isAdmin ? (
+          <Link href={localizedHref("/dashboard/admin")} className={navClass(false)}>
+            <span className="material-symbols-outlined text-xl" aria-hidden>
+              admin_panel_settings
+            </span>
+            Panel admin
+          </Link>
+        ) : null}
       </nav>
 
       <div className="mt-4 md:mt-auto pt-3 md:pt-4 border-t border-outline-variant shrink-0">

@@ -1,6 +1,7 @@
 import Button from "@/components/Button";
 import { memo } from "react";
 import { useLocalizedLink } from "@/hooks/useLocalizedLink";
+import { EVENT_AUDIENCE } from "@/utils/eventClubMigrations";
 
 /**
  * EventDetail component for displaying complete event information
@@ -32,8 +33,10 @@ function EventDetail({ event }) {
   const { localizedHref } = useLocalizedLink();
   if (!event) return null;
 
+  const legacyRegistrationOpen =
+    !event.status || event.status === "open";
   const isRegistrationOpen =
-    event.status === "open" &&
+    legacyRegistrationOpen &&
     (!event.registration_end_date || new Date(event.registration_end_date) > new Date());
 
   const locationLine = event.location || event.city || event.address || null;
@@ -47,6 +50,19 @@ function EventDetail({ event }) {
 
         {/* Level and Type Badges */}
         <div className="flex flex-wrap gap-2 mb-4">
+          {event.audience && (
+            <span
+              className={`inline-block px-4 py-2 text-sm font-semibold rounded-full ${
+                event.audience === EVENT_AUDIENCE.MEMBERS_ONLY
+                  ? "bg-amber-100 text-amber-900"
+                  : "bg-emerald-100 text-emerald-800"
+              }`}
+            >
+              {event.audience === EVENT_AUDIENCE.MEMBERS_ONLY
+                ? "Solo miembros del club"
+                : "Inscripción abierta (usuarios registrados)"}
+            </span>
+          )}
           {event.level && (
             <span className="inline-block px-4 py-2 text-sm font-semibold rounded-full bg-primary-100 text-primary-700">
               {event.level === "base" || event.level === "Base"
@@ -199,7 +215,7 @@ function EventDetail({ event }) {
         </div>
       )}
 
-      {!isRegistrationOpen && event.status === "open" && event.registration_end_date && (
+      {!isRegistrationOpen && legacyRegistrationOpen && event.registration_end_date && (
         <div className="card text-center">
           <p className="text-body text-gray-600">
             Las inscripciones han cerrado el {formatDateOnly(event.registration_end_date)}

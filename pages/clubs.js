@@ -12,7 +12,8 @@ import {
   ClubsOrganizeStepsSection,
   ClubsPartnerGrid,
 } from "@/components/clubs";
-import { CLUB_SERVICE_FILTERS, PARTNER_CLUBS } from "@/data/partnerClubs";
+import { CLUB_SERVICE_FILTERS, CLUB_PROVINCE_OPTIONS, PARTNER_CLUBS } from "@/data/partnerClubs";
+import { taxonomyCodesToFilterTags } from "@/data/clubServiceTaxonomy";
 
 const initialServices = () =>
   CLUB_SERVICE_FILTERS.reduce((acc, f) => {
@@ -42,11 +43,55 @@ export default function Clubs() {
   const [draftServices, setDraftServices] = useState(initialServices);
   const [appliedProvince, setAppliedProvince] = useState("Todas");
   const [appliedServices, setAppliedServices] = useState(initialServices);
+  const [apiClubRows, setApiClubRows] = useState([]);
 
   useEffect(() => {
     const q = router.query.q;
     if (typeof q === "string" && q) setSearch(q);
   }, [router.query.q]);
+
+  useEffect(() => {
+    fetch("/api/clubs")
+      .then((r) => r.json())
+      .then((d) => setApiClubRows(Array.isArray(d.clubs) ? d.clubs : []))
+      .catch(() => setApiClubRows([]));
+  }, []);
+
+  const allDirectoryClubs = useMemo(() => {
+    const staticPart = PARTNER_CLUBS.map((c) => ({
+      directoryKey: `static-${c.slug}`,
+      source: "static",
+      ...c,
+    }));
+    const dbPart = apiClubRows.map((c) => {
+      const codes = c.service_codes || [];
+      const tags = taxonomyCodesToFilterTags(codes);
+      const rawLogo = (c.logo_url && String(c.logo_url).trim()) || "";
+      return {
+        directoryKey: `db-${c.id}`,
+        source: "database",
+        slug: c.slug,
+        name: c.display_name || c.name,
+        province: c.province || null,
+        city: c.municipality || null,
+        tags,
+        logoSrc: rawLogo || "/images/og-image.jpg",
+        badge: "Registrado",
+        sourceFile: `${c.slug}.webp`,
+      };
+    });
+    return [...staticPart, ...dbPart].sort((a, b) =>
+      a.name.localeCompare(b.name, "es", { sensitivity: "base" })
+    );
+  }, [apiClubRows]);
+
+  const provinceOptions = useMemo(() => {
+    const s = new Set(CLUB_PROVINCE_OPTIONS);
+    for (const c of allDirectoryClubs) {
+      if (c.province) s.add(c.province);
+    }
+    return [...s].sort((a, b) => a.localeCompare(b, "es", { sensitivity: "base" }));
+  }, [allDirectoryClubs]);
 
   const handleApply = () => {
     setAppliedProvince(draftProvince);
@@ -58,8 +103,8 @@ export default function Clubs() {
   };
 
   const filteredClubs = useMemo(
-    () => PARTNER_CLUBS.filter((c) => clubMatchesApplied(c, appliedProvince, appliedServices, search)),
-    [appliedProvince, appliedServices, search]
+    () => allDirectoryClubs.filter((c) => clubMatchesApplied(c, appliedProvince, appliedServices, search)),
+    [allDirectoryClubs, appliedProvince, appliedServices, search]
   );
 
   return (
@@ -87,6 +132,7 @@ export default function Clubs() {
         onProvinceChange={setDraftProvince}
         onServiceToggle={toggleDraftService}
         onApply={handleApply}
+        provinceOptions={provinceOptions}
       />
 
       <div className="max-w-container-max mx-auto px-6 -mt-4 pb-6">
@@ -104,7 +150,7 @@ export default function Clubs() {
 
       <ClubsPartnerGrid clubs={filteredClubs} contactHref={contactHref} />
 
-      <ClubsAffiliationSection contactHref={contactHref} clubCount={PARTNER_CLUBS.length} />
+      <ClubsAffiliationSection contactHref={contactHref} clubCount={allDirectoryClubs.length} />
 
       <ClubsOrganizeStepsSection />
 

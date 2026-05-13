@@ -7,13 +7,18 @@
 
 import Joi from "joi";
 
+/** Email con formato válido sin comprobar TLD IANA (permite `.local`, útil en dev / seed demo). */
+function emailString() {
+  return Joi.string().trim().email({ tlds: false });
+}
+
 /**
  * Schema for login validation
  * Validates email and password fields
  * Allows additional fields like csrfToken (validated separately)
  */
 export const loginSchema = Joi.object({
-  email: Joi.string().email().required().messages({
+  email: emailString().required().messages({
     "string.email": "El email debe tener un formato válido",
     "string.empty": "El email es obligatorio",
     "any.required": "El email es obligatorio",
@@ -30,7 +35,7 @@ export const loginSchema = Joi.object({
  * Allows additional fields like csrfToken (validated separately)
  */
 export const registerSchema = Joi.object({
-  email: Joi.string().email().required().messages({
+  email: emailString().required().messages({
     "string.email": "El email debe tener un formato válido",
     "string.empty": "El email es obligatorio",
     "any.required": "El email es obligatorio",
@@ -115,6 +120,95 @@ export const refreshTokenSchema = Joi.object({
   }),
 });
 
+export const clubSchema = Joi.object({
+  name: Joi.string().trim().min(3).max(140).required().messages({
+    "string.empty": "El nombre del club es obligatorio",
+    "string.min": "El nombre del club es demasiado corto",
+    "any.required": "El nombre del club es obligatorio",
+  }),
+}).unknown(true);
+
+const clubLocationSchema = Joi.object({
+  countryCode: Joi.string().length(2).uppercase().default("ES"),
+  adminAreaLevel1: Joi.string().trim().max(80).allow("", null).default(""),
+  province: Joi.string().trim().min(2).max(80).required(),
+  municipality: Joi.string().trim().min(2).max(120).required(),
+  postalCode: Joi.string().trim().min(2).max(12).required(),
+  addressLine: Joi.string().trim().max(200).allow("", null).default(""),
+  trainingVenueNotes: Joi.string().trim().max(600).allow("", null).default(""),
+}).unknown(true);
+
+export const clubCreateSchema = Joi.object({
+  name: Joi.string().trim().min(3).max(140).required(),
+  description: Joi.string().trim().min(10).max(8000).required(),
+  websiteUrl: Joi.string().trim().uri().max(500).allow("", null),
+  socialLinks: Joi.object().pattern(Joi.string(), Joi.string().trim().max(500)).max(10).default({}),
+  logoUrl: Joi.string().trim().max(2500).allow("", null),
+  coverImageUrl: Joi.string().trim().max(2500).allow("", null),
+  foundedYear: Joi.number().integer().min(1970).max(new Date().getFullYear()).allow(null, ""),
+  visibility: Joi.string().valid("public", "unlisted").default("public"),
+  localeDefault: Joi.string().valid("es", "ca").default("es"),
+  publicEmail: emailString().required(),
+  publicPhone: Joi.string().trim().min(6).max(32).required(),
+  whatsappUrl: Joi.string().trim().max(500).allow("", null),
+  contactName: Joi.string().trim().max(120).allow("", null),
+  contactHours: Joi.string().trim().max(300).allow("", null),
+  affiliationStatus: Joi.string()
+    .valid("none", "applicant", "affiliated", "suspended")
+    .default("none"),
+  affiliationNumber: Joi.string().trim().max(80).allow("", null),
+  insuranceCertificateUrl: Joi.string().trim().max(2500).allow("", null),
+  acceptsPublicListing: Joi.boolean()
+    .valid(true)
+    .required()
+    .messages({ "any.only": "Debes consentir la publicación en el directorio" }),
+  dataProcessingConsentAt: Joi.string().trim().min(10).max(40).required(),
+  location: clubLocationSchema.required(),
+  serviceCodes: Joi.array().items(Joi.string().max(40)).min(1).max(30).required(),
+}).unknown(true);
+
+export const clubUpdateSchema = Joi.object({
+  name: Joi.string().trim().min(3).max(140),
+  description: Joi.string().trim().min(10).max(8000),
+  websiteUrl: Joi.string().trim().uri().max(500).allow("", null),
+  socialLinks: Joi.object().pattern(Joi.string(), Joi.string().trim().max(500)).max(10),
+  logoUrl: Joi.string().trim().max(2500).allow("", null),
+  coverImageUrl: Joi.string().trim().max(2500).allow("", null),
+  foundedYear: Joi.number().integer().min(1970).max(new Date().getFullYear()).allow(null, ""),
+  visibility: Joi.string().valid("public", "unlisted"),
+  localeDefault: Joi.string().valid("es", "ca"),
+  publicEmail: emailString(),
+  publicPhone: Joi.string().trim().min(6).max(32),
+  whatsappUrl: Joi.string().trim().max(500).allow("", null),
+  contactName: Joi.string().trim().max(120).allow("", null),
+  contactHours: Joi.string().trim().max(300).allow("", null),
+  affiliationStatus: Joi.string().valid("none", "applicant", "affiliated", "suspended"),
+  affiliationNumber: Joi.string().trim().max(80).allow("", null),
+  insuranceCertificateUrl: Joi.string().trim().max(2500).allow("", null),
+  acceptsPublicListing: Joi.boolean(),
+  dataProcessingConsentAt: Joi.string().trim().min(10).max(40),
+  location: clubLocationSchema,
+  serviceCodes: Joi.array().items(Joi.string().max(40)).min(1).max(30),
+  internalNotes: Joi.string().trim().max(2000).allow("", null),
+}).unknown(true);
+
+export const joinRequestSchema = Joi.object({
+  message: Joi.string().trim().allow("", null).max(600).default(""),
+}).unknown(true);
+
+export const invitationSchema = Joi.object({
+  invitedUserId: Joi.number().integer().positive().required().messages({
+    "number.base": "El usuario invitado es inválido",
+    "any.required": "El usuario invitado es obligatorio",
+  }),
+  message: Joi.string().trim().allow("", null).max(600).default(""),
+}).unknown(true);
+
+export const reviewSchema = Joi.object({
+  action: Joi.string().valid("approve", "reject").required(),
+  reason: Joi.string().trim().allow("", null).max(600).default(""),
+}).unknown(true);
+
 /**
  * Validate data against a schema
  *
@@ -181,4 +275,28 @@ export function validateChangePassword(data) {
  */
 export function validateRefreshToken(data) {
   return validate(refreshTokenSchema, data);
+}
+
+export function validateClub(data) {
+  return validate(clubSchema, data);
+}
+
+export function validateClubCreate(data) {
+  return validate(clubCreateSchema, data);
+}
+
+export function validateClubUpdate(data) {
+  return validate(clubUpdateSchema, data);
+}
+
+export function validateJoinRequest(data) {
+  return validate(joinRequestSchema, data);
+}
+
+export function validateInvitation(data) {
+  return validate(invitationSchema, data);
+}
+
+export function validateReview(data) {
+  return validate(reviewSchema, data);
 }

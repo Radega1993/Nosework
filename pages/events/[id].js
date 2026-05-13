@@ -32,7 +32,10 @@ export default function EventDetailPage() {
       try {
         setLoading(true);
         setError(null);
-        const response = await fetch(`/api/events/${id}`);
+        const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+        const response = await fetch(`/api/events/${id}`, {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        });
         
         if (response.status === 404) {
           setError("not-found");
@@ -47,7 +50,9 @@ export default function EventDetailPage() {
         setEvent(data.event);
 
         // Fetch related events (exclude current event)
-        const allEventsResponse = await fetch("/api/events");
+        const allEventsResponse = await fetch("/api/events", {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        });
         if (allEventsResponse.ok) {
           const allEventsData = await allEventsResponse.json();
           const upcoming = allEventsData.events

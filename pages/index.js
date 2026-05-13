@@ -31,7 +31,10 @@ export default function Home() {
   useEffect(() => {
     async function fetchEvents() {
       try {
-        const response = await fetch("/api/events");
+        const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+        const response = await fetch("/api/events", {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        });
         const data = await response.json();
         setEvents(data.events || []);
       } catch (error) {

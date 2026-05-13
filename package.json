@@ -19,6 +19,7 @@
     "test:unit:watch": "jest --watch",
     "test:unit:coverage": "jest --coverage",
     "verify:schema": "node scripts/verify-schema.js",
+    "db:seed": "node scripts/seed-demo-db.mjs --force",
     "optimize:club-logos": "node scripts/optimize-club-logos.mjs"
   },
   "dependencies": {

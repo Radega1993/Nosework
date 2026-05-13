@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { useContext, useState, useEffect } from "react";
 import AuthContext from "@/contexts/AuthContext";
+/* Selector ES/CA oculto temporalmente: versión solo castellano. Descomentar cuando se reactive el catalán.
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+*/
 import { useLocalizedLink } from "@/hooks/useLocalizedLink";
 
 export default function Navbar() {
@@ -72,11 +74,18 @@ export default function Navbar() {
                                 </Link>
                             </li>
                         )}
+                        {user?.role === "administrador" && (
+                            <li>
+                                <Link href="/dashboard/admin" className={navLinkClass}>
+                                    Admin
+                                </Link>
+                            </li>
+                        )}
                     </ul>
 
                     {/* Idioma + Login/Logout - derecha */}
                     <div className="hidden xl:flex items-center space-x-4">
-                        <LanguageSwitcher />
+                        {/* <LanguageSwitcher /> */}
                         {user ? (
                             <button
                                 onClick={logout}
@@ -162,11 +171,20 @@ export default function Navbar() {
                                 Dashboard
                             </Link>
                         )}
+                        {user?.role === "administrador" && (
+                            <Link
+                                href="/dashboard/admin"
+                                className="block px-4 py-3 text-white hover:text-secondary-container hover:bg-white/10 rounded-lg transition-colors duration-200 font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary-container focus-visible:ring-inset"
+                                onClick={closeMenu}
+                            >
+                                Admin
+                            </Link>
+                        )}
                     </ul>
                     <div className="mt-auto pt-4 border-t border-white/20 space-y-2">
-                        <div className="px-4">
+                        {/* <div className="px-4">
                             <LanguageSwitcher />
-                        </div>
+                        </div> */}
                         {user ? (
                             <button
                                 type="button"

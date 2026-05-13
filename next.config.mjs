@@ -128,6 +128,30 @@ const nextConfig = {
         source: '/ca/eventos/:id',
         destination: '/events/:id',
       },
+      {
+        source: '/es/eventos/:id/register',
+        destination: '/events/:id/register',
+      },
+      {
+        source: '/ca/eventos/:id/register',
+        destination: '/events/:id/register',
+      },
+      {
+        source: '/es/dashboard',
+        destination: '/dashboard',
+      },
+      {
+        source: '/ca/dashboard',
+        destination: '/dashboard',
+      },
+      {
+        source: '/es/dashboard/:path*',
+        destination: '/dashboard/:path*',
+      },
+      {
+        source: '/ca/dashboard/:path*',
+        destination: '/dashboard/:path*',
+      },
     ];
   },
 };

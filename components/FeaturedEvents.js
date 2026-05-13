@@ -26,7 +26,10 @@ export default function FeaturedEvents() {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch("/api/events");
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+      const response = await fetch("/api/events", {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
       if (!response.ok) throw new Error("Error al cargar eventos");
       const data = await response.json();
       const allEvents = data.events || [];

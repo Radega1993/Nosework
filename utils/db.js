@@ -1,6 +1,115 @@
 import Database from "better-sqlite3";
+import { ensureClubDirectorySchema } from "./clubDirectoryMigrations.js";
+import { ensureEventClubColumns } from "./eventClubMigrations.js";
 
 let db;
+
+/**
+ * Migraciones idempotentes de clubs / membresías.
+ * Se ejecuta en cada getDBConnection para reparar BDs antiguas o init a medias
+ * (p. ej. índice sobre status antes de existir la columna).
+ */
+function ensureClubsMembershipMigrations(conn) {
+    try {
+        conn.prepare(`ALTER TABLE clubs ADD COLUMN status TEXT NOT NULL DEFAULT 'approved'`).run();
+    } catch (e) {
+        // columna ya existe
+    }
+    try {
+        conn.prepare(`ALTER TABLE clubs ADD COLUMN reviewed_by INTEGER REFERENCES users(id)`).run();
+    } catch (e) {
+        // columna ya existe
+    }
+    try {
+        conn.prepare(`ALTER TABLE clubs ADD COLUMN reviewed_at TEXT`).run();
+    } catch (e) {
+        // columna ya existe
+    }
+    try {
+        conn.prepare(`ALTER TABLE clubs ADD COLUMN rejection_reason TEXT`).run();
+    } catch (e) {
+        // columna ya existe
+    }
+    try {
+        conn.prepare(`ALTER TABLE clubs ADD COLUMN updated_at TEXT DEFAULT CURRENT_TIMESTAMP`).run();
+    } catch (e) {
+        // columna ya existe
+    }
+    try {
+        conn.prepare(`CREATE INDEX IF NOT EXISTS idx_clubs_status ON clubs(status)`).run();
+    } catch (e) {
+        // p. ej. columna aún no aplicable en casos extremos
+    }
+
+    conn.prepare(`
+            CREATE TABLE IF NOT EXISTS club_memberships (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                club_id INTEGER NOT NULL,
+                user_id INTEGER NOT NULL,
+                role TEXT NOT NULL DEFAULT 'member',
+                status TEXT NOT NULL DEFAULT 'active',
+                approved_by_user_id INTEGER,
+                joined_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE (club_id, user_id),
+                FOREIGN KEY (club_id) REFERENCES clubs(id) ON DELETE CASCADE,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY (approved_by_user_id) REFERENCES users(id) ON DELETE SET NULL
+            )
+        `).run();
+    conn.prepare(`CREATE INDEX IF NOT EXISTS idx_club_memberships_club ON club_memberships(club_id)`).run();
+    conn.prepare(`CREATE INDEX IF NOT EXISTS idx_club_memberships_user ON club_memberships(user_id)`).run();
+    conn.prepare(`CREATE INDEX IF NOT EXISTS idx_club_memberships_status ON club_memberships(status)`).run();
+
+    conn.prepare(`
+            CREATE TABLE IF NOT EXISTS club_join_requests (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                club_id INTEGER NOT NULL,
+                user_id INTEGER NOT NULL,
+                message TEXT,
+                status TEXT NOT NULL DEFAULT 'pending',
+                reviewed_by_user_id INTEGER,
+                reviewed_at TEXT,
+                rejection_reason TEXT,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (club_id) REFERENCES clubs(id) ON DELETE CASCADE,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY (reviewed_by_user_id) REFERENCES users(id) ON DELETE SET NULL
+            )
+        `).run();
+    conn.prepare(`CREATE INDEX IF NOT EXISTS idx_join_requests_club_status ON club_join_requests(club_id, status)`).run();
+    conn.prepare(`CREATE INDEX IF NOT EXISTS idx_join_requests_user_status ON club_join_requests(user_id, status)`).run();
+
+    conn.prepare(`
+            CREATE TABLE IF NOT EXISTS club_invitations (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                club_id INTEGER NOT NULL,
+                invited_user_id INTEGER NOT NULL,
+                invited_by_user_id INTEGER NOT NULL,
+                message TEXT,
+                status TEXT NOT NULL DEFAULT 'pending',
+                responded_at TEXT,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (club_id) REFERENCES clubs(id) ON DELETE CASCADE,
+                FOREIGN KEY (invited_user_id) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY (invited_by_user_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+        `).run();
+    conn.prepare(`CREATE INDEX IF NOT EXISTS idx_club_invites_user_status ON club_invitations(invited_user_id, status)`).run();
+    conn.prepare(`CREATE INDEX IF NOT EXISTS idx_club_invites_club_status ON club_invitations(club_id, status)`).run();
+
+    try {
+        conn.prepare(
+            `INSERT OR IGNORE INTO club_memberships (club_id, user_id, role, status, joined_at, updated_at)
+             SELECT club_id, user_id, 'member', 'active', created_at, CURRENT_TIMESTAMP
+             FROM club_members`
+        ).run();
+    } catch (e) {
+        // club_members puede no existir en BDs muy antiguas
+    }
+}
 
 export function getDBConnection() {
     if (!db) {
@@ -100,11 +209,44 @@ export function getDBConnection() {
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
                 owner_user_id INTEGER NOT NULL,
+                status TEXT NOT NULL DEFAULT 'approved',
+                reviewed_by INTEGER,
+                reviewed_at TEXT,
+                rejection_reason TEXT,
+                updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (owner_user_id) REFERENCES users(id) ON DELETE CASCADE
+                FOREIGN KEY (owner_user_id) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY (reviewed_by) REFERENCES users(id) ON DELETE SET NULL
             )
         `).run();
         db.prepare(`CREATE INDEX IF NOT EXISTS idx_clubs_owner ON clubs(owner_user_id)`).run();
+
+        try {
+            db.prepare(`ALTER TABLE clubs ADD COLUMN status TEXT NOT NULL DEFAULT 'approved'`).run();
+        } catch (e) {
+            // Campo ya existe
+        }
+        try {
+            db.prepare(`ALTER TABLE clubs ADD COLUMN reviewed_by INTEGER REFERENCES users(id)`).run();
+        } catch (e) {
+            // Campo ya existe
+        }
+        try {
+            db.prepare(`ALTER TABLE clubs ADD COLUMN reviewed_at TEXT`).run();
+        } catch (e) {
+            // Campo ya existe
+        }
+        try {
+            db.prepare(`ALTER TABLE clubs ADD COLUMN rejection_reason TEXT`).run();
+        } catch (e) {
+            // Campo ya existe
+        }
+        try {
+            db.prepare(`ALTER TABLE clubs ADD COLUMN updated_at TEXT DEFAULT CURRENT_TIMESTAMP`).run();
+        } catch (e) {
+            // Campo ya existe
+        }
+        db.prepare(`CREATE INDEX IF NOT EXISTS idx_clubs_status ON clubs(status)`).run();
 
         db.prepare(`
             CREATE TABLE IF NOT EXISTS club_members (
@@ -117,6 +259,72 @@ export function getDBConnection() {
             )
         `).run();
         db.prepare(`CREATE INDEX IF NOT EXISTS idx_club_members_user ON club_members(user_id)`).run();
+
+        db.prepare(`
+            CREATE TABLE IF NOT EXISTS club_memberships (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                club_id INTEGER NOT NULL,
+                user_id INTEGER NOT NULL,
+                role TEXT NOT NULL DEFAULT 'member',
+                status TEXT NOT NULL DEFAULT 'active',
+                approved_by_user_id INTEGER,
+                joined_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE (club_id, user_id),
+                FOREIGN KEY (club_id) REFERENCES clubs(id) ON DELETE CASCADE,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY (approved_by_user_id) REFERENCES users(id) ON DELETE SET NULL
+            )
+        `).run();
+        db.prepare(`CREATE INDEX IF NOT EXISTS idx_club_memberships_club ON club_memberships(club_id)`).run();
+        db.prepare(`CREATE INDEX IF NOT EXISTS idx_club_memberships_user ON club_memberships(user_id)`).run();
+        db.prepare(`CREATE INDEX IF NOT EXISTS idx_club_memberships_status ON club_memberships(status)`).run();
+
+        db.prepare(`
+            CREATE TABLE IF NOT EXISTS club_join_requests (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                club_id INTEGER NOT NULL,
+                user_id INTEGER NOT NULL,
+                message TEXT,
+                status TEXT NOT NULL DEFAULT 'pending',
+                reviewed_by_user_id INTEGER,
+                reviewed_at TEXT,
+                rejection_reason TEXT,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (club_id) REFERENCES clubs(id) ON DELETE CASCADE,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY (reviewed_by_user_id) REFERENCES users(id) ON DELETE SET NULL
+            )
+        `).run();
+        db.prepare(`CREATE INDEX IF NOT EXISTS idx_join_requests_club_status ON club_join_requests(club_id, status)`).run();
+        db.prepare(`CREATE INDEX IF NOT EXISTS idx_join_requests_user_status ON club_join_requests(user_id, status)`).run();
+
+        db.prepare(`
+            CREATE TABLE IF NOT EXISTS club_invitations (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                club_id INTEGER NOT NULL,
+                invited_user_id INTEGER NOT NULL,
+                invited_by_user_id INTEGER NOT NULL,
+                message TEXT,
+                status TEXT NOT NULL DEFAULT 'pending',
+                responded_at TEXT,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (club_id) REFERENCES clubs(id) ON DELETE CASCADE,
+                FOREIGN KEY (invited_user_id) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY (invited_by_user_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+        `).run();
+        db.prepare(`CREATE INDEX IF NOT EXISTS idx_club_invites_user_status ON club_invitations(invited_user_id, status)`).run();
+        db.prepare(`CREATE INDEX IF NOT EXISTS idx_club_invites_club_status ON club_invitations(club_id, status)`).run();
+
+        // Migración legacy club_members -> club_memberships
+        db.prepare(
+            `INSERT OR IGNORE INTO club_memberships (club_id, user_id, role, status, joined_at, updated_at)
+             SELECT club_id, user_id, 'member', 'active', created_at, CURRENT_TIMESTAMP
+             FROM club_members`
+        ).run();
 
         db.prepare(`
             CREATE TABLE IF NOT EXISTS dogs (
@@ -216,5 +424,8 @@ export function getDBConnection() {
         db.prepare(`CREATE INDEX IF NOT EXISTS idx_audit_logs_created ON audit_logs(created_at)`).run();
         db.prepare(`CREATE INDEX IF NOT EXISTS idx_users_locked_until ON users(account_locked_until)`).run();
     }
+    ensureClubsMembershipMigrations(db);
+    ensureClubDirectorySchema(db);
+    ensureEventClubColumns(db);
     return db;
 }

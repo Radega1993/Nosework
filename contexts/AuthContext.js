@@ -111,7 +111,7 @@ export const AuthProvider = ({ children }) => {
             try {
                 const decoded = jwtDecode(token);
                 const now = Date.now() / 1000;
-                if (decoded.exp && decoded.exp < now + 60) {
+                if (decoded.exp && decoded.exp < now + 6 * 60 * 60) {
                     // Token expired or expiring soon, refresh it
                     if (refreshToken) {
                         const refreshedToken = await refreshAccessToken(refreshToken);

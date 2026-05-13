@@ -19,7 +19,12 @@ export default function ClubsPartnerGrid({ clubs, contactHref }) {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {clubs.map((club, index) => (
-              <ClubPartnerCard key={club.slug} club={club} contactHref={contactHref} priority={index < 4} />
+              <ClubPartnerCard
+                key={club.directoryKey || club.slug}
+                club={club}
+                contactHref={contactHref}
+                priority={index < 4}
+              />
             ))}
           </div>
         )}

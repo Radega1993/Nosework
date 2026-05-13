@@ -139,7 +139,7 @@ export default function handler(req, res) {
     });
 
     const refreshToken = generateRefreshToken();
-    const refreshTokenExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+    const refreshTokenExpiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days
 
     // Store refresh token
     storeRefreshToken(user.id, refreshToken, refreshTokenExpiresAt);

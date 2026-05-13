@@ -157,5 +157,5 @@ export function generateAccessToken(payload) {
     throw new Error("JWT_SECRET environment variable is not set");
   }
   
-  return jwt.sign(payload, secret, { expiresIn: "15m" });
+  return jwt.sign(payload, secret, { expiresIn: "7d" });
 }

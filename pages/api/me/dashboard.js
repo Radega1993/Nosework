@@ -46,15 +46,54 @@ export default function handler(req, res) {
       };
 
       const ownedClubs = db
-        .prepare(`SELECT id, name, created_at FROM clubs WHERE owner_user_id = ? ORDER BY name`)
+        .prepare(
+          `SELECT id, COALESCE(NULLIF(TRIM(display_name), ''), name) AS name, status, slug, created_at
+           FROM clubs WHERE owner_user_id = ? ORDER BY name COLLATE NOCASE`
+        )
         .all(userId);
 
       const memberClubs = db
         .prepare(
           `SELECT c.id, c.name, c.created_at
            FROM clubs c
-           INNER JOIN club_members m ON m.club_id = c.id AND m.user_id = ?
+           INNER JOIN club_memberships m ON m.club_id = c.id AND m.user_id = ? AND m.status = 'active'
            ORDER BY c.name`
+        )
+        .all(userId);
+
+      const ownerPendingRequests = db
+        .prepare(
+          `SELECT r.id, r.club_id, c.name AS club_name, r.user_id, r.status, r.created_at,
+                  COALESCE(up.display_name, u.email) AS user_name
+           FROM club_join_requests r
+           JOIN clubs c ON c.id = r.club_id
+           JOIN users u ON u.id = r.user_id
+           LEFT JOIN user_profiles up ON up.user_id = r.user_id
+           WHERE c.owner_user_id = ? AND r.status = 'pending'
+           ORDER BY r.created_at DESC
+           LIMIT 10`
+        )
+        .all(userId);
+
+      const myPendingInvitations = db
+        .prepare(
+          `SELECT i.id, i.club_id, c.name AS club_name, i.status, i.created_at
+           FROM club_invitations i
+           JOIN clubs c ON c.id = i.club_id
+           WHERE i.invited_user_id = ? AND i.status = 'pending'
+           ORDER BY i.created_at DESC
+           LIMIT 10`
+        )
+        .all(userId);
+
+      const myPendingJoinRequests = db
+        .prepare(
+          `SELECT r.id, r.club_id, c.name AS club_name, r.status, r.created_at
+           FROM club_join_requests r
+           JOIN clubs c ON c.id = r.club_id
+           WHERE r.user_id = ? AND r.status = 'pending'
+           ORDER BY r.created_at DESC
+           LIMIT 10`
         )
         .all(userId);
 
@@ -99,6 +138,7 @@ export default function handler(req, res) {
         .all(userId);
 
       const canOrganizeEvents = userCanOrganizeEvents(db, userId, role);
+      const isAdmin = role === "administrador";
 
       return res.status(200).json({
         profile,
@@ -114,6 +154,12 @@ export default function handler(req, res) {
         titles,
         capabilities: {
           canOrganizeEvents,
+          isAdmin,
+        },
+        workflows: {
+          ownerPendingRequests,
+          myPendingInvitations,
+          myPendingJoinRequests,
         },
       });
     } catch (error) {

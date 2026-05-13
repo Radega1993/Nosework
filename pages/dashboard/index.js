@@ -68,7 +68,11 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-surface text-on-surface flex flex-col md:flex-row">
-      <DashboardSidebar onLogout={logout} isJudge={Boolean(user.is_judge)} />
+      <DashboardSidebar
+        onLogout={logout}
+        isJudge={Boolean(user.is_judge)}
+        isAdmin={Boolean(dash?.capabilities?.isAdmin)}
+      />
 
       <div className="flex-1 md:ml-72 min-h-screen flex flex-col">
         <main className="flex-1 p-6 lg:p-8 max-w-container-max mx-auto w-full">
@@ -101,6 +105,24 @@ export default function DashboardPage() {
               </div>
 
               <DashboardTitlesTable titles={dash.titles} />
+
+              <section className="mt-8 rounded-xl border border-outline-variant bg-surface-container-low p-4 md:p-5">
+                <h2 className="font-montserrat text-lg font-bold text-primary mb-3">Bandejas rápidas</h2>
+                <div className="grid md:grid-cols-3 gap-3 text-sm">
+                  <div className="rounded-lg bg-white border border-surface-container p-3">
+                    <p className="text-on-surface-variant">Solicitudes pendientes en tus clubs</p>
+                    <p className="text-xl font-bold text-primary">{dash.workflows?.ownerPendingRequests?.length || 0}</p>
+                  </div>
+                  <div className="rounded-lg bg-white border border-surface-container p-3">
+                    <p className="text-on-surface-variant">Invitaciones para ti</p>
+                    <p className="text-xl font-bold text-primary">{dash.workflows?.myPendingInvitations?.length || 0}</p>
+                  </div>
+                  <div className="rounded-lg bg-white border border-surface-container p-3">
+                    <p className="text-on-surface-variant">Solicitudes enviadas por ti</p>
+                    <p className="text-xl font-bold text-primary">{dash.workflows?.myPendingJoinRequests?.length || 0}</p>
+                  </div>
+                </div>
+              </section>
 
               {dash.capabilities?.canOrganizeEvents ? (
                 <div className="mt-10">

@@ -11,6 +11,7 @@ export default function ClubsFiltersMap({
   onProvinceChange,
   onServiceToggle,
   onApply,
+  provinceOptions = CLUB_PROVINCE_OPTIONS,
 }) {
   return (
     <section className="max-w-container-max mx-auto px-6 py-10 md:py-14">
@@ -29,7 +30,7 @@ export default function ClubsFiltersMap({
                   onChange={(e) => onProvinceChange(e.target.value)}
                 >
                   <option value="Todas">Todas las provincias</option>
-                  {CLUB_PROVINCE_OPTIONS.map((p) => (
+                  {provinceOptions.map((p) => (
                     <option key={p} value={p}>
                       {p}
                     </option>
