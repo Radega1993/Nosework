@@ -74,4 +74,53 @@
     background-color: #6ee7b7; /* Tailwind green-300 */
     color: white;
   }
-  
+
+  /*
+   * react-calendar default: .react-calendar__month-view__days__day--weekend { color: #d10000 }
+   * Importing Calendar.css twice (e.g. _app + component) can restore that red after our .tile rules.
+   * Override with FDDN neutrals + light tint so weekends read clearly without “alert” red.
+   */
+  .react-calendar__month-view__days__day--weekend.react-calendar__tile {
+    color: #44474d;
+    background-color: rgba(80, 102, 0, 0.06);
+  }
+
+  .react-calendar__month-view__days__day--weekend.react-calendar__tile:enabled:hover,
+  .react-calendar__month-view__days__day--weekend.react-calendar__tile:enabled:focus {
+    color: #191c1e;
+    background-color: #eceef1;
+  }
+
+  .react-calendar__tile--now.react-calendar__month-view__days__day--weekend {
+    color: #1e40af;
+    background-color: #dbeafe;
+  }
+
+  .react-calendar__tile--now.react-calendar__month-view__days__day--weekend:enabled:hover,
+  .react-calendar__tile--now.react-calendar__month-view__days__day--weekend:enabled:focus {
+    color: #1e3a8a;
+    background-color: #bfdbfe;
+  }
+
+  .react-calendar__tile--active.react-calendar__month-view__days__day--weekend {
+    color: #ffffff;
+    background-color: #3b82f6;
+  }
+
+  .react-calendar__tile--active.react-calendar__month-view__days__day--weekend:enabled:hover,
+  .react-calendar__tile--active.react-calendar__month-view__days__day--weekend:enabled:focus {
+    color: #ffffff;
+    background-color: #2563eb;
+  }
+
+  /* Días del mes anterior/siguiente: sin tinte fin de semana encima del gris */
+  .react-calendar__month-view__days__day--neighboringMonth.react-calendar__month-view__days__day--weekend {
+    color: #757575;
+    background-color: transparent;
+  }
+
+  .react-calendar__month-view__days__day--neighboringMonth.react-calendar__month-view__days__day--weekend:enabled:hover,
+  .react-calendar__month-view__days__day--neighboringMonth.react-calendar__month-view__days__day--weekend:enabled:focus {
+    color: #4b5563;
+    background-color: #f3f4f6;
+  }

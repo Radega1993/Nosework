@@ -1,0 +1,279 @@
+{
+  "clubs": [
+    {
+      "slug": "biomarkers-k9",
+      "name": "Biomarkers K9",
+      "sourceFile": " Clubbiomarkersk9.jpg",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "can-laura",
+      "name": "Can Laura",
+      "sourceFile": "canlaura.jpg",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "cerk-9",
+      "name": "CERK-9 Detecció Món Instint",
+      "sourceFile": "Logo_CERK-9 DETECCIÓ_món-instint.svg",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "chula-the-dog",
+      "name": "Chula The Dog",
+      "sourceFile": "chula_the_dog.png",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "cinemascotas",
+      "name": "Cinemascotas",
+      "sourceFile": "CINEMASCOTAS-blanco.png",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "codo-con-pata",
+      "name": "Codo con Pata",
+      "sourceFile": "codo_con_pata.png",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "detec-can",
+      "name": "Detec-Can",
+      "sourceFile": "detec-can.jpg",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "dognose",
+      "name": "Dognose",
+      "sourceFile": "dognose.png",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "escola-canina-anoia",
+      "name": "Escola Canina Anoia",
+      "sourceFile": "escolaCaninaAnoia1.png",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "isaylos-dogs",
+      "name": "Isaylos Dogs",
+      "sourceFile": "IsaylosDogs.png",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "k9j-training",
+      "name": "K9J Training",
+      "sourceFile": "k9jtraining.jpg",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "meraki",
+      "name": "Meraki",
+      "sourceFile": "meraki.tif",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "moes-dogs",
+      "name": "Moe's Dogs",
+      "sourceFile": "moes_dogs.jpeg",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "mooican",
+      "name": "Mooican",
+      "sourceFile": "mooican.png",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "natural-dog",
+      "name": "Natural Dog",
+      "sourceFile": "NaturalDog.jpeg",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "nube-k9-maliland",
+      "name": "Nube K9 Maliland",
+      "sourceFile": "nubek9maliland.webp",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "olfato-k9",
+      "name": "Olfato K9",
+      "sourceFile": "olfatok9.jpg",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "perros-de-busqueda",
+      "name": "Perros de Búsqueda",
+      "sourceFile": "PerrosdeBusqueda.png",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "perry-gatos",
+      "name": "Perry Gatos",
+      "sourceFile": "Logo Perrygatos_fondo blanco.jpg",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "rock-a-dog",
+      "name": "Rock a Dog",
+      "sourceFile": "500x500.jpg",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "scent-dogs",
+      "name": "Scent Dogs",
+      "sourceFile": "scent_dogs.png",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "selcan",
+      "name": "Selcan",
+      "sourceFile": "selcan.png",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "trebacan",
+      "name": "Trebacan",
+      "sourceFile": "TREBACAN TODO SVG.svg",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "tribu",
+      "name": "Tribu",
+      "sourceFile": "tribu.png",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
+      "slug": "zauri",
+      "name": "Zauri",
+      "sourceFile": "zauri.jpg",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    }
+  ]
+}

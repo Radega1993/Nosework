@@ -135,6 +135,7 @@ export default function handler(req, res) {
       id: user.id,
       email: user.email,
       role: user.role,
+      is_judge: Boolean(user.is_judge),
     });
 
     const refreshToken = generateRefreshToken();
@@ -149,7 +150,7 @@ export default function handler(req, res) {
     return res.status(200).json({
       token: accessToken,
       refreshToken: refreshToken,
-      user: { id: user.id, email: user.email, role: user.role },
+      user: { id: user.id, email: user.email, role: user.role, is_judge: Boolean(user.is_judge) },
     });
   } catch (error) {
     console.error("Error in login:", error);

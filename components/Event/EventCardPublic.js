@@ -34,11 +34,18 @@ function formatDateShort(dateString) {
  * @param {string} linkText - Link text (e.g. "Leer más", "Ver detalles")
  * @param {string} variant - "default" | "featured" (homepage: image, date label, title, link; hover zoom + title color)
  */
-function EventCardPublic({ event, compact = false, showImage = true, linkText = "Ver detalles →", variant = "default" }) {
+function EventCardPublic({
+  event,
+  compact = false,
+  showImage = true,
+  linkText = "Ver detalles →",
+  variant = "default",
+  detailHref: detailHrefProp,
+}) {
   if (!event) return null;
 
   const isFeatured = variant === "featured";
-  const detailHref = `/events/${event.id}`;
+  const detailHref = detailHrefProp ?? `/events/${event.id}`;
 
   if (isFeatured) {
     return (

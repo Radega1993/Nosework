@@ -7,6 +7,26 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        secondary: '#506600',
+        'secondary-container': '#c1f100',
+        'on-secondary-container': '#546b00',
+        surface: '#f7f9fc',
+        'surface-dim': '#d8dadd',
+        'surface-container': '#eceef1',
+        'surface-container-low': '#f2f4f7',
+        'surface-container-high': '#e6e8eb',
+        'surface-container-highest': '#e0e3e6',
+        'surface-container-lowest': '#ffffff',
+        'surface-variant': '#e0e3e6',
+        'on-surface': '#191c1e',
+        'on-surface-variant': '#44474d',
+        outline: '#75777e',
+        'outline-variant': '#c5c6ce',
+        'primary-container': '#1a2b45',
+        'on-primary-container': '#8293b2',
+        'on-secondary': '#ffffff',
+        'secondary-fixed': '#c3f400',
+        'primary-fixed': '#d6e3ff',
         // UI redesign: navy & gold palette (spec ui-system)
         navy: {
           DEFAULT: '#0F2A44',
@@ -44,6 +64,7 @@ module.exports = {
           'text-medium': '#4A5568',
         },
         primary: {
+          DEFAULT: '#04162f',
           50: '#ecfdf5',
           100: '#d1fae5',
           200: '#a7f3d0',
@@ -56,6 +77,7 @@ module.exports = {
           900: '#064e3b',
         },
         secondary: {
+          DEFAULT: '#506600',
           50: '#eff6ff',
           100: '#dbeafe',
           200: '#bfdbfe',
@@ -81,6 +103,7 @@ module.exports = {
         },
       },
       fontFamily: {
+        montserrat: ['Montserrat', 'var(--font-inter)', 'sans-serif'],
         sans: [
           'var(--font-inter)',
           '-apple-system',
@@ -93,6 +116,11 @@ module.exports = {
         ],
       },
       fontSize: {
+        'headline-h1': ['2.25rem', { lineHeight: '1.2', fontWeight: '700' }],
+        'headline-h2': ['1.75rem', { lineHeight: '1.3', fontWeight: '600' }],
+        'headline-h3': ['1.25rem', { lineHeight: '1.4', fontWeight: '600' }],
+        'body-md': ['1rem', { lineHeight: '1.5', fontWeight: '400' }],
+        'body-lg': ['1.125rem', { lineHeight: '1.6', fontWeight: '400' }],
         'display': ['3.5rem', { lineHeight: '1.1', fontWeight: '700' }],
         /* UI redesign (spec): H1 56px desktop / 36px mobile, H2 36px, H3 24px, body 16px, highlight 18px */
         'h1': ['3rem', { lineHeight: '1.2', fontWeight: '700' }],
@@ -114,6 +142,7 @@ module.exports = {
       },
       maxWidth: {
         'content': '1200px',
+        'container-max': '1280px',
       },
       spacing: {
         '18': '4.5rem',
@@ -121,8 +150,10 @@ module.exports = {
         '128': '32rem',
       },
       boxShadow: {
-        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
-        'medium': '0 4px 25px -2px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+        soft: '0 4px 12px rgba(26, 43, 69, 0.05)',
+        hover: '0 8px 24px rgba(26, 43, 69, 0.1)',
+        'soft-legacy': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
+        medium: '0 4px 25px -2px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
       },
       borderRadius: {
         'xl': '1rem',

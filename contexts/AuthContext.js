@@ -37,6 +37,12 @@ export const AuthProvider = ({ children }) => {
         router.push("/login");
     }, [router]);
 
+    const clearAuthState = useCallback(() => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
+        setUser(null);
+    }, []);
+
     const refreshAccessToken = useCallback(async (refreshToken) => {
         try {
             const res = await fetch("/api/auth/refresh", {
@@ -53,21 +59,16 @@ export const AuthProvider = ({ children }) => {
                 setUser(decoded);
                 return data.token;
             } else {
-                // Refresh failed, clear tokens but don't logout (to avoid redirect loops)
-                localStorage.removeItem("token");
-                localStorage.removeItem("refreshToken");
-                setUser(null);
-                throw new Error("Failed to refresh token");
+                // Refresh failed (expired/invalid), clear session gracefully.
+                clearAuthState();
+                return null;
             }
         } catch (error) {
             console.error("Error refreshing token:", error);
-            // Clear tokens but don't logout (to avoid redirect loops)
-            localStorage.removeItem("token");
-            localStorage.removeItem("refreshToken");
-            setUser(null);
-            throw error;
+            clearAuthState();
+            return null;
         }
-    }, []);
+    }, [clearAuthState]);
 
     useEffect(() => {
         const initializeAuth = async () => {
@@ -82,38 +83,26 @@ export const AuthProvider = ({ children }) => {
                     if (decoded.exp && decoded.exp < now) {
                         // Token expired, try to refresh
                         if (refreshToken) {
-                            try {
-                                await refreshAccessToken(refreshToken);
-                            } catch (error) {
-                                // Refresh failed, clear tokens
-                                localStorage.removeItem("token");
-                                localStorage.removeItem("refreshToken");
-                                setUser(null);
-                            }
+                            await refreshAccessToken(refreshToken);
                         } else {
                             // No refresh token, clear and redirect to login
-                            localStorage.removeItem("token");
-                            localStorage.removeItem("refreshToken");
-                            setUser(null);
+                            clearAuthState();
                         }
                     } else {
                         setUser(decoded);
                     }
                 } catch (error) {
                     console.error("Error decoding token:", error);
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("refreshToken");
-                    setUser(null);
+                    clearAuthState();
                 }
             }
             setLoading(false);
         };
         
         initializeAuth();
-    }, [refreshAccessToken]);
+    }, [refreshAccessToken, clearAuthState]);
 
-    // Interceptor for API calls to refresh token automatically
-    const apiCall = async (url, options = {}) => {
+    const apiCall = useCallback(async (url, options = {}) => {
         let token = localStorage.getItem("token");
         const refreshToken = localStorage.getItem("refreshToken");
 
@@ -125,7 +114,8 @@ export const AuthProvider = ({ children }) => {
                 if (decoded.exp && decoded.exp < now + 60) {
                     // Token expired or expiring soon, refresh it
                     if (refreshToken) {
-                        token = await refreshAccessToken(refreshToken);
+                        const refreshedToken = await refreshAccessToken(refreshToken);
+                        token = refreshedToken || null;
                     }
                 }
             } catch (error) {
@@ -152,6 +142,10 @@ export const AuthProvider = ({ children }) => {
         if (response.status === 401 && refreshToken && token) {
             try {
                 const newToken = await refreshAccessToken(refreshToken);
+                if (!newToken) {
+                    await logout();
+                    return response;
+                }
                 // Retry request with new token
                 headers.Authorization = `Bearer ${newToken}`;
                 return fetch(url, {
@@ -160,14 +154,14 @@ export const AuthProvider = ({ children }) => {
                     credentials: "include", // Always include cookies for CSRF protection
                 });
             } catch (error) {
-                // Refresh failed, logout
-                logout();
-                throw error;
+                // Refresh failed, logout and return original 401.
+                await logout();
+                return response;
             }
         }
 
         return response;
-    };
+    }, [refreshAccessToken, logout]);
 
     const login = async (email, password, csrfToken = null) => {
         const res = await fetch("/api/auth/login", {

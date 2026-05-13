@@ -14,6 +14,9 @@ const nextConfig = {
       { source: '/community', destination: '/es/community', permanent: true },
       { source: '/join', destination: '/es/join', permanent: true },
       { source: '/clubs', destination: '/es/clubs', permanent: true },
+      { source: '/jueces-oficiales', destination: '/es/normativas', permanent: true },
+      { source: '/es/jueces-oficiales', destination: '/es/normativas', permanent: true },
+      { source: '/ca/jueces-oficiales', destination: '/es/normativas', permanent: true },
     ];
   },
   async rewrites() {

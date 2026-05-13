@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { isTokenBlacklisted } from "@/utils/tokenBlacklist";
+import { getDBConnection } from "@/utils/db";
 
 export function authenticateToken(req, res, next) {
     const token = req.headers["authorization"]?.split(" ")[1]; // Obtén el token del encabezado
@@ -34,4 +35,23 @@ export function authorizeRoles(...roles) {
         }
         next();
     };
+}
+
+/**
+ * Permite crear/gestionar eventos si rol organizador/admin o si es dueño de al menos un club.
+ */
+export function authorizeOrganizerCapable(req, res, next) {
+    if (!req.user) {
+        return res.status(401).json({ error: "No autorizado" });
+    }
+    const { id, role } = req.user;
+    if (role === "organizador" || role === "administrador") {
+        return next();
+    }
+    const db = getDBConnection();
+    const row = db.prepare("SELECT 1 AS ok FROM clubs WHERE owner_user_id = ? LIMIT 1").get(id);
+    if (row) {
+        return next();
+    }
+    return res.status(403).json({ error: "Acceso denegado" });
 }

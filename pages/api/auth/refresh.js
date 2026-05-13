@@ -36,7 +36,7 @@ export default function handler(req, res) {
     // Get user data
     const db = getDBConnection();
     const user = db
-      .prepare("SELECT id, email, role FROM users WHERE id = ?")
+      .prepare("SELECT id, email, role, COALESCE(is_judge, 0) AS is_judge FROM users WHERE id = ?")
       .get(tokenData.userId);
 
     if (!user) {
@@ -51,6 +51,7 @@ export default function handler(req, res) {
       id: user.id,
       email: user.email,
       role: user.role,
+      is_judge: Boolean(user.is_judge),
     });
 
     // Log successful refresh

@@ -8,7 +8,7 @@ const REGLEMENTO_DATE = "2025-02-01";
 
 export default function Reglamento() {
     return (
-        <div className="bg-[#F4F6F8] min-h-screen pt-20">
+        <div className="page-shell">
             {/* SEO */}
             <SEOHead
                 title="Reglamento Nosework Trial – Normativa oficial 2025"
@@ -25,10 +25,10 @@ export default function Reglamento() {
             <Navbar />
 
             {/* Hero Section */}
-            <header className="bg-navy text-white py-16 md:py-20 text-center">
+            <header className="hero-band">
                 <div className="container-redesign">
-                    <h1 className="text-h1-redesign-mobile md:text-h1-redesign font-bold mb-4">Reglamento Oficial</h1>
-                    <p className="text-xl md:text-2xl text-white/90">Normativa completa de Nosework Trial</p>
+                    <h1 className="text-headline-h1 md:text-display font-montserrat mb-4">Reglamento y normativa</h1>
+                    <p className="text-body-lg text-white/85">Normativa completa de Nosework Trial</p>
                 </div>
             </header>
 

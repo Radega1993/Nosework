@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import { getDBConnection } from "@/utils/db";
+import { createUserProfileForUser } from "@/utils/userProfile";
 import { validateRegister } from "@/utils/validation";
 import { sanitizeEmail } from "@/utils/sanitization";
 import { registerRateLimiter } from "@/utils/rateLimiter";
@@ -65,6 +66,12 @@ export default function handler(req, res) {
       .run(sanitizedEmail, hashedPassword);
 
     const userId = result.lastInsertRowid;
+
+    try {
+      createUserProfileForUser(db, userId, sanitizedEmail);
+    } catch (profileErr) {
+      console.error("Error creating user profile:", profileErr);
+    }
 
     // Log successful registration
     logAuditEvent("registration_success", {

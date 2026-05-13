@@ -309,6 +309,7 @@ describe('i18n utilities', () => {
   describe('mapRouteToPhysicalPath', () => {
     it('should map Spanish routes to physical page paths', () => {
       expect(mapRouteToPhysicalPath('/eventos')).toBe('/events');
+      expect(mapRouteToPhysicalPath('/eventos/42/resultados')).toBe('/events/42/resultados');
     });
 
     it('should return path unchanged if no mapping exists', () => {

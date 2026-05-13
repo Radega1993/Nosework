@@ -1,6 +1,6 @@
-import Link from "next/link";
 import Button from "@/components/Button";
 import { memo } from "react";
+import { useLocalizedLink } from "@/hooks/useLocalizedLink";
 
 /**
  * EventDetail component for displaying complete event information
@@ -29,17 +29,22 @@ function formatDateOnly(dateString) {
 }
 
 function EventDetail({ event }) {
+  const { localizedHref } = useLocalizedLink();
   if (!event) return null;
 
-  const isRegistrationOpen = event.status === "open" && 
+  const isRegistrationOpen =
+    event.status === "open" &&
     (!event.registration_end_date || new Date(event.registration_end_date) > new Date());
 
+  const locationLine = event.location || event.city || event.address || null;
+  const registerPath = `/eventos/${event.id}/register`;
+
   return (
-    <article className="space-y-8">
+    <article id="detalle-evento" className="space-y-8 scroll-mt-24">
       {/* Event Header */}
       <header>
         <h1 className="text-h1 font-bold mb-4 text-gray-900">{event.title}</h1>
-        
+
         {/* Level and Type Badges */}
         <div className="flex flex-wrap gap-2 mb-4">
           {event.level && (
@@ -47,8 +52,8 @@ function EventDetail({ event }) {
               {event.level === "base" || event.level === "Base"
                 ? "Base"
                 : event.level === "avanzado" || event.level === "Avanzado"
-                ? "Avanzado"
-                : event.level}
+                  ? "Avanzado"
+                  : event.level}
             </span>
           )}
           {event.type && (
@@ -57,51 +62,57 @@ function EventDetail({ event }) {
             </span>
           )}
           {event.status && (
-            <span className={`inline-block px-4 py-2 text-sm font-semibold rounded-full ${
-              event.status === "open" ? "bg-green-100 text-green-700" :
-              event.status === "closed" ? "bg-gray-100 text-gray-700" :
-              "bg-red-100 text-red-700"
-            }`}>
+            <span
+              className={`inline-block px-4 py-2 text-sm font-semibold rounded-full ${
+                event.status === "open"
+                  ? "bg-green-100 text-green-700"
+                  : event.status === "closed"
+                    ? "bg-gray-100 text-gray-700"
+                    : "bg-red-100 text-red-700"
+              }`}
+            >
               {event.status === "open" ? "Abierto" : event.status === "closed" ? "Cerrado" : "Cancelado"}
             </span>
           )}
         </div>
       </header>
 
-      {/* Event Description */}
-      {event.description && (
-        <section>
-          <h2 className="text-h3 font-bold mb-3 text-gray-900">Descripción</h2>
-          <div className="prose max-w-none">
+      {/* Event Description — siempre visible si el organizador la rellenó */}
+      <section>
+        <h2 className="text-h3 font-bold mb-3 text-gray-900">Información publicada por el organizador</h2>
+        {event.description ? (
+          <div className="prose max-w-none rounded-xl border border-gray-200 bg-white p-6">
             <p className="text-body text-gray-700 whitespace-pre-line">{event.description}</p>
           </div>
-        </section>
-      )}
+        ) : (
+          <p className="text-body text-gray-600">El organizador aún no ha publicado una descripción detallada.</p>
+        )}
+      </section>
 
-      {/* Event Details Grid */}
+      {/* Event Details Grid — campos que el creador puede completar en el futuro; hoy con fallbacks */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Date and Time */}
         <div className="card">
-          <h3 className="text-h4 font-bold mb-3 text-gray-900">Fecha y Hora</h3>
-          <p className="text-body text-gray-700">
-            {formatDateSpanish(event.date)}
-          </p>
+          <h3 className="text-h4 font-bold mb-3 text-gray-900">Fecha y hora</h3>
+          <p className="text-body text-gray-700">{formatDateSpanish(event.date)}</p>
         </div>
 
-        {/* Location */}
-        {(event.location || event.address || event.city) && (
-          <div className="card">
-            <h3 className="text-h4 font-bold mb-3 text-gray-900">Ubicación</h3>
+        <div className="card">
+          <h3 className="text-h4 font-bold mb-3 text-gray-900">Ubicación</h3>
+          {locationLine ? (
             <div className="space-y-1 text-body text-gray-700">
               {event.location && <p>{event.location}</p>}
               {event.address && <p>{event.address}</p>}
               {event.city && event.postal_code && (
-                <p>{event.postal_code} {event.city}</p>
+                <p>
+                  {event.postal_code} {event.city}
+                </p>
               )}
               {event.city && !event.postal_code && <p>{event.city}</p>}
             </div>
-          </div>
-        )}
+          ) : (
+            <p className="text-body text-gray-600">Por confirmar. Consulta la descripción o contacta con el organizador.</p>
+          )}
+        </div>
       </section>
 
       {/* Registration Information */}
@@ -176,9 +187,9 @@ function EventDetail({ event }) {
 
       {/* Registration CTA */}
       {isRegistrationOpen && (
-        <div className="flex justify-center">
+        <div id="inscripcion" className="flex justify-center scroll-mt-24">
           <Button
-            href={`/events/${event.id}/register`}
+            href={localizedHref(registerPath)}
             variant="primary"
             size="large"
             aria-label={`Inscribirse en ${event.title}`}

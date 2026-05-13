@@ -16,6 +16,29 @@ export function getDBConnection() {
             )
         `).run();
 
+        // Resultados publicados por prueba (clasificaciones)
+        db.prepare(`
+            CREATE TABLE IF NOT EXISTS event_results (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                event_id INTEGER NOT NULL,
+                trial_date TEXT,
+                level TEXT NOT NULL,
+                dog_name TEXT NOT NULL,
+                handler_name TEXT NOT NULL,
+                club TEXT,
+                province TEXT,
+                time_text TEXT,
+                penalties INTEGER NOT NULL DEFAULT 0,
+                position INTEGER,
+                title TEXT,
+                points REAL NOT NULL DEFAULT 0,
+                FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
+            )
+        `).run();
+        db.prepare(`CREATE INDEX IF NOT EXISTS idx_event_results_event_id ON event_results(event_id)`).run();
+        db.prepare(`CREATE INDEX IF NOT EXISTS idx_event_results_trial_date ON event_results(trial_date)`).run();
+        db.prepare(`CREATE INDEX IF NOT EXISTS idx_event_results_level ON event_results(level)`).run();
+
         // Inicializar tabla de usuarios
         db.prepare(`
             CREATE TABLE IF NOT EXISTS users (
@@ -38,6 +61,116 @@ export function getDBConnection() {
             db.prepare(`ALTER TABLE users ADD COLUMN account_locked_until TEXT`).run();
         } catch (e) {
             // Campo ya existe, ignorar error
+        }
+        try {
+            db.prepare(`ALTER TABLE users ADD COLUMN is_judge INTEGER NOT NULL DEFAULT 0`).run();
+        } catch (e) {
+            // Campo ya existe
+        }
+
+        try {
+            db.prepare(`ALTER TABLE events ADD COLUMN organizer_user_id INTEGER REFERENCES users(id)`).run();
+        } catch (e) {
+            // Campo ya existe
+        }
+
+        try {
+            db.prepare(
+                `ALTER TABLE event_results ADD COLUMN handler_user_id INTEGER REFERENCES users(id)`
+            ).run();
+        } catch (e) {
+            // Campo ya existe
+        }
+
+        db.prepare(`
+            CREATE TABLE IF NOT EXISTS user_profiles (
+                user_id INTEGER PRIMARY KEY,
+                display_name TEXT NOT NULL,
+                public_id TEXT NOT NULL UNIQUE,
+                license_number TEXT,
+                license_status TEXT,
+                delegation TEXT,
+                avatar_url TEXT,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+        `).run();
+
+        db.prepare(`
+            CREATE TABLE IF NOT EXISTS clubs (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                owner_user_id INTEGER NOT NULL,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (owner_user_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+        `).run();
+        db.prepare(`CREATE INDEX IF NOT EXISTS idx_clubs_owner ON clubs(owner_user_id)`).run();
+
+        db.prepare(`
+            CREATE TABLE IF NOT EXISTS club_members (
+                club_id INTEGER NOT NULL,
+                user_id INTEGER NOT NULL,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (club_id, user_id),
+                FOREIGN KEY (club_id) REFERENCES clubs(id) ON DELETE CASCADE,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+        `).run();
+        db.prepare(`CREATE INDEX IF NOT EXISTS idx_club_members_user ON club_members(user_id)`).run();
+
+        db.prepare(`
+            CREATE TABLE IF NOT EXISTS dogs (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                handler_user_id INTEGER NOT NULL,
+                name TEXT NOT NULL,
+                breed TEXT,
+                birth_year INTEGER,
+                grade_label TEXT,
+                photo_url TEXT,
+                FOREIGN KEY (handler_user_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+        `).run();
+        db.prepare(`CREATE INDEX IF NOT EXISTS idx_dogs_handler ON dogs(handler_user_id)`).run();
+
+        db.prepare(`
+            CREATE TABLE IF NOT EXISTS event_registrations (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                dog_id INTEGER,
+                event_id INTEGER NOT NULL,
+                status TEXT NOT NULL DEFAULT 'pendiente',
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY (dog_id) REFERENCES dogs(id) ON DELETE SET NULL,
+                FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
+            )
+        `).run();
+        db.prepare(`CREATE INDEX IF NOT EXISTS idx_event_regs_user ON event_registrations(user_id)`).run();
+        db.prepare(`CREATE INDEX IF NOT EXISTS idx_event_regs_event ON event_registrations(event_id)`).run();
+
+        db.prepare(`CREATE INDEX IF NOT EXISTS idx_event_results_handler_user ON event_results(handler_user_id)`).run();
+
+        // Perfiles faltantes (usuarios creados antes de user_profiles)
+        const usersMissingProfile = db
+            .prepare(
+                `SELECT u.id, u.email FROM users u
+         LEFT JOIN user_profiles p ON p.user_id = u.id
+         WHERE p.user_id IS NULL`
+            )
+            .all();
+        const insertProfile = db.prepare(
+            `INSERT INTO user_profiles (user_id, display_name, public_id, license_number, license_status)
+       VALUES (?, ?, ?, NULL, NULL)`
+        );
+        for (const row of usersMissingProfile) {
+            const local = row.email.split("@")[0] || "Usuario";
+            const displayName = local.charAt(0).toUpperCase() + local.slice(1);
+            const publicId = `NTC-${row.id}`;
+            try {
+                insertProfile.run(row.id, displayName, publicId);
+            } catch (e) {
+                // ignore duplicate public_id edge case
+            }
         }
 
         // Inicializar tabla de token blacklist

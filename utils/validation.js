@@ -49,6 +49,32 @@ export const registerSchema = Joi.object({
 }).unknown(true); // Allow additional fields like csrfToken
 
 /**
+ * Schema for dog CRUD validation
+ * name is required; other fields optional.
+ */
+export const dogSchema = Joi.object({
+  name: Joi.string().trim().min(1).max(80).required().messages({
+    "string.empty": "El nombre es obligatorio",
+    "string.min": "El nombre es obligatorio",
+    "any.required": "El nombre es obligatorio",
+  }),
+  breed: Joi.string().trim().allow("", null).max(120).default(""),
+  birth_year: Joi.number()
+    .integer()
+    .min(1990)
+    .max(new Date().getFullYear())
+    .allow(null, "")
+    .messages({
+      "number.base": "El año de nacimiento debe ser un número válido",
+      "number.integer": "El año de nacimiento debe ser un número entero",
+      "number.min": "El año de nacimiento no es válido",
+      "number.max": "El año de nacimiento no puede ser futuro",
+    }),
+  grade_label: Joi.string().trim().allow("", null).max(60).default(""),
+  photo_url: Joi.string().trim().allow("", null).max(2500).default(""),
+}).unknown(true);
+
+/**
  * Schema for change password validation
  * Validates current password, new password, and confirmation
  */
@@ -125,6 +151,16 @@ export function validateLogin(data) {
  */
 export function validateRegister(data) {
   return validate(registerSchema, data);
+}
+
+/**
+ * Validate dog data
+ *
+ * @param {Object} data - { name, breed, birth_year, grade_label, photo_url }
+ * @returns {Object} { error: null|string, value: Object }
+ */
+export function validateDog(data) {
+  return validate(dogSchema, data);
 }
 
 /**

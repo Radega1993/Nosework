@@ -527,9 +527,9 @@ Este documento desglosa todas las tareas del proyecto en chunks de máximo 2 hor
 ## Resumen por Fase
 
 ### Fase 1
-- **Completadas:** 16 tareas ✅
-- **Pendientes:** 4 tareas ⏳
-- **Total:** 20 tareas
+- **Completadas:** 21 tareas ✅
+- **Pendientes:** 0 tareas
+- **Total:** 21 tareas
 
 ### Fase 2
 - **Completadas:** 3 tareas ✅
@@ -555,7 +555,7 @@ Este documento desglosa todas las tareas del proyecto en chunks de máximo 2 hor
 ### Fase 7
 - **Pendientes:** 2 tareas ⏳ (opcionales)
 
-**Total de tareas:** 68 tareas (22 completadas, 46 pendientes)
+**Total de tareas:** 68 tareas (27 completadas, 41 pendientes)
 
 **Nota:** El hardening de seguridad (TASK-F1-021) está completado al 100% (180/180 tareas). Cambio archivado en `openspec/changes/archive/2026-02-12-auth-hardening/`. Incluye rate limiting, validación, sanitización, token blacklist, refresh tokens, CSRF, password security, account lockout, audit logging, tests unitarios, de integración y E2E.
 

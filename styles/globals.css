@@ -4,6 +4,17 @@
 
 /* UI redesign: design tokens as CSS variables (for future dark mode) */
 :root {
+  --color-primary: #04162f;
+  --color-secondary: #506600;
+  --color-secondary-container: #c1f100;
+  --color-on-secondary-container: #546b00;
+  --color-surface: #f7f9fc;
+  --color-surface-container: #eceef1;
+  --color-surface-variant: #e0e3e6;
+  --color-on-surface: #191c1e;
+  --color-on-surface-variant: #44474d;
+  --color-outline: #75777e;
+  --color-outline-variant: #c5c6ce;
   --color-navy: #0F2A44;
   --color-navy-dark: #091C2E;
   --color-gold: #F5B400;
@@ -16,6 +27,7 @@
   --container-max: 1200px;
   --container-padding: 24px;
   --font-inter: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-montserrat: 'Montserrat', 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
@@ -24,12 +36,13 @@
   }
   
   body {
-    @apply text-gray-900 bg-gray-50;
+    @apply text-on-surface bg-surface;
     font-family: var(--font-inter);
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold text-gray-900;
+    @apply font-bold text-navy;
+    font-family: var(--font-montserrat);
   }
 
   a {
@@ -38,14 +51,14 @@
 
   /* Focus styles for accessibility */
   *:focus-visible {
-    @apply outline-none ring-2 ring-primary-500 ring-offset-2;
+    @apply outline-none ring-2 ring-secondary ring-offset-2;
   }
 }
 
 @layer components {
   /* Button variants */
   .btn {
-    @apply font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2;
+    @apply font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2;
   }
 
   .btn-primary {
@@ -78,7 +91,7 @@
 
   /* Card styles */
   .card {
-    @apply bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 p-6;
+    @apply bg-white rounded-xl border border-outline-variant shadow-md hover:shadow-lg transition-shadow duration-200 p-6;
   }
 
   .card-bordered {
@@ -127,11 +140,47 @@
 
   /* UI redesign: container 1200px, 24px padding, centered (spec) */
   .container-redesign {
-    max-width: var(--container-max);
+    max-width: 1280px;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
     padding-left: var(--container-padding);
     padding-right: var(--container-padding);
+  }
+
+  .page-shell {
+    @apply bg-surface min-h-screen pt-20;
+  }
+
+  .hero-band {
+    @apply bg-primary text-white py-16 md:py-20 text-center;
+  }
+
+  .surface-card {
+    @apply bg-white rounded-xl shadow-[0_8px_24px_rgba(26,43,69,0.08)] border border-surface-container-highest p-8;
+  }
+
+  .section-stack {
+    @apply container-redesign py-12 space-y-8;
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+  }
+
+  /* FDDN horizontal process timeline (competiciones) */
+  .fddn-process-step {
+    position: relative;
+  }
+  .fddn-process-step--connector::after {
+    content: "";
+    position: absolute;
+    top: 1.5rem;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.22);
+    z-index: 0;
   }
 }

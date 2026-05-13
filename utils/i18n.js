@@ -121,16 +121,18 @@ export function removeLanguagePrefix(path) {
  * @returns {string} Physical page path (e.g., '/events')
  */
 export function mapRouteToPhysicalPath(path) {
-  if (!path || typeof path !== 'string') {
-    return '/';
+  if (!path || typeof path !== "string") {
+    return "/";
   }
-  
-  // Check if path needs mapping
+
   if (ROUTE_MAPPING[path]) {
     return ROUTE_MAPPING[path];
   }
-  
-  // No mapping needed, return as is
+
+  if (path.startsWith("/eventos/")) {
+    return `/events/${path.slice("/eventos/".length)}`;
+  }
+
   return path;
 }
 

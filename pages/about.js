@@ -4,7 +4,7 @@ import SEOHead from "@/components/SEOHead";
 
 export default function About() {
   return (
-    <div className="bg-[#F4F6F8] min-h-screen pt-20">
+    <div className="page-shell">
       {/* SEO */}
       <SEOHead
         title="Sobre Nosework Trial – Asociación y Modalidad"
@@ -21,10 +21,10 @@ export default function About() {
       <Navbar />
 
       {/* Hero Section */}
-      <header className="bg-navy text-white py-16 md:py-20 text-center">
+      <header className="hero-band">
         <div className="container-redesign">
-          <h1 className="text-h1-redesign-mobile md:text-h1-redesign font-bold mb-4">Sobre Nosework Trial</h1>
-          <p className="text-xl md:text-2xl text-white/90">Conoce nuestra historia, misión y valores</p>
+          <h1 className="text-headline-h1 md:text-display font-montserrat mb-4">La federación</h1>
+          <p className="text-body-lg text-white/85">Conoce nuestra historia, misión y valores</p>
         </div>
       </header>
 

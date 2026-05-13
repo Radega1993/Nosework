@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useLocalizedLink } from "@/hooks/useLocalizedLink";
 
 const linkClass =
-    "text-white/80 hover:text-gold transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy-dark rounded";
+    "text-white/80 hover:text-secondary-container transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary-container focus-visible:ring-offset-2 focus-visible:ring-offset-navy-dark rounded";
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
@@ -11,13 +11,18 @@ export default function Footer() {
     const navLinks = {
         principal: [
             { name: "Inicio", path: "/" },
-            { name: "Qué es", path: "/que-es-nosework-trial" },
-            { name: "Reglamento", path: "/reglamento" },
-            { name: "Cómo Empezar", path: "/como-empezar" },
+            { name: "Nosework", path: "/que-es-nosework-trial" },
+            { name: "Competiciones", path: "/competiciones" },
+            { name: "Calendario", path: "/eventos" },
+            { name: "Resultados", path: "/resultados-rankings" },
+            { name: "Clubes", path: "/clubs" },
         ],
-        recursos: [
-            { name: "Eventos", path: "/eventos" },
-            { name: "Quiénes Somos", path: "/about" },
+        institucional: [
+            { name: "La Federación", path: "/about" },
+            { name: "Cómo Empezar", path: "/como-empezar" },
+            { name: "Niveles y títulos", path: "/niveles-titulos" },
+            { name: "Reglamento", path: "/reglamento" },
+            { name: "Normativa", path: "/normativas" },
             { name: "Contacto", path: "/contact" },
         ],
     };
@@ -71,7 +76,13 @@ export default function Footer() {
                                     </Link>
                                 </li>
                             ))}
-                            {navLinks.recursos.map((link) => (
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 className="text-white font-semibold mb-4">Federación</h4>
+                        <ul className="space-y-2">
+                            {navLinks.institucional.map((link) => (
                                 <li key={link.path}>
                                     <Link href={localizedHref(link.path)} className={linkClass}>
                                         {link.name}
@@ -117,7 +128,7 @@ export default function Footer() {
                             <Link
                                 key={link.path}
                                 href={localizedHref(link.path)}
-                                className={`text-sm text-white/80 hover:text-gold transition-colors duration-200 ${linkClass}`}
+                                className={`text-sm text-white/80 hover:text-secondary-container transition-colors duration-200 ${linkClass}`}
                             >
                                 {link.name}
                             </Link>

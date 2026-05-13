@@ -1,19 +1,23 @@
+import Link from "next/link";
+import Head from "next/head";
 import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import dynamic from "next/dynamic";
 import EventDetail from "@/components/Event/EventDetail";
+import { useLocalizedLink } from "@/hooks/useLocalizedLink";
+import { isEventDateBeforeToday } from "@/utils/eventDates";
 
-// Lazy load EventCardPublic for related events (below the fold)
 const EventCardPublic = dynamic(() => import("@/components/Event/EventCardPublic"), {
   ssr: false,
 });
 
 export default function EventDetailPage() {
   const router = useRouter();
+  const { localizedHref } = useLocalizedLink();
   const { id } = router.query;
   const [event, setEvent] = useState(null);
   const [relatedEvents, setRelatedEvents] = useState([]);
@@ -46,9 +50,8 @@ export default function EventDetailPage() {
         const allEventsResponse = await fetch("/api/events");
         if (allEventsResponse.ok) {
           const allEventsData = await allEventsResponse.json();
-          const now = new Date();
           const upcoming = allEventsData.events
-            .filter((e) => e.id !== parseInt(id) && new Date(e.date) > now)
+            .filter((e) => e.id !== parseInt(id, 10) && !isEventDateBeforeToday(e.date))
             .sort((a, b) => new Date(a.date) - new Date(b.date))
             .slice(0, 3);
           setRelatedEvents(upcoming);
@@ -134,10 +137,10 @@ export default function EventDetailPage() {
                 El evento que buscas no existe o ha sido eliminado.
               </p>
               <Link
-                href="/events"
+                href={localizedHref("/eventos")}
                 className="text-navy hover:text-gold font-semibold"
               >
-                ← Volver a eventos
+                ← Volver al calendario
               </Link>
             </div>
           </div>
@@ -162,10 +165,10 @@ export default function EventDetailPage() {
                 No se pudo cargar el evento. Por favor, intenta más tarde.
               </p>
               <Link
-                href="/events"
+                href={localizedHref("/eventos")}
                 className="text-navy hover:text-gold font-semibold"
               >
-                ← Volver a eventos
+                ← Volver al calendario
               </Link>
             </div>
           </div>
@@ -178,8 +181,8 @@ export default function EventDetailPage() {
   // Breadcrumb items
   const breadcrumbItems = [
     { label: "Inicio", href: "/" },
-    { label: "Eventos", href: "/events" },
-    { label: event.title, href: `/events/${id}` },
+    { label: "Eventos", href: "/eventos" },
+    { label: event.title, href: `/eventos/${id}` },
   ];
 
   return (
@@ -189,7 +192,7 @@ export default function EventDetailPage() {
         description={
           event.description?.substring(0, 160) || `Evento de Nosework Trial: ${event.title}`
         }
-        canonical={`/events/${id}`}
+        canonical={`/eventos/${id}`}
         ogImage="/images/og-image.jpg"
         schema={schemaMarkup}
         breadcrumbs={breadcrumbItems}
@@ -211,7 +214,12 @@ export default function EventDetailPage() {
               <h2 className="text-h2-redesign font-bold mb-6 text-neutral-text-dark">Próximos Eventos</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {relatedEvents.map((relatedEvent) => (
-                  <EventCardPublic key={relatedEvent.id} event={relatedEvent} showImage={true} />
+                  <EventCardPublic
+                    key={relatedEvent.id}
+                    event={relatedEvent}
+                    showImage={true}
+                    detailHref={localizedHref(`/eventos/${relatedEvent.id}`)}
+                  />
                 ))}
               </div>
             </section>
