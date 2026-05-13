@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 /**
  * Contenedor común para login/registro (paleta FDDN: surface, primary, secondary-container).
@@ -10,9 +11,16 @@ export default function AuthShell({ title, subtitle, children, footerLink }) {
         <div className="max-w-container-max mx-auto flex items-center justify-between">
           <Link
             href="/"
-            className="font-montserrat text-lg font-bold text-white hover:text-secondary-container transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary-container rounded"
+            className="flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary-container rounded"
           >
-            Nosework Trial Community
+            <Image
+              src="/logonosework/nosework-trial-community-long-transp.png"
+              alt="Nosework Trial Community"
+              width={200}
+              height={44}
+              className="h-8 w-auto max-w-[200px]"
+              priority
+            />
           </Link>
           <Link
             href="/"

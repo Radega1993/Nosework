@@ -11,7 +11,7 @@ const DEFAULT_OVERLAY_OPACITY = 0.55;
  * @param {boolean} [showActions] mostrar fila de CTAs (por defecto true salvo layout compact, que usa false)
  */
 export default function HeroSection({
-    title = "Federación de Detección Deportiva Nosework",
+    title = "Nosework Trial Community",
     subtitle = "El deporte canino donde perro y guía trabajan juntos para localizar olores en entornos reales, seguros y progresivos.",
     description = "",
     backgroundImage,

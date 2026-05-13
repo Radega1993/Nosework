@@ -1,4 +1,5 @@
 import Calendar from "react-calendar";
+import { isEventOnSameLocalDay } from "@/utils/eventDates";
 
 /**
  * Calendario mensual con marcas en días con eventos (estilo acorde a FDDN).
@@ -18,10 +19,12 @@ export default function EventsCalendarPanel({
           <Calendar
             onChange={onChange}
             value={selectedDate}
+            locale="es-ES"
+            calendarType="iso8601"
             className="rounded-lg w-full border-0 !font-sans"
             tileContent={({ date }) =>
-              events.some((e) => e.date && new Date(e.date).toDateString() === date.toDateString()) && (
-                <div className="w-2 h-2 bg-secondary-container rounded-full mx-auto mt-1" aria-hidden />
+              events.some((e) => e.date && isEventOnSameLocalDay(e.date, date)) && (
+                <div className="w-2 h-2 bg-secondary-container rounded-full mx-auto mt-0.5 shrink-0" aria-hidden />
               )
             }
           />

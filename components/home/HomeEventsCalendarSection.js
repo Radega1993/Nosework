@@ -1,6 +1,7 @@
 import Calendar from "react-calendar";
 import Section from "@/components/Section";
 import Button from "@/components/Button";
+import { isEventOnSameLocalDay } from "@/utils/eventDates";
 
 /**
  * Calendario interactivo de eventos con listado por fecha seleccionada.
@@ -33,10 +34,12 @@ export default function HomeEventsCalendarSection({
           <Calendar
             onChange={onDateChange}
             value={selectedDate}
+            locale="es-ES"
+            calendarType="iso8601"
             className="rounded-lg"
             tileContent={({ date }) =>
-              events.some((e) => new Date(e.date).toDateString() === date.toDateString()) && (
-                <div className="w-2 h-2 bg-secondary-container rounded-full mx-auto mt-1" aria-hidden />
+              events.some((e) => e.date && isEventOnSameLocalDay(e.date, date)) && (
+                <div className="w-2 h-2 bg-secondary-container rounded-full mx-auto mt-0.5 shrink-0" aria-hidden />
               )
             }
           />

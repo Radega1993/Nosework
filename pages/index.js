@@ -19,6 +19,7 @@ import {
   HomeCommunityCtaSection,
   HomePartnersSection,
 } from "@/components/home";
+import { isEventOnSameLocalDay, parseEventLocalDate } from "@/utils/eventDates";
 
 export default function Home() {
   const { localizedHref } = useLocalizedLink();
@@ -45,19 +46,25 @@ export default function Home() {
   }, []);
 
   const upcomingTrials = useMemo(() => {
-    const now = new Date();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
     return [...events]
-      .filter((e) => new Date(e.date) >= now)
-      .sort((a, b) => new Date(a.date) - new Date(b.date))
+      .filter((e) => {
+        const d = parseEventLocalDate(e.date);
+        return d && d >= today;
+      })
+      .sort((a, b) => {
+        const da = parseEventLocalDate(a.date);
+        const db = parseEventLocalDate(b.date);
+        if (!da || !db) return 0;
+        return da.getTime() - db.getTime();
+      })
       .slice(0, 3);
   }, [events]);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
-    const filteredEvents = events.filter(
-      (e) => new Date(e.date).toDateString() === date.toDateString()
-    );
-    setSelectedEvents(filteredEvents);
+    setSelectedEvents(events.filter((e) => e.date && isEventOnSameLocalDay(e.date, date)));
   };
 
   const handleClubSearch = (e) => {

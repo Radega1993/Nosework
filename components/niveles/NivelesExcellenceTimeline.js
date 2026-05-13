@@ -1,12 +1,24 @@
+const MD_GRID_COLS = {
+  1: "md:grid-cols-1",
+  2: "md:grid-cols-2",
+  3: "md:grid-cols-3",
+  4: "md:grid-cols-4",
+  5: "md:grid-cols-5",
+  6: "md:grid-cols-6",
+};
+
 /**
- * Carril horizontal “Camino a la Excelencia” (6 pasos).
+ * Carril horizontal de progresión (número de pasos configurable en data).
  * @param {{ id: string, title: string, subtitle: string, node: string, icon?: string, label?: string }[]} steps
  */
 export default function NivelesExcellenceTimeline({ steps }) {
+  const n = Math.min(6, Math.max(1, steps.length));
+  const mdCols = MD_GRID_COLS[n] ?? MD_GRID_COLS[4];
+
   return (
     <section className="py-12 md:py-16 max-w-container-max mx-auto px-6">
       <div className="text-center mb-10 md:mb-14">
-        <h2 className="font-montserrat text-2xl md:text-3xl font-semibold text-primary">Camino a la excelencia</h2>
+        <h2 className="font-montserrat text-2xl md:text-3xl font-semibold text-primary">Progresión por niveles</h2>
         <div className="w-24 h-1.5 bg-secondary-fixed mx-auto mt-3 rounded-full" aria-hidden />
       </div>
       <div className="relative px-2 md:px-8">
@@ -14,7 +26,7 @@ export default function NivelesExcellenceTimeline({ steps }) {
           className="absolute top-8 left-0 w-full h-1 bg-surface-container-highest -translate-y-1/2 hidden md:block rounded-full"
           aria-hidden
         />
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-8 md:gap-4 relative">
+        <div className={`grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-4 relative ${mdCols}`}>
           {steps.map((step) => (
             <div key={step.id} className="flex flex-col items-center text-center group">
               <TimelineDisc step={step} />

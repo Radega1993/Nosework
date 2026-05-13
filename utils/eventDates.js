@@ -12,6 +12,27 @@ export function parseEventLocalDate(dateStr) {
   return new Date(y, m - 1, d, 12, 0, 0, 0);
 }
 
+/**
+ * YYYY-MM-DD del día local del evento (coherente con parseEventLocalDate / calendario).
+ * @param {string} dateStr
+ * @returns {string|null}
+ */
+export function getEventLocalYmd(dateStr) {
+  const d = parseEventLocalDate(dateStr);
+  if (!d) return null;
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+/** Normaliza dateFrom/dateTo del filtro a YYYY-MM-DD. */
+export function normalizeFilterYmd(value) {
+  if (!value) return null;
+  const ymd = String(value).split("T")[0];
+  return /^\d{4}-\d{2}-\d{2}$/.test(ymd) ? ymd : null;
+}
+
 /** true si el día del evento es estrictamente anterior al inicio de hoy (hora local). */
 export function isEventDateBeforeToday(dateStr) {
   const eventDay = parseEventLocalDate(dateStr);

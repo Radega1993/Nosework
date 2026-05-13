@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/router";
+import { getEventLocalYmd, normalizeFilterYmd } from "@/utils/eventDates";
 
 /**
  * Hook for managing event filters with URL synchronization
@@ -79,16 +80,15 @@ export function useEventFilters(events = []) {
   // Filter events based on current filters
   const filteredEvents = useMemo(() => {
     return events.filter((event) => {
-      // Date range filter
+      // Rango por día local (misma lógica que el calendario; evita new Date("YYYY-MM-DD") en UTC).
+      const evYmd = getEventLocalYmd(event.date);
       if (filters.dateFrom) {
-        const eventDate = new Date(event.date);
-        const fromDate = new Date(filters.dateFrom);
-        if (eventDate < fromDate) return false;
+        const fromYmd = normalizeFilterYmd(filters.dateFrom);
+        if (fromYmd && (!evYmd || evYmd < fromYmd)) return false;
       }
       if (filters.dateTo) {
-        const eventDate = new Date(event.date);
-        const toDate = new Date(filters.dateTo);
-        if (eventDate > toDate) return false;
+        const toYmd = normalizeFilterYmd(filters.dateTo);
+        if (toYmd && (!evYmd || evYmd > toYmd)) return false;
       }
 
       // Level filter

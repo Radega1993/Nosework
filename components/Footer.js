@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { useLocalizedLink } from "@/hooks/useLocalizedLink";
 
 const linkClass =
@@ -18,7 +19,7 @@ export default function Footer() {
             { name: "Clubes", path: "/clubs" },
         ],
         institucional: [
-            { name: "La Federación", path: "/about" },
+            { name: "Sobre nosotros", path: "/about" },
             { name: "Cómo Empezar", path: "/como-empezar" },
             { name: "Niveles y títulos", path: "/niveles-titulos" },
             { name: "Reglamento", path: "/reglamento" },
@@ -39,7 +40,15 @@ export default function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {/* Brand */}
                     <div className="lg:col-span-2">
-                        <h3 className="text-xl font-bold text-white mb-4">Nosework Trial Community</h3>
+                        <div className="mb-4">
+                            <Image
+                                src="/logonosework/nosework-trial-community-long-transp.png"
+                                alt="Nosework Trial Community"
+                                width={220}
+                                height={48}
+                                className="h-9 w-auto max-w-[240px]"
+                            />
+                        </div>
                         <p className="text-white/80 mb-4 max-w-md">
                             Promovemos el nosework deportivo como una modalidad inclusiva y accesible para todos los perros y sus guías.
                         </p>
@@ -80,7 +89,7 @@ export default function Footer() {
                     </div>
 
                     <div>
-                        <h4 className="text-white font-semibold mb-4">Federación</h4>
+                        <h4 className="text-white font-semibold mb-4">Comunidad</h4>
                         <ul className="space-y-2">
                             {navLinks.institucional.map((link) => (
                                 <li key={link.path}>

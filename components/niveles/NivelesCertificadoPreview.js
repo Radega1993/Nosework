@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 /**
  * Bloque estilo certificado (ejemplo ilustrativo).
  */
@@ -15,7 +17,13 @@ export default function NivelesCertificadoPreview({ cert }) {
         <div className="relative z-10 border-2 border-primary/20 p-5 md:p-8 rounded-lg">
           <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-10">
             <div className="flex items-center gap-3">
-              <span className="font-montserrat text-2xl font-bold text-primary tracking-tight">FDDN</span>
+              <Image
+                src="/logonosework/nosework-trial-community-long-black-transp.png"
+                alt="Nosework Trial Community"
+                width={200}
+                height={44}
+                className="h-8 w-auto max-w-[200px]"
+              />
             </div>
             <div className="text-left sm:text-right w-full sm:w-auto">
               <h4 className="font-montserrat text-primary text-lg md:text-xl font-bold">Certificado oficial</h4>

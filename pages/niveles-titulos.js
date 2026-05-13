@@ -26,7 +26,7 @@ export default function NivelesTitulos() {
     <div className="bg-surface min-h-screen text-on-surface overflow-x-hidden">
       <SEOHead
         title="Niveles y títulos – Nosework Trial"
-        description="Trayectoria competitiva: ORT, niveles 1 a 3, élite y nacional. Tabla comparativa, requisitos y acreditación oficial."
+        description="Niveles Base y Avanzado, olores oficiales (Kong y salvia), títulos según reglamento. Tabla comparativa y enlace al PDF de normativas."
         canonical="/niveles-titulos"
         ogImage="/images/og-image.jpg"
       />

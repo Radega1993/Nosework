@@ -31,18 +31,18 @@
     background-color: #e5e7eb; /* Tailwind gray-200 */
   }
   
+  /* No forzar grid en __days: react-calendar ya alinea filas con los encabezados MON–SUN;
+     un grid propio desplazaba los números respecto a los días de la semana y el tinte de fin de semana. */
   .react-calendar__month-view__days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
     padding: 8px;
   }
-  
+
   .react-calendar__tile {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
-    padding: 12px;
+    padding: 8px 6px 10px;
     font-size: 0.875rem; /* Tailwind text-sm */
     color: #4b5563; /* Tailwind gray-600 */
     border-radius: 6px;

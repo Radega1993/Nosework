@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { useContext, useState, useEffect } from "react";
 import AuthContext from "@/contexts/AuthContext";
 /* Selector ES/CA oculto temporalmente: versión solo castellano. Descomentar cuando se reactive el catalán.
@@ -50,12 +51,16 @@ export default function Navbar() {
                     {/* Logo - izquierda */}
                     <Link
                         href={localizedHref("/")}
-                        className="flex items-center space-x-2 text-white font-bold text-xl hover:text-secondary-container transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary-container focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded"
+                        className="flex items-center gap-2 sm:gap-3 text-white hover:opacity-95 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary-container focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded"
                     >
-                        <span>FDDN</span>
-                        <span className="hidden sm:inline text-sm font-medium text-white/90">
-                            Federación Nosework
-                        </span>
+                        <Image
+                            src="/logonosework/nosework-trial-community-long-transp.png"
+                            alt="Nosework Trial Community"
+                            width={220}
+                            height={48}
+                            className="h-7 w-auto sm:h-9 max-w-[min(100%,200px)] sm:max-w-[240px]"
+                            priority
+                        />
                     </Link>
 
                     {/* Navegación desktop - centro/derecha */}
@@ -151,6 +156,19 @@ export default function Navbar() {
                 aria-label="Menú de navegación"
             >
                 <div className="flex flex-col h-full pt-20 px-4 pb-6">
+                    <Link
+                        href={localizedHref("/")}
+                        onClick={closeMenu}
+                        className="mb-4 px-2 flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary-container rounded"
+                    >
+                        <Image
+                            src="/logonosework/nosework-trial-community-long-transp.png"
+                            alt="Nosework Trial Community"
+                            width={200}
+                            height={44}
+                            className="h-8 w-auto max-w-[200px]"
+                        />
+                    </Link>
                     <ul className="space-y-1">
                         {navLinks.map((link) => (
                             <Link
