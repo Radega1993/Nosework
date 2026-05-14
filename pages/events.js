@@ -19,6 +19,7 @@ import {
   CALENDARIO_SECTIONS,
 } from "@/components/nosework/calendarioPruebasLabels";
 import { isEventDateBeforeToday, isEventOnSameLocalDay } from "@/utils/eventDates";
+import { formatEventLocationLine } from "@/utils/eventListHelpers";
 
 const LIST_CHUNK = 6;
 
@@ -56,8 +57,21 @@ export default function Events() {
 
   const availableData = useMemo(() => {
     const levels = [...new Set(events.map((e) => e.level).filter(Boolean))];
-    const types = [...new Set(events.map((e) => e.type).filter(Boolean))];
-    const locations = [...new Set(events.map((e) => e.location || e.city).filter(Boolean))];
+    const types = [...new Set(events.map((e) => e.type || e.kind).filter(Boolean))];
+    const locations = [
+      ...new Set(
+        events
+          .flatMap((e) => {
+            const bits = [];
+            const full = formatEventLocationLine(e);
+            if (full) bits.push(full);
+            if (e.municipality) bits.push(String(e.municipality).trim());
+            if (e.province) bits.push(String(e.province).trim());
+            return bits;
+          })
+          .filter(Boolean)
+      ),
+    ];
     return { levels, types, locations, statuses: ["open", "closed", "cancelled"] };
   }, [events]);
 
@@ -124,7 +138,7 @@ export default function Events() {
       position: index + 1,
       name: event.title,
       startDate: event.date,
-      location: event.location || event.city || undefined,
+      location: formatEventLocationLine(event) || undefined,
     })),
   };
 
@@ -220,6 +234,7 @@ export default function Events() {
                       key={event.id}
                       event={event}
                       detailHref={localizedHref(`/eventos/${event.id}`)}
+                      inscripcionHref={localizedHref(`/eventos/${event.id}/register`)}
                       localizedHref={localizedHref}
                     />
                   ))}
@@ -288,6 +303,7 @@ export default function Events() {
                       key={event.id}
                       event={event}
                       detailHref={localizedHref(`/eventos/${event.id}`)}
+                      inscripcionHref={localizedHref(`/eventos/${event.id}/register`)}
                       localizedHref={localizedHref}
                     />
                   ))}

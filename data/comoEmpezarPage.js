@@ -11,12 +11,12 @@ export const COMO_EMPEZAR_HERO = {
 
 export const COMO_EMPEZAR_TIMELINE = {
   title: "Tu ruta al exito",
-  intro: "Sigue estos pasos para convertirte en un binomio oficial de la FDDN.",
+  intro: "Sigue estos pasos para preparar tu recorrido en Nosework Trial.",
   steps: [
     {
       title: "Aprende bases",
       description:
-        "Entiende la teoria del olor, el manejo de la correa y como leer las senales de tu perro.",
+        "Entiende la teoria del olor, el manejo de la correa y como leer las señales de tu perro.",
       cardText: "Lectura del reglamento oficial y fundamentos de deteccion deportiva.",
       badge: "Recomendado",
       side: "left",
@@ -26,7 +26,7 @@ export const COMO_EMPEZAR_TIMELINE = {
       title: "Encuentra instructor",
       description:
         "Un guia profesional acelera tu progreso y evita vicios iniciales en el marcaje.",
-      cardText: "Consulta nuestra red de clubs y escuelas certificadas por la federacion.",
+      cardText: "Consulta nuestra red de clubs y escuelas colaboradoras.",
       side: "right",
       tone: "secondary",
     },
@@ -45,18 +45,11 @@ export const COMO_EMPEZAR_TIMELINE = {
       tone: "primary",
     },
     {
-      title: "Supera ORT",
-      description: "La prueba ORT valida que tu perro reconoce el olor objetivo del grado.",
-      cardText: "Paso obligatorio antes de inscribirse en Grado I.",
-      side: "left",
-      tone: "secondary",
-    },
-    {
       title: "Primera prueba",
       description:
         "Disfruta de tu debut en competicion oficial con foco en aprendizaje y bienestar.",
       cardText: "Busca pruebas cercanas y participa a tu ritmo.",
-      side: "right",
+      side: "left",
       tone: "primary",
     },
     {
@@ -64,7 +57,7 @@ export const COMO_EMPEZAR_TIMELINE = {
       description:
         "Sigue entrenando y sube de nivel con objetivos realistas y consistentes.",
       cardText: "Bienvenido al recorrido de crecimiento en Nosework Trial.",
-      side: "left",
+      side: "right",
       tone: "secondary",
       highlighted: true,
     },
@@ -97,7 +90,7 @@ export const COMO_EMPEZAR_MATERIAL_ITEMS = [
   { title: "Correa larga", description: "3-5 metros ideal", icon: "straighten" },
   { title: "Premios", description: "Alta motivacion", icon: "recycling" },
   { title: "Contenedores", description: "Cajas y tubos", icon: "inventory_2" },
-  { title: "Olores", description: "Aceites oficiales", icon: "science" },
+  { title: "Olores", description: "Kong y salvia (reglamento)", icon: "science" },
   { title: "Diario", description: "Seguimiento progreso", icon: "auto_stories" },
 ];
 
@@ -123,13 +116,13 @@ export const COMO_EMPEZAR_FAQ_ITEMS = [
       "Si. Es una actividad de bajo impacto fisico y alta estimulacion mental, ideal para perros senior.",
   },
   {
-    question: "Que olores se utilizan en Espana?",
+    question: "¿Qué olores se utilizan en España?",
     answer:
-      "Se usan los olores oficiales definidos por la federacion para cada grado de competicion.",
+      "Los olores de trabajo están definidos en nuestro reglamento: en Nosework Trial utilizamos Kong rojo con aceite esencial de salvia (y en nivel Avanzado puede anunciarse olor de referencia). No dependen de una federación; consulta el reglamento y el PDF de normativas para el detalle.",
   },
   {
-    question: "Es obligatorio federarse para entrenar?",
+    question: "¿Es obligatorio federarse para entrenar?",
     answer:
-      "Para entrenar en recreativo no siempre es obligatorio, pero si para competiciones oficiales y ranking.",
+      "Para entrenar en ambiente recreativo no siempre es obligatorio federarse; sí suelen exigirse requisitos concretos para competiciones oficiales y rankings según cada convocatoria. Nosework Trial Community no es una federación.",
   },
 ];

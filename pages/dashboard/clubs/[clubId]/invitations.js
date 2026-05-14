@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import AuthContext from "@/contexts/AuthContext";
-import { DashboardInvitationsTable, DashboardSidebar } from "@/components/dashboard";
+import { DashboardInvitationsTable, DashboardLayout } from "@/components/dashboard";
 
 export default function ClubInvitationsPage() {
   const { user, loading, apiCall, logout } = useContext(AuthContext);
@@ -68,9 +68,8 @@ export default function ClubInvitationsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-surface text-on-surface flex">
-      <DashboardSidebar onLogout={logout} isJudge={Boolean(user?.is_judge)} isAdmin={user?.role === "administrador"} />
-      <main className="flex-1 md:ml-72 p-6 space-y-4">
+    <DashboardLayout onLogout={logout} isJudge={Boolean(user?.is_judge)} isAdmin={user?.role === "administrador"}>
+      <main className="flex-1 p-6 space-y-4">
         <h1 className="font-montserrat text-2xl font-bold text-primary">Invitaciones del club #{clubId}</h1>
         {error ? <p className="rounded border border-red-200 bg-red-50 p-3 text-red-700">{error}</p> : null}
         <form onSubmit={createInvitation} className="rounded-xl border border-outline-variant bg-white p-4 flex gap-2">
@@ -86,6 +85,6 @@ export default function ClubInvitationsPage() {
         </form>
         <DashboardInvitationsTable invitations={invitations} onAction={onAction} loading={busy} ownerMode />
       </main>
-    </div>
+    </DashboardLayout>
   );
 }

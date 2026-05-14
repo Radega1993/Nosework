@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import AuthContext from "@/contexts/AuthContext";
-import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+import { DashboardLayout } from "@/components/dashboard";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import DashboardClubBadges from "@/components/dashboard/DashboardClubBadges";
 import DashboardLicenseCard from "@/components/dashboard/DashboardLicenseCard";
@@ -54,6 +54,16 @@ export default function DashboardPage() {
     };
   }, [user, loading, apiCall, setDogs]);
 
+  useEffect(() => {
+    if (dashLoading || typeof window === "undefined") return;
+    const hash = window.location.hash?.replace("#", "");
+    if (!hash) return;
+    const id = setTimeout(() => {
+      document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 150);
+    return () => clearTimeout(id);
+  }, [dashLoading, router.asPath]);
+
   if (loading || (!user && router.isReady)) {
     return (
       <div className="min-h-screen bg-surface flex items-center justify-center text-on-surface-variant">
@@ -67,14 +77,8 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-surface text-on-surface flex flex-col md:flex-row">
-      <DashboardSidebar
-        onLogout={logout}
-        isJudge={Boolean(user.is_judge)}
-        isAdmin={Boolean(dash?.capabilities?.isAdmin)}
-      />
-
-      <div className="flex-1 md:ml-72 min-h-screen flex flex-col">
+    <DashboardLayout onLogout={logout} isJudge={Boolean(user.is_judge)} isAdmin={Boolean(dash?.capabilities?.isAdmin)}>
+      <div className="flex-1 min-h-screen flex flex-col">
         <main className="flex-1 p-6 lg:p-8 max-w-container-max mx-auto w-full">
           {dashLoading ? (
             <p className="text-on-surface-variant">Cargando tu panel…</p>
@@ -125,7 +129,7 @@ export default function DashboardPage() {
               </section>
 
               {dash.capabilities?.canOrganizeEvents ? (
-                <div className="mt-10">
+                <div id="organizacion-eventos" className="mt-10 scroll-mt-24">
                   <DashboardOrganizerSection />
                 </div>
               ) : null}
@@ -137,6 +141,6 @@ export default function DashboardPage() {
           Nosework Trial Community — área privada
         </footer>
       </div>
-    </div>
+    </DashboardLayout>
   );
 }

@@ -67,19 +67,37 @@ export function canUserRegisterForEvent(db, user, eventRow) {
   return false;
 }
 
+function buildEventsListSql(includeMyRegistration) {
+  const judgesSub = `(SELECT GROUP_CONCAT(COALESCE(up.display_name, u.email), ' · ')
+               FROM event_judges ej
+               JOIN users u ON u.id = ej.user_id
+               LEFT JOIN user_profiles up ON up.user_id = u.id
+               WHERE ej.event_id = e.id)`;
+  const myReg = includeMyRegistration
+    ? `(SELECT er.status FROM event_registrations er WHERE er.event_id = e.id AND er.user_id = ? LIMIT 1) AS my_registration_status`
+    : `NULL AS my_registration_status`;
+  return `SELECT e.*,
+              c.status AS club_status,
+              COALESCE(NULLIF(TRIM(c.display_name), ''), NULLIF(TRIM(c.name), '')) AS club_display_name,
+              (SELECT COUNT(*) FROM event_registrations er WHERE er.event_id = e.id) AS registrations_count,
+              ${judgesSub} AS judges_summary,
+              COALESCE(oup.display_name, ou.email) AS organizer_display_name,
+              ${myReg}
+       FROM events e
+       LEFT JOIN clubs c ON c.id = e.club_id
+       LEFT JOIN users ou ON ou.id = e.organizer_user_id
+       LEFT JOIN user_profiles oup ON oup.user_id = ou.id
+       ORDER BY e.date ASC`;
+}
+
 /**
  * Lista eventos visibles para el contexto (anon o usuario).
  * @param {{ userId?: number, role?: string }} viewer - sin id = anónimo
  */
 export function listEventsVisibleToViewer(db, viewer) {
-  const rows = db
-    .prepare(
-      `SELECT e.*, c.status AS club_status
-       FROM events e
-       LEFT JOIN clubs c ON c.id = e.club_id
-       ORDER BY e.date ASC`
-    )
-    .all();
+  const uid = viewer?.userId;
+  const sql = buildEventsListSql(uid != null);
+  const rows = uid != null ? db.prepare(sql).all(uid) : db.prepare(sql).all();
 
   const user = viewer?.userId != null ? { id: viewer.userId, role: viewer.role || "user" } : null;
 

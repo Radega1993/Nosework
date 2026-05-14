@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import AuthContext from "@/contexts/AuthContext";
-import { DashboardAdminKpis, DashboardSidebar } from "@/components/dashboard";
+import { DashboardAdminKpis, DashboardLayout } from "@/components/dashboard";
 
 export default function AdminDashboardPage() {
   const { user, loading, apiCall, logout } = useContext(AuthContext);
@@ -29,9 +29,8 @@ export default function AdminDashboardPage() {
   }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="min-h-screen bg-surface text-on-surface flex">
-      <DashboardSidebar onLogout={logout} isJudge={Boolean(user?.is_judge)} isAdmin />
-      <main className="flex-1 md:ml-72 p-6">
+    <DashboardLayout onLogout={logout} isJudge={Boolean(user?.is_judge)} isAdmin>
+      <main className="flex-1 p-6">
         <h1 className="font-montserrat text-2xl font-bold text-primary mb-4">Dashboard administrador</h1>
         {error ? <p className="mb-3 rounded border border-red-200 bg-red-50 p-3 text-red-700">{error}</p> : null}
         <DashboardAdminKpis metrics={metrics} />
@@ -47,6 +46,6 @@ export default function AdminDashboardPage() {
           </Link>
         </div>
       </main>
-    </div>
+    </DashboardLayout>
   );
 }

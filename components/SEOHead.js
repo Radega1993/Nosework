@@ -38,7 +38,7 @@ import { getCanonicalUrl } from "@/utils/seo";
  * 
  * @param {string} title - Page title (required). Will be used for <title>, og:title, and twitter:title
  * @param {string} description - Meta description (required). Will be truncated to 160 characters automatically
- * @param {string} canonical - Canonical URL path (required). Should be relative path like "/page" or "/events/1"
+ * @param {string} [canonical] - Ruta canónica relativa (p. ej. "/eventos/1"). Si falta, se usa `router.asPath`.
  * @param {string} [ogImage="/images/og-image.jpg"] - Open Graph image URL (optional). Defaults to /images/og-image.jpg
  * @param {Object|Array} [schema=null] - Custom Schema.org JSON-LD markup (optional). Can be single object or array of schemas
  * @param {Array} [breadcrumbs=null] - Breadcrumb items for Schema.org BreadcrumbList (optional). Array of {label: string, href: string}
@@ -62,7 +62,13 @@ export default function SEOHead({
       : description;
 
   // Generate canonical URL with automatic language detection from router
-  const canonicalUrl = getCanonicalUrl(canonical, router);
+  const pathForCanonical =
+    canonical != null && String(canonical).trim() !== ""
+      ? String(canonical).trim()
+      : typeof router?.asPath === "string"
+        ? router.asPath.split("?")[0] || "/"
+        : "/";
+  const canonicalUrl = getCanonicalUrl(pathForCanonical || "/", router);
 
   // Generate Open Graph URL (same as canonical)
   const ogUrl = canonicalUrl;
@@ -76,7 +82,7 @@ export default function SEOHead({
           "@type": "ListItem",
           position: index + 1,
           name: item.label,
-          item: getCanonicalUrl(item.href, router),
+          item: getCanonicalUrl(item.href != null && String(item.href).trim() !== "" ? item.href : "/", router),
         })),
       }
     : null;

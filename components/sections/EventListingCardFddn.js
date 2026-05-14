@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { isEventDateBeforeToday } from "@/utils/eventDates";
+import { formatEventLocationLine, trimEventStr } from "@/utils/eventListHelpers";
 
 function formatEventDate(dateStr) {
   const d = new Date(dateStr);
@@ -11,6 +12,30 @@ function formatEventDate(dateStr) {
   }).format(d);
 }
 
+function parseLevelsForCard(event) {
+  const out = [];
+  if (event.level) {
+    out.push(levelLabel(event.level));
+  }
+  if (out.length) return out;
+  try {
+    const raw = event.levels_json;
+    if (!raw) return ["Base", "Avanzado"];
+    const j = typeof raw === "string" ? JSON.parse(raw) : raw;
+    if (!Array.isArray(j) || j.length === 0) return ["Base", "Avanzado"];
+    return j.map((x) => levelLabel(String(x)));
+  } catch {
+    return ["Base", "Avanzado"];
+  }
+}
+
+function levelLabel(code) {
+  const c = String(code || "").trim().toLowerCase();
+  if (c === "basic" || c === "base" || c === "básico") return "Base";
+  if (c === "advanced" || c === "avanzado") return "Avanzado";
+  return String(code || "").trim() || "Nivel";
+}
+
 const STATUS_BADGE = {
   open: { className: "bg-secondary-container text-on-secondary-container", label: "Inscripción abierta" },
   waitlist: { className: "bg-[#FF8C00] text-white", label: "Lista de espera" },
@@ -19,38 +44,77 @@ const STATUS_BADGE = {
 };
 
 /**
- * Normaliza evento API mínimo → props tarjeta FDDN.
+ * Estado de inscripción para la tarjeta (muchos eventos no tienen columna `status` en BD).
+ */
+function deriveRegistrationStatusKey(event, isPast) {
+  if (isPast) return "closed";
+  const st = String(event.status || "").trim().toLowerCase();
+  if (st === "closed" || st === "cancelled" || st === "cancelado") return "closed";
+  if (st === "waitlist" || st === "lista-espera") return "waitlist";
+  if (st === "open") return "open";
+  const end = event.registration_end_date ? new Date(event.registration_end_date) : null;
+  if (end && !Number.isNaN(end.getTime()) && end <= new Date()) return "closed";
+  const max = event.max_participants != null ? Number(event.max_participants) : null;
+  const cur = event.registrations_count != null ? Number(event.registrations_count) : null;
+  if (max != null && Number.isFinite(max) && max > 0 && cur != null && Number.isFinite(cur) && cur >= max) {
+    return "waitlist";
+  }
+  if (!st || st === "pending" || st === "pendiente") return "open";
+  return "open";
+}
+
+/**
+ * Normaliza evento API → props tarjeta FDDN (campos extendidos + legacy).
  */
 export function normalizeEventForFddnCard(event) {
-  const statusRaw = event.status?.toLowerCase?.() || "";
-  let statusKey = "upcoming";
-  if (statusRaw === "open") statusKey = "open";
-  else if (statusRaw === "closed") statusKey = "closed";
-  else if (statusRaw === "waitlist" || statusRaw === "lista-espera") statusKey = "waitlist";
-  else if (statusRaw === "pending" || statusRaw === "pendiente") statusKey = "upcoming";
+  const isPast = event.date && isEventDateBeforeToday(event.date);
+  const statusKey = deriveRegistrationStatusKey(event, Boolean(isPast));
 
-  const levels = [];
-  if (event.level) levels.push(String(event.level));
-  if (levels.length === 0) levels.push("Base", "Avanzado");
+  const locationLine = formatEventLocationLine(event);
+  const organizerLine =
+    trimEventStr(event.club_display_name) ||
+    trimEventStr(event.organizer_display_name) ||
+    (typeof event.organizer === "object" && event.organizer?.name ? trimEventStr(event.organizer.name) : "") ||
+    trimEventStr(event.organizer) ||
+    trimEventStr(event.club) ||
+    "";
 
-  const hasSpots =
-    event.spotsCurrent != null &&
-    event.spotsTotal != null &&
-    !Number.isNaN(Number(event.spotsTotal)) &&
-    Number(event.spotsTotal) > 0;
+  const judgeLine =
+    trimEventStr(event.judges_summary) ||
+    (Array.isArray(event.judges) && event.judges.length
+      ? event.judges.map((j) => trimEventStr(j.display_name)).filter(Boolean).join(" · ")
+      : "") ||
+    trimEventStr(event.judge) ||
+    trimEventStr(event.judge_organizer_name) ||
+    "";
+
+  const levels = parseLevelsForCard(event);
+
+  const priceEuro =
+    event.price_euros != null && event.price_euros !== ""
+      ? Number(event.price_euros)
+      : event.price != null && event.price !== ""
+        ? Number(event.price)
+        : null;
+  const price =
+    priceEuro != null && Number.isFinite(priceEuro)
+      ? `${priceEuro.toLocaleString("es-ES", { minimumFractionDigits: 0, maximumFractionDigits: 2 })}€`
+      : null;
+
+  const max = event.max_participants != null ? Number(event.max_participants) : null;
+  const cur = event.registrations_count != null ? Number(event.registrations_count) : null;
+  const hasSpots = max != null && Number.isFinite(max) && max > 0 && cur != null && !Number.isNaN(cur);
 
   return {
     title: event.title || "Evento",
     dateLabel: event.date ? formatEventDate(event.date) : "Fecha por confirmar",
-    location: event.location || event.city || "Ubicación por confirmar",
-    organizer: event.organizer || event.club || "Organizador por confirmar",
-    judge: event.judge || "Juez por confirmar",
+    location: locationLine || "Ubicación por confirmar",
+    organizer: organizerLine || "Organizador por confirmar",
+    judge: judgeLine || "Juez por confirmar",
     levels,
     statusKey,
-    price: event.price != null && event.price !== "" ? `${event.price}€` : null,
-    spots: hasSpots
-      ? { current: Number(event.spotsCurrent), total: Number(event.spotsTotal) }
-      : null,
+    price,
+    spots: hasSpots ? { current: cur, total: max } : null,
     imageUrl: event.image || "/images/hero-dog.webp",
     imageAlt: event.imageAlt || event.title || "Evento Nosework Trial",
   };
@@ -63,8 +127,9 @@ export default function EventListingCardFddn({ event, detailHref, inscripcionHre
   const badge = STATUS_BADGE[n.statusKey] || STATUS_BADGE.upcoming;
   const pct = n.spots ? Math.min(100, Math.round((n.spots.current / n.spots.total) * 100)) : 0;
   const full = n.spots && n.spots.current >= n.spots.total;
-  const canEnroll = n.statusKey === "open" && !full;
-  const enrollHref = inscripcionHref || `${detailHref}#inscripcion`;
+  const alreadyRegistered = Boolean(event.my_registration_status);
+  const canEnroll = n.statusKey === "open" && !full && !isPast && !alreadyRegistered;
+  const enrollTarget = inscripcionHref || `${detailHref}/register`;
 
   return (
     <article className="bg-white rounded-xl overflow-hidden shadow-soft border border-surface-container-highest hover:shadow-hover transition-all group flex flex-col h-full">
@@ -112,9 +177,9 @@ export default function EventListingCardFddn({ event, detailHref, inscripcionHre
           </div>
         </div>
         <div className="flex flex-wrap gap-2 mb-4">
-          {n.levels.map((lv) => (
+          {n.levels.map((lv, idx) => (
             <span
-              key={lv}
+              key={`${lv}-${idx}`}
               className="px-2 py-1 bg-surface-container text-primary rounded-full text-xs font-bold uppercase tracking-wide"
             >
               {lv}
@@ -157,10 +222,14 @@ export default function EventListingCardFddn({ event, detailHref, inscripcionHre
             >
               Detalles
             </Link>
-            {canEnroll ? (
+            {alreadyRegistered ? (
+              <span className="py-2.5 rounded-lg bg-emerald-100 text-emerald-900 font-bold text-center border border-emerald-200">
+                Ya inscrito
+              </span>
+            ) : canEnroll ? (
               <Link
-                href={enrollHref}
-                className="py-2.5 rounded-lg bg-primary text-on-primary font-bold text-center hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2"
+                href={enrollTarget}
+                className="py-2.5 rounded-lg bg-primary text-white font-bold text-center hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2"
               >
                 Inscribirme
               </Link>
@@ -169,7 +238,7 @@ export default function EventListingCardFddn({ event, detailHref, inscripcionHre
                 className="py-2.5 rounded-lg bg-primary/30 text-on-primary font-bold text-center cursor-not-allowed opacity-80"
                 aria-disabled="true"
               >
-                {n.statusKey === "closed" ? "Cerrado" : full ? "Completo" : "Pronto"}
+                {isPast ? "Finalizada" : n.statusKey === "closed" ? "Cerrado" : full ? "Completo" : "Pronto"}
               </span>
             )}
           </div>

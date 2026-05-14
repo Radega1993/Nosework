@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useLocalizedLink } from "@/hooks/useLocalizedLink";
 
 const navClass = (active) =>
@@ -9,18 +10,23 @@ const navClass = (active) =>
   }`;
 
 /**
- * Navegación lateral estilo mock FDDN (área deportista).
+ * Navegación lateral del área deportista (siempre visible con DashboardLayout).
  */
 export default function DashboardSidebar({ onLogout, isJudge, isAdmin = false }) {
+  const router = useRouter();
   const { localizedHref } = useLocalizedLink();
-  const goToSection = (id) => {
-    if (typeof window === "undefined") return;
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-      window.history.replaceState(null, "", `#${id}`);
-    }
-  };
+  const path = router.pathname || "";
+  const asPath = router.asPath || "";
+
+  const dashboardHref = localizedHref("/dashboard");
+  const perrosHref = `${dashboardHref}#mis-perros`;
+
+  const isDashboardHome = path === "/dashboard";
+  const isPerrosAnchor = isDashboardHome && asPath.includes("mis-perros");
+  const isClubArea =
+    path === "/dashboard/club" || path.startsWith("/dashboard/clubs");
+  const isInvitations = path === "/dashboard/invitations";
+  const isAdminSection = path.startsWith("/dashboard/admin");
 
   return (
     <aside className="w-full md:w-72 md:fixed md:inset-y-0 md:left-0 z-[60] bg-surface-container border-b md:border-b-0 md:border-r border-outline-variant p-4 md:p-5 flex flex-row md:flex-col md:h-screen shadow-xl overflow-x-auto md:overflow-y-auto shrink-0">
@@ -36,25 +42,25 @@ export default function DashboardSidebar({ onLogout, isJudge, isAdmin = false })
           </span>
           Inicio
         </Link>
-        <span className={navClass(true)} aria-current="page">
+        <Link href={dashboardHref} className={navClass(isDashboardHome && !isPerrosAnchor)} aria-current={isDashboardHome && !isPerrosAnchor ? "page" : undefined}>
           <span className="material-symbols-outlined text-xl" aria-hidden>
             person
           </span>
           Área deportista
-        </span>
-        <button type="button" onClick={() => goToSection("mis-perros")} className={`${navClass(false)} w-full text-left`}>
+        </Link>
+        <Link href={perrosHref} className={navClass(isPerrosAnchor)} aria-current={isPerrosAnchor ? "page" : undefined}>
           <span className="material-symbols-outlined text-xl" aria-hidden>
             pets
           </span>
           Mis perros
-        </button>
+        </Link>
         <Link href={localizedHref("/resultados-rankings")} className={navClass(false)}>
           <span className="material-symbols-outlined text-xl" aria-hidden>
             leaderboard
           </span>
           Resultados
         </Link>
-        <Link href={localizedHref("/dashboard/club")} className={navClass(false)}>
+        <Link href={localizedHref("/dashboard/club")} className={navClass(isClubArea)} aria-current={isClubArea ? "page" : undefined}>
           <span className="material-symbols-outlined text-xl" aria-hidden>
             groups
           </span>
@@ -76,14 +82,14 @@ export default function DashboardSidebar({ onLogout, isJudge, isAdmin = false })
           </span>
           Juez {!isJudge ? "(pronto)" : ""}
         </span>
-        <Link href={localizedHref("/dashboard/invitations")} className={navClass(false)}>
+        <Link href={localizedHref("/dashboard/invitations")} className={navClass(isInvitations)} aria-current={isInvitations ? "page" : undefined}>
           <span className="material-symbols-outlined text-xl" aria-hidden>
             mail
           </span>
           Invitaciones
         </Link>
         {isAdmin ? (
-          <Link href={localizedHref("/dashboard/admin")} className={navClass(false)}>
+          <Link href={localizedHref("/dashboard/admin")} className={navClass(isAdminSection)} aria-current={isAdminSection ? "page" : undefined}>
             <span className="material-symbols-outlined text-xl" aria-hidden>
               admin_panel_settings
             </span>

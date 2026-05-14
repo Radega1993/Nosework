@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDebouncedCallback } from "use-debounce";
+import { formatEventLocationLine } from "@/utils/eventListHelpers";
 
 /**
  * Hook for managing event search with debouncing and URL synchronization
@@ -59,7 +60,12 @@ export function useEventSearch(events = []) {
     return events.filter((event) => {
       const titleMatch = event.title?.toLowerCase().includes(query);
       const descriptionMatch = event.description?.toLowerCase().includes(query);
-      return titleMatch || descriptionMatch;
+      const loc = formatEventLocationLine(event).toLowerCase();
+      const locMatch = loc.includes(query);
+      const kindMatch = String(event.kind || event.type || "")
+        .toLowerCase()
+        .includes(query);
+      return titleMatch || descriptionMatch || locMatch || kindMatch;
     });
   }, [events, searchQuery]);
 

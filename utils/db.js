@@ -1,6 +1,8 @@
 import Database from "better-sqlite3";
 import { ensureClubDirectorySchema } from "./clubDirectoryMigrations.js";
 import { ensureEventClubColumns } from "./eventClubMigrations.js";
+import { ensureEventExtendedColumns } from "./eventExtendedColumns.js";
+import { ensureEventJudgesTable } from "./eventJudges.js";
 
 let db;
 
@@ -428,5 +430,7 @@ export function getDBConnection() {
     ensureClubsMembershipMigrations(db);
     ensureClubDirectorySchema(db);
     ensureEventClubColumns(db);
+    ensureEventExtendedColumns(db);
+    ensureEventJudgesTable(db);
     return db;
 }

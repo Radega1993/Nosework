@@ -13,15 +13,6 @@ const IMG = {
 
 export const COMPETICIONES_EVENT_CARDS = [
   {
-    title: "ORT (Odor Recognition Test)",
-    description:
-      "Validación del reconocimiento del olor de trabajo. Suele ser el paso previo para acceder a pruebas de nivel Base con garantías comunes para todos los binomios.",
-    image: IMG.a,
-    imageAlt: "Binomio en prueba de reconocimiento de olor",
-    badge: "Prueba de acceso",
-    badgeClassName: "bg-secondary-container text-on-secondary-container",
-  },
-  {
     title: "Prueba oficial",
     description:
       "Jornadas puntuables con jueces y reglamento Nosework Trial: áreas de interior, exterior, contenedores y vehículos, según nivel convocado.",
@@ -68,11 +59,6 @@ export const COMPETICIONES_PROCESS = {
       mobileDetail: "Check-in de binomios, documentación y entrega de dorsales según organización.",
     },
     {
-      title: "Control veterinario",
-      hint: "Salud y bienestar",
-      mobileDetail: "Comprobación de cartilla, bienestar del perro y condiciones de participación.",
-    },
-    {
       title: "Briefing",
       hint: "Instrucciones del juez",
       mobileDetail: "Reunión breve con normas del día, recorridos y criterios de seguridad.",
@@ -109,14 +95,9 @@ export const COMPETICIONES_REQUIREMENTS = {
       text: "Identificación conforme a lo exija la convocatoria (p. ej. microchip) y datos del binomio correctos.",
     },
     {
-      icon: "health_and_safety",
-      title: "Salud y bienestar",
-      text: "Vacunación y estado físico adecuados; el organizador puede requerir documentación.",
-    },
-    {
       icon: "trending_up",
       title: "Nivel acorde",
-      text: "Participar en la categoría anunciada (ORT, Base o Avanzado) y haber cumplido requisitos previos si los hubiera.",
+      text: "Participar en la categoría anunciada (Base o Avanzado) y haber cumplido los requisitos previos que indique la convocatoria.",
     },
     {
       icon: "gavel",
@@ -162,17 +143,10 @@ export const COMPETICIONES_LEVELS_TABLE = {
   columns: ["Nivel", "Olores", "Enfoque", "Requisitos previos", "Título / hito"],
   rows: [
     [
-      "ORT",
-      "Kong + aceite esencial de salvia (familiarización con el olor de trabajo).",
-      "Validación del olor objetivo antes de competir en Base.",
-      "Ninguno; convocatoria específica ORT.",
-      "Certificado ORT (según organización)",
-    ],
-    [
       "Base",
       "Kong + salvia; búsquedas con menor complejidad y tiempo más amplio.",
       "Interior, exterior, contenedores y vehículos con criterios de Base.",
-      "ORT superado o criterios que anuncie la prueba.",
+      "Los que marque la convocatoria (consulta bases de cada prueba).",
       "Título de nivel Base (acumulación de resultados)",
     ],
     [

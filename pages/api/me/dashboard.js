@@ -47,14 +47,14 @@ export default function handler(req, res) {
 
       const ownedClubs = db
         .prepare(
-          `SELECT id, COALESCE(NULLIF(TRIM(display_name), ''), name) AS name, status, slug, created_at
+          `SELECT id, COALESCE(NULLIF(TRIM(display_name), ''), name) AS name, status, slug, logo_url, created_at
            FROM clubs WHERE owner_user_id = ? ORDER BY name COLLATE NOCASE`
         )
         .all(userId);
 
       const memberClubs = db
         .prepare(
-          `SELECT c.id, c.name, c.created_at
+          `SELECT c.id, c.name, c.status, c.logo_url, c.created_at
            FROM clubs c
            INNER JOIN club_memberships m ON m.club_id = c.id AND m.user_id = ? AND m.status = 'active'
            ORDER BY c.name`

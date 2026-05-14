@@ -28,16 +28,19 @@ import {
  * // Returns: "https://www.noseworktrialcommunity.com/es/eventos"
  * ```
  * 
- * @param {string} path - The path (with or without leading slash)
+ * @param {string} [path="/"] - Ruta relativa (con o sin barra inicial). Valores vacíos se tratan como "/".
  * @param {string|Object} [langOrRouter] - Optional language code (e.g., "es") or Next.js router object for automatic detection
  * @returns {string} Absolute canonical URL with domain and language prefix
  */
 export function getCanonicalUrl(path, langOrRouter = null) {
   const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://www.noseworktrialcommunity.com";
-  
-  // Clean path
-  let cleanPath = path.startsWith("/") ? path : `/${path}`;
+
+  const raw = path == null ? "" : String(path).trim();
+  let cleanPath = raw.startsWith("/") ? raw : `/${raw || ""}`;
+  if (cleanPath === "" || cleanPath === "//") {
+    cleanPath = "/";
+  }
   
   // Detect language
   let lang = DEFAULT_LANGUAGE;

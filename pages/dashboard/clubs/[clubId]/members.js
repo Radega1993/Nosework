@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import AuthContext from "@/contexts/AuthContext";
-import { DashboardClubMembersTable, DashboardSidebar } from "@/components/dashboard";
+import { DashboardClubMembersTable, DashboardLayout } from "@/components/dashboard";
 
 export default function ClubMembersPage() {
   const { user, loading, apiCall, logout } = useContext(AuthContext);
@@ -44,13 +44,12 @@ export default function ClubMembersPage() {
   };
 
   return (
-    <div className="min-h-screen bg-surface text-on-surface flex">
-      <DashboardSidebar onLogout={logout} isJudge={Boolean(user?.is_judge)} isAdmin={user?.role === "administrador"} />
-      <main className="flex-1 md:ml-72 p-6">
+    <DashboardLayout onLogout={logout} isJudge={Boolean(user?.is_judge)} isAdmin={user?.role === "administrador"}>
+      <main className="flex-1 p-6">
         <h1 className="font-montserrat text-2xl font-bold text-primary mb-4">Miembros del club #{clubId}</h1>
         {error ? <p className="mb-3 rounded border border-red-200 bg-red-50 p-3 text-red-700">{error}</p> : null}
         <DashboardClubMembersTable members={members} onRemove={onRemove} loading={busy} />
       </main>
-    </div>
+    </DashboardLayout>
   );
 }

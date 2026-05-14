@@ -17,6 +17,10 @@
 /playwright/.cache
 *.png
 !tests/**/*.png
+!public/logonosework/nosework-trial-community.png
+!public/logonosework/nosework-trial-community-transp.png
+!public/logonosework/nosework-trial-community-long-transp.png
+!public/logonosework/nosework-trial-community-long-black-transp.png
 
 # next.js
 /.next/

@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import { useLocalizedLink } from "@/hooks/useLocalizedLink";
+import { registrationStatusLabelEs } from "@/utils/eventRegistrations";
 
 export default function EventRegisterPage() {
   const router = useRouter();
@@ -36,12 +37,24 @@ export default function EventRegisterPage() {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (evRes.status === 404) {
+          setEvent(null);
           setError("not-found");
           return;
         }
         if (!evRes.ok) throw new Error("event");
         const evData = await evRes.json();
-        setEvent(evData.event);
+        const ev = evData.event;
+        if (ev.is_past) {
+          setEvent(ev);
+          setError("past");
+          return;
+        }
+        if (ev.my_registration) {
+          setEvent(ev);
+          setError("already");
+          return;
+        }
+        setEvent(ev);
 
         const dogsRes = await fetch("/api/me/dogs", {
           headers: { Authorization: `Bearer ${token}` },
@@ -65,6 +78,10 @@ export default function EventRegisterPage() {
     const token = localStorage.getItem("token");
     if (!token) {
       setError("login");
+      return;
+    }
+    if (dogs.length > 0 && !dogId) {
+      setError("Selecciona el perro con el que participas.");
       return;
     }
     setSubmitting(true);
@@ -137,6 +154,49 @@ export default function EventRegisterPage() {
     );
   }
 
+  if (error === "past" && event) {
+    return (
+      <div className="bg-[#F4F6F8] min-h-screen pt-20">
+        <Navbar />
+        <main className="section py-12">
+          <div className="container-redesign max-w-lg mx-auto bg-white rounded-lg shadow p-8 text-center">
+            <h1 className="text-h3 font-bold mb-4">Prueba ya celebrada</h1>
+            <p className="text-body text-gray-600 mb-6">
+              La fecha de <strong>{event.title}</strong> ya ha pasado; no es posible inscribirse.
+            </p>
+            <Link href={localizedHref("/eventos")} className="text-primary font-semibold">
+              Volver al calendario
+            </Link>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error === "already" && event) {
+    return (
+      <div className="bg-[#F4F6F8] min-h-screen pt-20">
+        <Navbar />
+        <main className="section py-12">
+          <div className="container-redesign max-w-lg mx-auto bg-white rounded-lg shadow p-8 text-center">
+            <h1 className="text-h3 font-bold mb-4">Ya inscrito</h1>
+            <p className="text-body text-gray-600 mb-2">
+              Ya tienes una inscripción en <strong>{event.title}</strong>.
+            </p>
+            <p className="text-body text-gray-700 mb-6">
+              Estado: <strong>{registrationStatusLabelEs(event.my_registration?.status)}</strong>
+            </p>
+            <Link href={localizedHref(`/eventos/${id}`)} className="text-primary font-semibold">
+              Volver a la ficha del evento
+            </Link>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   if (error === "not-found" || !event) {
     return (
       <div className="bg-[#F4F6F8] min-h-screen pt-20">
@@ -154,17 +214,26 @@ export default function EventRegisterPage() {
     );
   }
 
+  const eventId = Array.isArray(id) ? id[0] : id;
+
   return (
     <div className="bg-[#F4F6F8] min-h-screen pt-20">
-      <SEOHead title={`Inscripción: ${event.title}`} description="Completa tu inscripción al evento." />
+      <SEOHead
+        title={`Inscripción: ${event.title}`}
+        description="Completa tu inscripción al evento."
+        canonical={`/eventos/${eventId}/register`}
+      />
       <Navbar />
       <main className="section py-12">
         <div className="container-redesign max-w-lg mx-auto bg-white rounded-lg shadow p-8">
           {done ? (
             <>
               <h1 className="text-h3 font-bold mb-4">Inscripción registrada</h1>
-              <p className="text-body text-gray-600 mb-6">
+              <p className="text-body text-gray-600 mb-4">
                 Tu solicitud para <strong>{event.title}</strong> ha quedado pendiente de confirmación.
+              </p>
+              <p className="text-body text-gray-600 mb-6">
+                Revisa la forma de realizar el pago; el organizador se pondrá en contacto en la máxima brevedad.
               </p>
               <Link href={localizedHref(`/eventos/${id}`)} className="text-primary font-semibold">
                 Volver al evento
@@ -175,10 +244,19 @@ export default function EventRegisterPage() {
               <h1 className="text-h3 font-bold mb-2">Inscribirse</h1>
               <p className="text-gray-600 mb-6">{event.title}</p>
               <form onSubmit={handleSubmit} className="space-y-4">
+                {dogs.length === 0 && (
+                  <p className="text-sm text-gray-600">
+                    Puedes confirmar la inscripción sin perro; para asociar un binomio,{" "}
+                    <Link href={localizedHref("/dashboard")} className="text-primary font-semibold hover:underline">
+                      añade un perro en tu panel
+                    </Link>
+                    .
+                  </p>
+                )}
                 {dogs.length > 0 && (
                   <div>
                     <label htmlFor="dogId" className="block text-sm font-semibold mb-1">
-                      Perro (opcional)
+                      Perro
                     </label>
                     <select
                       id="dogId"
@@ -186,7 +264,7 @@ export default function EventRegisterPage() {
                       onChange={(e) => setDogId(e.target.value)}
                       className="w-full border rounded p-2"
                     >
-                      <option value="">— Sin especificar —</option>
+                      <option value="">— Elige un perro —</option>
                       {dogs.map((d) => (
                         <option key={d.id} value={String(d.id)}>
                           {d.name}

@@ -32,7 +32,7 @@ export default function HomeCommunityCtaSection({
             href={localizedHref(secondaryHref)}
             variant="secondary"
             size="large"
-            className="rounded-xl border-0 bg-white text-primary text-lg hover:bg-surface"
+            className="rounded-xl border-0 bg-white !text-black text-lg hover:bg-surface hover:!text-black"
           >
             {secondaryLabel}
           </Button>

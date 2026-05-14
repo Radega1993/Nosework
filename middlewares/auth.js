@@ -13,6 +13,28 @@ export function getOptionalUser(req) {
   }
 }
 
+/**
+ * Verifica Bearer JWT de forma síncrona. Si falla, envía JSON en `res` y devuelve null.
+ * Úsalo en rutas API `async` que necesiten `await` después de autenticar (evita cerrar la petición antes de tiempo).
+ */
+export function requireAuthUser(req, res) {
+  const token = req.headers["authorization"]?.split(" ")[1];
+  if (!token) {
+    res.status(401).json({ error: "Token requerido" });
+    return null;
+  }
+  if (isTokenBlacklisted(token)) {
+    res.status(403).json({ error: "Token inválido" });
+    return null;
+  }
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET);
+  } catch {
+    res.status(403).json({ error: "Token inválido" });
+    return null;
+  }
+}
+
 export function authenticateToken(req, res, next) {
     const token = req.headers["authorization"]?.split(" ")[1]; // Obtén el token del encabezado
     if (!token) {
@@ -51,17 +73,19 @@ export function authorizeRoles(...roles) {
 /**
  * Permite crear/gestionar eventos si rol organizador/admin o si es dueño de al menos un club.
  */
+export function isOrganizerCapableUser(user) {
+  if (!user?.id) return false;
+  if (user.role === "organizador" || user.role === "administrador") return true;
+  const db = getDBConnection();
+  const row = db.prepare("SELECT 1 AS ok FROM clubs WHERE owner_user_id = ? LIMIT 1").get(user.id);
+  return Boolean(row);
+}
+
 export function authorizeOrganizerCapable(req, res, next) {
     if (!req.user) {
         return res.status(401).json({ error: "No autorizado" });
     }
-    const { id, role } = req.user;
-    if (role === "organizador" || role === "administrador") {
-        return next();
-    }
-    const db = getDBConnection();
-    const row = db.prepare("SELECT 1 AS ok FROM clubs WHERE owner_user_id = ? LIMIT 1").get(id);
-    if (row) {
+    if (isOrganizerCapableUser(req.user)) {
         return next();
     }
     return res.status(403).json({ error: "Acceso denegado" });

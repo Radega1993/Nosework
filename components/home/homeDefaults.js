@@ -34,7 +34,6 @@ export const DEFAULT_NEWS_CARDS = [
 ];
 
 export const DEFAULT_LEVEL_CARDS = [
-  { code: "ORT", label: "Test olor", sub: "Referencia reglamento", border: "border-outline" },
   { code: "Base", label: "Nivel Base", sub: "Iniciación", border: "border-cyan-600" },
   { code: "Avanzado", label: "Nivel Avanzado", sub: "Mayor exigencia", border: "border-emerald-600" },
   {
@@ -42,7 +41,6 @@ export const DEFAULT_LEVEL_CARDS = [
     label: "Reconocimientos",
     sub: "Según reglamento",
     border: "border-amber-500",
-    dark: true,
   },
 ];
 

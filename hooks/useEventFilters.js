@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/router";
 import { getEventLocalYmd, normalizeFilterYmd } from "@/utils/eventDates";
+import { formatEventLocationLine, eventMatchesLevelFilter } from "@/utils/eventListHelpers";
 
 /**
  * Hook for managing event filters with URL synchronization
@@ -91,26 +92,25 @@ export function useEventFilters(events = []) {
         if (toYmd && (!evYmd || evYmd > toYmd)) return false;
       }
 
-      // Level filter
-      if (filters.level.length > 0 && event.level) {
-        const eventLevel = event.level.toLowerCase();
-        if (!filters.level.some((l) => l.toLowerCase() === eventLevel)) {
+      // Level filter (levels_json / legacy level)
+      if (filters.level.length > 0 && !eventMatchesLevelFilter(event, filters.level)) {
+        return false;
+      }
+
+      // Type filter (kind o type legacy)
+      if (filters.type.length > 0) {
+        const eventType = String(event.type || event.kind || "")
+          .toLowerCase()
+          .trim();
+        if (!eventType || !filters.type.some((t) => eventType.includes(t.toLowerCase()))) {
           return false;
         }
       }
 
-      // Type filter
-      if (filters.type.length > 0 && event.type) {
-        const eventType = event.type.toLowerCase();
-        if (!filters.type.some((t) => t.toLowerCase() === eventType)) {
-          return false;
-        }
-      }
-
-      // Location filter
+      // Location filter (campos extendidos + legacy)
       if (filters.location) {
         const searchLocation = filters.location.toLowerCase();
-        const eventLocation = (event.location || event.city || "").toLowerCase();
+        const eventLocation = formatEventLocationLine(event).toLowerCase();
         if (!eventLocation.includes(searchLocation)) {
           return false;
         }

@@ -11,6 +11,11 @@ import EventDetail from "@/components/Event/EventDetail";
 import { useLocalizedLink } from "@/hooks/useLocalizedLink";
 import { isEventDateBeforeToday } from "@/utils/eventDates";
 
+const EventOrganizerRegistrationsPanel = dynamic(
+  () => import("@/components/Event/EventOrganizerRegistrationsPanel"),
+  { ssr: false }
+);
+
 const EventCardPublic = dynamic(() => import("@/components/Event/EventCardPublic"), {
   ssr: false,
 });
@@ -71,6 +76,18 @@ export default function EventDetailPage() {
 
     fetchEvent();
   }, [id]);
+
+  useEffect(() => {
+    if (!event?.can_manage_registrations || typeof window === "undefined") return;
+    if (window.location.hash !== "#participantes") return;
+    const scrollToPanel = () => {
+      const el = document.getElementById("participantes");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    scrollToPanel();
+    const t = window.setTimeout(scrollToPanel, 400);
+    return () => clearTimeout(t);
+  }, [event]);
 
   // Schema.org JSON-LD for single event
   const schemaMarkup = event
@@ -212,6 +229,12 @@ export default function EventDetailPage() {
       <main>
         <div className="container-redesign py-12">
           <EventDetail event={event} />
+
+          {event.can_manage_registrations ? (
+            <div className="container-redesign pb-12 max-w-4xl mx-auto px-4">
+              <EventOrganizerRegistrationsPanel eventId={Number(event.id)} />
+            </div>
+          ) : null}
 
           {/* Related Events */}
           {relatedEvents.length > 0 && (

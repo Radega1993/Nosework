@@ -25,15 +25,9 @@ export default function HomeLevelsStrip({
           {items.map((item) => (
             <div
               key={item.code}
-              className={`w-44 rounded-2xl border-b-4 ${item.border} bg-white p-6 text-center shadow-sm transition-transform hover:-translate-y-2 ${
-                item.dark ? "bg-primary text-white border-secondary-container" : ""
-              }`}
+              className={`w-44 rounded-2xl border-b-4 ${item.border} bg-white p-6 text-center shadow-sm transition-transform hover:-translate-y-2`}
             >
-              <div
-                className={`mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full text-sm font-bold ${
-                  item.dark ? "bg-[#c3f400] text-primary" : "bg-outline-variant text-primary"
-                }`}
-              >
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-outline-variant text-sm font-bold text-primary">
                 {item.code === "Títulos" ? (
                   <span className="material-symbols-outlined text-primary" aria-hidden>
                     star
@@ -42,10 +36,8 @@ export default function HomeLevelsStrip({
                   item.code.slice(0, 3)
                 )}
               </div>
-              <h4 className={`font-montserrat font-bold ${item.dark ? "text-white" : "text-primary"}`}>
-                {item.label}
-              </h4>
-              <p className={`text-xs mt-2 ${item.dark ? "text-white/80" : "text-on-surface-variant"}`}>{item.sub}</p>
+              <h4 className="font-montserrat font-bold text-primary">{item.label}</h4>
+              <p className="text-xs mt-2 text-on-surface-variant">{item.sub}</p>
             </div>
           ))}
         </div>

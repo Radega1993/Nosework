@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import Button from "@/components/Button";
 import HeroSection from "@/components/HeroSection";
+import dynamic from "next/dynamic";
 import { useLocalizedLink } from "@/hooks/useLocalizedLink";
 import {
   ImageBadgeCardGrid,
@@ -20,6 +21,11 @@ import {
   COMPETICIONES_CTA,
 } from "@/components/nosework/competicionesContent";
 
+const CompeticionesUpcomingStrip = dynamic(
+  () => import("@/components/nosework/CompeticionesUpcomingStrip"),
+  { ssr: false }
+);
+
 export default function Competiciones() {
   const { localizedHref } = useLocalizedLink();
 
@@ -27,12 +33,12 @@ export default function Competiciones() {
     <div className="min-h-screen bg-surface text-on-surface">
       <SEOHead
         title="Competiciones – Nosework Trial"
-        description="Tipos de pruebas, desarrollo de una jornada competitiva, requisitos y niveles ORT, Base y Avanzado. Consulta calendario y reglamento."
+        description="Tipos de pruebas, desarrollo de una jornada competitiva, requisitos y niveles Base y Avanzado. Consulta calendario y reglamento."
         canonical="/competiciones"
         ogImage="/images/og-image.jpg"
         additionalMeta={{
           keywords:
-            "competiciones nosework, pruebas nosework trial, ORT nosework, nivel base avanzado, calendario nosework",
+            "competiciones nosework, pruebas nosework trial, nivel base avanzado, calendario nosework",
         }}
       />
 
@@ -44,6 +50,8 @@ export default function Competiciones() {
         subtitle={COMPETICIONES_HERO.subtitle}
         backgroundImage="/images/hero-dog.webp"
       />
+
+      <CompeticionesUpcomingStrip />
 
       <main>
         <ImageBadgeCardGrid items={COMPETICIONES_EVENT_CARDS} />

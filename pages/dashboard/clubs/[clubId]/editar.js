@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import AuthContext from "@/contexts/AuthContext";
-import { DashboardSidebar, ClubFichaForm } from "@/components/dashboard";
+import { DashboardLayout, ClubFichaForm } from "@/components/dashboard";
 import { useLocalizedLink } from "@/hooks/useLocalizedLink";
 
 export default function EditarClubPage() {
@@ -56,22 +56,20 @@ export default function EditarClubPage() {
   const canEdit = isAdmin || ownedClubs.some((c) => Number(c.id) === clubId);
   if (!canEdit) {
     return (
-      <div className="min-h-screen bg-surface text-on-surface flex">
-        <DashboardSidebar onLogout={logout} isJudge={Boolean(user?.is_judge)} isAdmin={isAdmin} />
-        <main className="flex-1 md:ml-72 p-6">
+      <DashboardLayout onLogout={logout} isJudge={Boolean(user?.is_judge)} isAdmin={isAdmin}>
+        <main className="flex-1 p-6">
           <p className="text-red-700">No tienes permiso para editar este club.</p>
           <Link href={localizedHref("/dashboard/club")} className="text-primary font-semibold mt-4 inline-block">
             Volver a Mi club
           </Link>
         </main>
-      </div>
+      </DashboardLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-surface text-on-surface flex">
-      <DashboardSidebar onLogout={logout} isJudge={Boolean(user?.is_judge)} isAdmin={isAdmin} />
-      <main className="flex-1 md:ml-72 p-6 space-y-6 max-w-4xl">
+    <DashboardLayout onLogout={logout} isJudge={Boolean(user?.is_judge)} isAdmin={isAdmin}>
+      <main className="flex-1 p-6 space-y-6 max-w-4xl">
         <div>
           <Link href={localizedHref("/dashboard/club")} className="text-sm font-semibold text-primary hover:underline">
             ← Volver a Mi club
@@ -84,6 +82,6 @@ export default function EditarClubPage() {
           onDone={() => router.push(localizedHref("/dashboard/club"))}
         />
       </main>
-    </div>
+    </DashboardLayout>
   );
 }

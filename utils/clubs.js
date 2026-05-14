@@ -34,6 +34,18 @@ export function canManageClub(user, club) {
   return isAdmin(user) || Number(club.owner_user_id) === Number(user.id);
 }
 
+/** Miembro con fila activa (puede ver ficha aunque el club aún no esté aprobado en el directorio). */
+export function isActiveClubMember(db, userId, clubId) {
+  if (!userId || !clubId) return false;
+  const row = db
+    .prepare(
+      `SELECT 1 AS ok FROM club_memberships
+       WHERE club_id = ? AND user_id = ? AND status = 'active'`
+    )
+    .get(clubId, userId);
+  return Boolean(row);
+}
+
 export function createOrActivateMembership(db, { clubId, userId, approvedByUserId, role = "member" }) {
   db.prepare(
     `INSERT INTO club_memberships (club_id, user_id, role, status, approved_by_user_id, joined_at, updated_at)

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import AuthContext from "@/contexts/AuthContext";
-import { DashboardSidebar, ClubFichaForm } from "@/components/dashboard";
+import { DashboardLayout, ClubFichaForm } from "@/components/dashboard";
 import { useLocalizedLink } from "@/hooks/useLocalizedLink";
 
 export default function CrearClubPage() {
@@ -26,9 +26,8 @@ export default function CrearClubPage() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-surface text-on-surface flex">
-      <DashboardSidebar onLogout={logout} isJudge={Boolean(user?.is_judge)} isAdmin={isAdmin} />
-      <main className="flex-1 md:ml-72 p-6 space-y-6 max-w-4xl">
+    <DashboardLayout onLogout={logout} isJudge={Boolean(user?.is_judge)} isAdmin={isAdmin}>
+      <main className="flex-1 p-6 space-y-6 max-w-4xl">
         <div>
           <Link href={localizedHref("/dashboard/club")} className="text-sm font-semibold text-primary hover:underline">
             ← Volver a Mi club
@@ -40,6 +39,6 @@ export default function CrearClubPage() {
         </div>
         <ClubFichaForm editingId={null} onDone={() => router.push(localizedHref("/dashboard/club"))} />
       </main>
-    </div>
+    </DashboardLayout>
   );
 }

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import AuthContext from "@/contexts/AuthContext";
-import { DashboardSidebar } from "@/components/dashboard";
+import { DashboardLayout } from "@/components/dashboard";
 import { useLocalizedLink } from "@/hooks/useLocalizedLink";
 
 function statusLabel(status) {
@@ -13,6 +13,26 @@ function statusLabel(status) {
     archived: "Archivado",
   };
   return map[status] || status;
+}
+
+function ClubLogoThumb({ url, label }) {
+  const trimmed = url && String(url).trim();
+  if (trimmed) {
+    return (
+      <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border border-outline-variant bg-white p-1">
+        {/* eslint-disable-next-line @next/next/no-img-element -- URL externa o subida sin dominio fijo en next.config */}
+        <img src={trimmed} alt={label ? `Logo de ${label}` : ""} className="h-full w-full object-contain" />
+      </div>
+    );
+  }
+  return (
+    <div
+      className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-outline-variant bg-surface-container-highest"
+      aria-hidden
+    >
+      <span className="material-symbols-outlined text-on-surface-variant text-2xl">pets</span>
+    </div>
+  );
 }
 
 export default function MiClubPage() {
@@ -64,17 +84,33 @@ export default function MiClubPage() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-surface text-on-surface flex">
-      <DashboardSidebar onLogout={logout} isJudge={Boolean(user?.is_judge)} isAdmin={isAdmin} />
-      <main className="flex-1 md:ml-72 p-6 lg:p-8 max-w-3xl">
+    <DashboardLayout onLogout={logout} isJudge={Boolean(user?.is_judge)} isAdmin={isAdmin}>
+      <main className="flex-1 p-6 lg:p-8 max-w-3xl">
         <div className="mb-8">
           <h1 className="font-montserrat text-3xl font-bold text-primary mb-2">Mi club</h1>
           <p className="text-on-surface-variant text-sm max-w-xl">
-            Gestiona tu club, invita a miembros o consulta el club en el que entrenas. El alta de un club nuevo es un trámite puntual; la tienes enlazada abajo del todo.
+            Gestiona tu club, invita a miembros o consulta el club en el que entrenas. Si eres responsable de un club,
+            puedes publicar una prueba con el botón «Crear prueba o evento».
           </p>
         </div>
 
         {err ? <p className="mb-4 rounded border border-red-200 bg-red-50 p-3 text-red-700">{err}</p> : null}
+
+        <section className="mb-10 rounded-xl border border-outline-variant bg-surface-container-low p-6 shadow-sm">
+          <h2 className="font-montserrat text-lg font-bold text-primary mb-2">Registrar un club nuevo</h2>
+          <p className="text-sm text-on-surface-variant mb-4 max-w-xl">
+            Crea la ficha de tu club en la plataforma. El equipo revisará la solicitud antes de publicarla en el directorio.
+          </p>
+          <Link
+            href={localizedHref("/dashboard/clubs/crear")}
+            className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-bold text-white shadow-md hover:opacity-95 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2"
+          >
+            <span className="material-symbols-outlined text-xl text-white" aria-hidden>
+              add
+            </span>
+            Registrar un club nuevo
+          </Link>
+        </section>
 
         {ownedClubs.length > 0 ? (
           <section className="space-y-6 mb-10">
@@ -85,13 +121,16 @@ export default function MiClubPage() {
                 className="rounded-2xl border-2 border-secondary/40 bg-gradient-to-br from-secondary-container/40 to-white p-6 shadow-soft"
               >
                 <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-wide text-on-secondary-container mb-1">Organizas</p>
-                    <p className="font-montserrat text-2xl font-bold text-primary">{club.name}</p>
-                    <p className="text-sm text-on-surface-variant mt-1">
-                      Estado: <span className="font-semibold capitalize">{statusLabel(club.status)}</span>
-                      {club.slug ? <span className="ml-2 font-mono text-xs">· {club.slug}</span> : null}
-                    </p>
+                  <div className="flex flex-wrap items-start gap-4 min-w-0">
+                    <ClubLogoThumb url={club.logo_url} label={club.name} />
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold uppercase tracking-wide text-on-secondary-container mb-1">Organizas</p>
+                      <p className="font-montserrat text-2xl font-bold text-primary">{club.name}</p>
+                      <p className="text-sm text-on-surface-variant mt-1">
+                        Estado: <span className="font-semibold capitalize">{statusLabel(club.status)}</span>
+                        {club.slug ? <span className="ml-2 font-mono text-xs">· {club.slug}</span> : null}
+                      </p>
+                    </div>
                   </div>
                   <Link
                     href={localizedHref(`/dashboard/clubs/${club.id}/editar`)}
@@ -104,31 +143,42 @@ export default function MiClubPage() {
                 <div className="grid sm:grid-cols-2 gap-3">
                   <Link
                     href={localizedHref(`/dashboard/clubs/${club.id}/members`)}
-                    className="flex items-center justify-center gap-2 rounded-xl bg-primary text-on-primary py-4 px-4 font-bold text-center shadow-md hover:opacity-95 transition-opacity"
+                    className="flex items-center justify-center gap-2 rounded-xl bg-primary py-4 px-4 font-bold text-center text-white shadow-md hover:opacity-95 transition-opacity"
                   >
-                    <span className="material-symbols-outlined" aria-hidden>
+                    <span className="material-symbols-outlined text-xl text-white shrink-0" aria-hidden>
                       groups
                     </span>
-                    Ver miembros
+                    <span className="text-white">Ver miembros</span>
                   </Link>
                   <Link
                     href={localizedHref(`/dashboard/clubs/${club.id}/invitations`)}
-                    className="flex items-center justify-center gap-2 rounded-xl bg-secondary text-on-secondary py-4 px-4 font-bold text-center shadow-md hover:brightness-105 transition-all"
+                    className="flex items-center justify-center gap-2 rounded-xl bg-secondary py-4 px-4 font-bold text-center text-white shadow-md hover:brightness-105 transition-all"
                   >
-                    <span className="material-symbols-outlined" aria-hidden>
+                    <span className="material-symbols-outlined text-xl text-white shrink-0" aria-hidden>
                       person_add
                     </span>
-                    Invitar miembros
+                    <span className="text-white">Invitar miembros</span>
                   </Link>
                   <Link
                     href={localizedHref(`/dashboard/clubs/${club.id}/requests`)}
                     className="flex items-center justify-center gap-2 rounded-xl border-2 border-primary text-primary py-4 px-4 font-bold text-center hover:bg-primary/5 transition-colors sm:col-span-2"
                   >
-                    <span className="material-symbols-outlined" aria-hidden>
+                    <span className="material-symbols-outlined shrink-0" aria-hidden>
                       inbox
                     </span>
                     Solicitudes para unirse
                   </Link>
+                  {dash?.capabilities?.canOrganizeEvents ? (
+                    <Link
+                      href={localizedHref(`/dashboard/clubs/${club.id}/evento/nuevo`)}
+                      className="flex items-center justify-center gap-2 rounded-xl border-2 border-secondary bg-secondary-container/50 text-primary py-4 px-4 font-bold text-center hover:bg-secondary-container transition-colors sm:col-span-2"
+                    >
+                      <span className="material-symbols-outlined shrink-0" aria-hidden>
+                        event
+                      </span>
+                      Crear prueba o evento
+                    </Link>
+                  ) : null}
                 </div>
               </div>
             ))}
@@ -143,20 +193,23 @@ export default function MiClubPage() {
               {memberOnly.map((club) => (
                 <div
                   key={club.id}
-                  className="rounded-xl border border-outline-variant bg-white p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+                  className="rounded-xl border border-outline-variant bg-white p-5 flex flex-col sm:flex-row sm:items-center gap-4"
                 >
-                  <div>
-                    <p className="font-montserrat font-bold text-primary text-lg">{club.name}</p>
-                    <p className="text-xs text-on-surface-variant capitalize mt-1">{club.status}</p>
+                  <div className="flex items-center gap-4 min-w-0 flex-1">
+                    <ClubLogoThumb url={club.logo_url} label={club.name} />
+                    <div className="min-w-0">
+                      <p className="font-montserrat font-bold text-primary text-lg">{club.name}</p>
+                      <p className="text-xs text-on-surface-variant capitalize mt-1">{statusLabel(club.status)}</p>
+                    </div>
                   </div>
                   <Link
-                    href={localizedHref(`/dashboard/clubs/${club.id}/members`)}
-                    className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary text-on-primary py-3 px-5 font-bold text-sm shrink-0"
+                    href={localizedHref(`/dashboard/clubs/${club.id}`)}
+                    className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary py-3 px-5 font-bold text-sm shrink-0 text-white hover:opacity-95 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
                   >
-                    <span className="material-symbols-outlined text-lg" aria-hidden>
+                    <span className="material-symbols-outlined text-lg text-white" aria-hidden>
                       visibility
                     </span>
-                    Ver mi club
+                    <span className="text-white">Ver mi club</span>
                   </Link>
                 </div>
               ))}
@@ -175,23 +228,7 @@ export default function MiClubPage() {
             </Link>
           </div>
         ) : null}
-
-        <section className="rounded-xl border border-dashed border-outline-variant bg-surface-container-low/50 p-5">
-          <h2 className="font-montserrat text-sm font-bold text-on-surface-variant uppercase tracking-wide mb-2">Alta de club (poco habitual)</h2>
-          <p className="text-sm text-on-surface-variant mb-4">
-            Usa este enlace solo si quieres registrar un club nuevo en la plataforma. El proceso incluye revisión por el equipo.
-          </p>
-          <Link
-            href={localizedHref("/dashboard/clubs/crear")}
-            className="inline-flex items-center gap-2 rounded-lg border border-outline-variant bg-white px-4 py-2 text-sm font-semibold text-primary hover:bg-surface-container-highest transition-colors"
-          >
-            <span className="material-symbols-outlined text-lg" aria-hidden>
-              add
-            </span>
-            Registrar un club nuevo
-          </Link>
-        </section>
       </main>
-    </div>
+    </DashboardLayout>
   );
 }

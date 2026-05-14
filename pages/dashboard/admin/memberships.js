@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import AuthContext from "@/contexts/AuthContext";
-import { DashboardSidebar } from "@/components/dashboard";
+import { DashboardLayout } from "@/components/dashboard";
 
 export default function AdminMembershipsPage() {
   const { user, loading, apiCall, logout } = useContext(AuthContext);
@@ -30,9 +30,8 @@ export default function AdminMembershipsPage() {
   }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="min-h-screen bg-surface text-on-surface flex">
-      <DashboardSidebar onLogout={logout} isJudge={Boolean(user?.is_judge)} isAdmin />
-      <main className="flex-1 md:ml-72 p-6">
+    <DashboardLayout onLogout={logout} isJudge={Boolean(user?.is_judge)} isAdmin>
+      <main className="flex-1 p-6">
         <h1 className="font-montserrat text-2xl font-bold text-primary mb-4">Membresías</h1>
         {error ? <p className="mb-3 rounded border border-red-200 bg-red-50 p-3 text-red-700">{error}</p> : null}
         <div className="grid grid-cols-2 gap-3 mb-4">
@@ -68,6 +67,6 @@ export default function AdminMembershipsPage() {
           </table>
         </div>
       </main>
-    </div>
+    </DashboardLayout>
   );
 }

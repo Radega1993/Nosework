@@ -55,39 +55,38 @@ export const QUE_ES_TIMELINE = {
     },
     {
       title: "5. Validación",
-      text: 'El guía levanta la mano gritando "¡AQUÍ!" o "¡AVISO!", y el juez confirma si la localización es correcta.',
+      text:
+        "Cuando el perro marca la fuente, el participante premia al perro; el juez anota si la indicación es válida o no según el reglamento.",
       textOnLeft: true,
     },
   ],
 };
 
 export const QUE_ES_MODALITIES_INTRO = {
-  title: "Modalidades de búsqueda",
-  intro: "El Nosework se practica en seis escenarios oficiales que desafían al binomio.",
+  title: "Tipos de búsqueda",
+  intro:
+    "En Nosework Trial se trabajan cuatro modalidades oficiales (como en el reglamento): interior, exterior, vehículos y contenedores.",
 };
 
+/** Fotografías propias optimizadas (WebP); regenerar con `npm run optimize:brand-que-es`. */
 const IMG = {
-  boxes: "/images/hero-dog.webp",
-  interior: "/images/philosophy.jpg",
-  exterior: "/images/hero-dog.webp",
-  vehicles: "/images/philosophy.jpg",
-  nature: "/images/hero-dog.webp",
-  urban: "/images/philosophy.jpg",
+  contenedores: "/images/paqueteria.webp",
+  interior: "/images/interior.webp",
+  exterior: "/images/exterior.webp",
+  vehiculos: "/images/coche.webp",
 };
 
 export const QUE_ES_MODALITIES = [
-  { title: "Contenedores", image: IMG.boxes, imageAlt: "Búsqueda entre contenedores" },
-  { title: "Interior", image: IMG.interior, imageAlt: "Búsqueda en interior" },
-  { title: "Exterior", image: IMG.exterior, imageAlt: "Búsqueda en exterior" },
-  { title: "Vehículos", image: IMG.vehicles, imageAlt: "Búsqueda en vehículos" },
-  { title: "Área natural", image: IMG.nature, imageAlt: "Búsqueda en área natural" },
-  { title: "Búsqueda urbana", image: IMG.urban, imageAlt: "Búsqueda urbana" },
+  { title: "Contenedores", image: IMG.contenedores, imageAlt: "Perro buscando entre cajas y paquetes en interior" },
+  { title: "Interior", image: IMG.interior, imageAlt: "Búsqueda de olor en espacio interior" },
+  { title: "Exterior", image: IMG.exterior, imageAlt: "Búsqueda de olor al aire libre sobre hierba" },
+  { title: "Vehículos", image: IMG.vehiculos, imageAlt: "Perro rastreando olor en la zona de ruedas de un vehículo" },
 ];
 
 export const QUE_ES_BENEFITS = {
   title: "Beneficios para el perro",
-  imageSrc: "/images/philosophy.jpg",
-  imageAlt: "Perro tranquilo tras una sesión de trabajo de olfato",
+  imageSrc: "/images/exterior.webp",
+  imageAlt: "Perro concentrado en una búsqueda de olor al aire libre",
   quote: "Nosework no es solo un deporte, es un lenguaje entre tú y tu perro.",
   items: [
     {

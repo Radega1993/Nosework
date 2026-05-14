@@ -1,6 +1,7 @@
 import { authenticateToken } from "@/middlewares/auth";
 import { getDBConnection } from "@/utils/db";
 import { canUserRegisterForEvent } from "@/utils/eventVisibility";
+import { isEventDateBeforeToday } from "@/utils/eventDates";
 
 function loadEventWithClub(db, eventId) {
   return db
@@ -29,6 +30,9 @@ export default function handler(req, res) {
       }
       if (!canUserRegisterForEvent(db, req.user, row)) {
         return res.status(403).json({ error: "No puedes inscribirte en este evento" });
+      }
+      if (isEventDateBeforeToday(row.date)) {
+        return res.status(400).json({ error: "Este evento ya ha pasado; no se admite inscripción." });
       }
 
       const dup = db
