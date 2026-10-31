@@ -2,8 +2,9 @@ import { useCallback, useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
-import HeroSection from "@/components/HeroSection";
+import HeroSplit from "@/components/HeroSplit";
 import { useLocalizedLink } from "@/hooks/useLocalizedLink";
+import { PROPOSAL_PHOTOS } from "@/data/visualProposal";
 import {
   ResultsBento,
   ResultsDetailTable,
@@ -146,14 +147,14 @@ export default function ResultadosRankings() {
       />
       <Navbar />
 
-      <HeroSection
-        layout="compact"
-        compactOverlay="soft"
-        align="center"
+      <HeroSplit
+        compact
         eyebrow="Histórico nacional"
         title="Resultados oficiales"
-        subtitle="Consulta las clasificaciones publicadas por prueba y el acumulado general de puntos."
-        backgroundImage="/images/hero-dog.webp"
+        description="Consulta las clasificaciones publicadas por prueba y el acumulado general de puntos."
+        imageSrc={PROPOSAL_PHOTOS.resultsHero.src}
+        imageAlt={PROPOSAL_PHOTOS.resultsHero.alt}
+        objectPosition={PROPOSAL_PHOTOS.resultsHero.objectPosition}
       />
 
       <main className="max-w-container-max mx-auto px-6 py-10 md:py-12">

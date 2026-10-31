@@ -1,9 +1,16 @@
-import Image from "next/image";
-import { CLUB_PROVINCE_OPTIONS, CLUB_SERVICE_FILTERS } from "@/data/partnerClubs";
+import dynamic from "next/dynamic";
+
+const ClubsLeafletMap = dynamic(() => import("./ClubsLeafletMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex h-full min-h-[420px] items-center justify-center bg-mint text-sm text-on-surface-variant">
+      Cargando mapa…
+    </div>
+  ),
+});
 
 /**
- * Panel filtros (mockup) + mapa decorativo con pins.
- * @param {{ draftProvince: string, draftServices: Record<string, boolean>, onProvinceChange: (v: string) => void, onServiceToggle: (id: string) => void, onApply: () => void }} props
+ * Panel filtros + mapa real (Leaflet/OSM) con todos los clubes ubicados.
  */
 export default function ClubsFiltersMap({
   draftProvince,
@@ -11,8 +18,13 @@ export default function ClubsFiltersMap({
   onProvinceChange,
   onServiceToggle,
   onApply,
-  provinceOptions = CLUB_PROVINCE_OPTIONS,
+  provinceOptions = [],
+  serviceFilters = [],
+  mapClubs = [],
+  onSelectClub,
 }) {
+  const pinCount = mapClubs.filter((c) => c.lat != null && c.lng != null).length;
+
   return (
     <section className="max-w-container-max mx-auto px-6 py-10 md:py-14">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -42,7 +54,7 @@ export default function ClubsFiltersMap({
                   Servicios
                 </label>
                 <div className="space-y-2">
-                  {CLUB_SERVICE_FILTERS.map((f) => (
+                  {serviceFilters.map((f) => (
                     <label key={f.id} className="flex items-center gap-2 text-sm cursor-pointer">
                       <input
                         type="checkbox"
@@ -64,44 +76,14 @@ export default function ClubsFiltersMap({
               </button>
             </div>
           </div>
+          <p className="text-xs text-on-surface-variant leading-relaxed px-1">
+            {pinCount} clubes en el mapa. Los pines dorados son ubicaciones aproximadas (provincia o municipio sin
+            dirección exacta) y se irán afinando.
+          </p>
         </div>
 
-        <div className="lg:col-span-8 h-[420px] lg:h-[500px] bg-surface-container-highest rounded-xl relative overflow-hidden shadow-soft border border-outline-variant">
-          <div className="absolute inset-0">
-            <Image
-              src="/images/hero-dog.webp"
-              alt=""
-              fill
-              className="object-cover opacity-40 grayscale"
-              sizes="(max-width: 1024px) 100vw, 66vw"
-              priority={false}
-            />
-            <div className="absolute inset-0 bg-primary/35" aria-hidden />
-          </div>
-          <div className="absolute top-1/4 left-[28%] group cursor-pointer">
-            <span className="material-symbols-outlined text-secondary text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>
-              location_on
-            </span>
-            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block w-48 bg-primary text-on-primary p-3 rounded-lg text-xs shadow-xl z-10">
-              <p className="font-bold">Red de clubes</p>
-              <p className="opacity-90">Consulta el listado inferior con todos los participantes.</p>
-            </div>
-          </div>
-          <div className="absolute top-[42%] left-[58%] group cursor-pointer">
-            <span className="material-symbols-outlined text-secondary text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>
-              location_on
-            </span>
-            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block w-48 bg-primary text-on-primary p-3 rounded-lg text-xs shadow-xl z-10">
-              <p className="font-bold">España</p>
-              <p className="opacity-90">Mapa orientativo; ubicaciones concretas en cada ficha.</p>
-            </div>
-          </div>
-          <div className="absolute bottom-16 right-8 max-w-xs bg-white/95 backdrop-blur-sm rounded-lg p-4 text-sm text-primary border border-outline-variant shadow-lg">
-            <p className="font-bold mb-1">Directorio actualizado</p>
-            <p className="text-on-surface-variant text-xs">
-              Los clubes con logo en esta página colaboran con la comunidad Nosework Trial.
-            </p>
-          </div>
+        <div className="lg:col-span-8 h-[420px] lg:h-[520px] rounded-xl relative overflow-hidden shadow-soft border border-outline-variant bg-mint">
+          <ClubsLeafletMap clubs={mapClubs} onSelectClub={onSelectClub} />
         </div>
       </div>
     </section>

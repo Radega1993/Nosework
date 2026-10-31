@@ -3,7 +3,8 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
-import HeroSection from "@/components/HeroSection";
+import HeroSplit from "@/components/HeroSplit";
+import { PROPOSAL_PHOTOS } from "@/data/visualProposal";
 import EventSearch from "@/components/Event/EventSearch";
 import { useLocalizedLink } from "@/hooks/useLocalizedLink";
 import { useEventFilters } from "@/hooks/useEventFilters";
@@ -164,13 +165,14 @@ export default function Events() {
 
       <Navbar />
 
-      <HeroSection
-        layout="compact"
-        compactOverlay="soft"
-        align="center"
+      <HeroSplit
+        compact
+        eyebrow="Calendario"
         title={CALENDARIO_HERO.title}
-        subtitle={CALENDARIO_HERO.subtitle}
-        backgroundImage="/images/hero-dog.webp"
+        description={CALENDARIO_HERO.subtitle}
+        imageSrc={PROPOSAL_PHOTOS.calendarHero.src}
+        imageAlt={PROPOSAL_PHOTOS.calendarHero.alt}
+        objectPosition={PROPOSAL_PHOTOS.calendarHero.objectPosition}
       />
 
       <main className="max-w-container-max mx-auto px-6 py-10 md:py-12">

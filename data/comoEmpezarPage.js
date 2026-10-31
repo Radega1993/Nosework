@@ -2,9 +2,8 @@ export const COMO_EMPEZAR_HERO = {
   title: "Empieza en Nosework",
   subtitle:
     "Descubre el deporte que potencia el instinto natural de tu perro. Una aventura de deteccion, confianza y vinculo inquebrantable.",
-  imageSrc: "/images/hero-dog.webp",
-  imageAlt:
-    "Perro de trabajo concentrado realizando una busqueda olfativa en exterior durante una sesion de deteccion deportiva.",
+  imageSrc: "/images/proposal/foto-12.jpg",
+  imageAlt: "Guía y perro en una sesión didáctica de nosework",
   primaryCtaLabel: "Comenzar ruta",
   secondaryCtaLabel: "Ver reglamento",
 };

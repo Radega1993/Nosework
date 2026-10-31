@@ -1,11 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
-import HeroSection from "@/components/HeroSection";
+import HeroSplit from "@/components/HeroSplit";
 import Link from "next/link";
 import { useLocalizedLink } from "@/hooks/useLocalizedLink";
+import { PROPOSAL_PHOTOS } from "@/data/visualProposal";
 import {
   ClubsAffiliationSection,
   ClubsFiltersMap,
@@ -21,6 +22,12 @@ const initialServices = () =>
     return acc;
   }, {});
 
+function isDemoClub(club) {
+  const slug = String(club.slug || "").toLowerCase();
+  const name = String(club.name || "").toLowerCase();
+  return /demo|seed-demo|pendiente/.test(slug) || /demo|pendiente/.test(name);
+}
+
 function clubMatchesApplied(club, province, services, searchTerm) {
   const term = searchTerm.trim().toLowerCase();
   if (term && !club.name.toLowerCase().includes(term)) return false;
@@ -29,7 +36,7 @@ function clubMatchesApplied(club, province, services, searchTerm) {
   }
   const activeFilters = CLUB_SERVICE_FILTERS.filter((f) => services[f.id]);
   if (activeFilters.length === 0) return true;
-  return activeFilters.every((f) => f.test(club.tags));
+  return activeFilters.every((f) => f.test(club.tags || []));
 }
 
 export default function Clubs() {
@@ -63,26 +70,32 @@ export default function Clubs() {
       source: "static",
       ...c,
     }));
-    const dbPart = apiClubRows.map((c) => {
-      const codes = c.service_codes || [];
-      const tags = taxonomyCodesToFilterTags(codes);
-      const rawLogo = (c.logo_url && String(c.logo_url).trim()) || "";
-      return {
-        directoryKey: `db-${c.id}`,
-        source: "database",
-        slug: c.slug,
-        name: c.display_name || c.name,
-        province: c.province || null,
-        city: c.municipality || null,
-        tags,
-        logoSrc: rawLogo || "/images/og-image.jpg",
-        badge: "Registrado",
-        sourceFile: `${c.slug}.webp`,
-      };
-    });
-    return [...staticPart, ...dbPart].sort((a, b) =>
-      a.name.localeCompare(b.name, "es", { sensitivity: "base" })
-    );
+    const dbPart = apiClubRows
+      .filter((c) => !isDemoClub({ slug: c.slug, name: c.display_name || c.name }))
+      .map((c) => {
+        const codes = c.service_codes || [];
+        const tags = taxonomyCodesToFilterTags(codes);
+        const rawLogo = (c.logo_url && String(c.logo_url).trim()) || "";
+        return {
+          directoryKey: `db-${c.id}`,
+          source: "database",
+          slug: c.slug,
+          name: c.display_name || c.name,
+          province: c.province || null,
+          city: c.municipality || null,
+          tags,
+          logoSrc: rawLogo || "/images/og-image.jpg",
+          badge: "Registrado",
+          sourceFile: `${c.slug}.webp`,
+          shortDescription: c.short_description || null,
+          website: c.website_url || null,
+          phone: c.public_phone || null,
+          email: c.public_email || null,
+        };
+      });
+    return [...staticPart, ...dbPart]
+      .filter((c) => !isDemoClub(c))
+      .sort((a, b) => a.name.localeCompare(b.name, "es", { sensitivity: "base" }));
   }, [apiClubRows]);
 
   const provinceOptions = useMemo(() => {
@@ -107,6 +120,17 @@ export default function Clubs() {
     [allDirectoryClubs, appliedProvince, appliedServices, search]
   );
 
+  const handleSelectClub = useCallback((club) => {
+    if (club?.province) {
+      setDraftProvince(club.province);
+      setAppliedProvince(club.province);
+    }
+    if (typeof document !== "undefined") {
+      const el = document.getElementById(`club-${club.slug}`);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, []);
+
   return (
     <div className="bg-surface min-h-screen text-on-surface overflow-x-hidden">
       <SEOHead
@@ -117,13 +141,14 @@ export default function Clubs() {
       />
       <Navbar />
 
-      <HeroSection
-        layout="compact"
-        compactOverlay="soft"
-        align="center"
+      <HeroSplit
+        compact
+        eyebrow="Red de clubes"
         title="Clubes oficiales"
-        subtitle="Forma parte de la red de centros especializados en detección deportiva. Encuentra un club y comienza tu camino en el Nosework Trial."
-        backgroundImage="/images/hero-dog.webp"
+        description="Forma parte de la red de centros especializados en detección deportiva. Encuentra un club y comienza tu camino en el Nosework Trial."
+        imageSrc={PROPOSAL_PHOTOS.clubsHero.src}
+        imageAlt={PROPOSAL_PHOTOS.clubsHero.alt}
+        objectPosition={PROPOSAL_PHOTOS.clubsHero.objectPosition}
       />
 
       <ClubsFiltersMap
@@ -133,6 +158,9 @@ export default function Clubs() {
         onServiceToggle={toggleDraftService}
         onApply={handleApply}
         provinceOptions={provinceOptions}
+        serviceFilters={CLUB_SERVICE_FILTERS}
+        mapClubs={allDirectoryClubs}
+        onSelectClub={handleSelectClub}
       />
 
       <div className="max-w-container-max mx-auto px-6 -mt-4 pb-6">

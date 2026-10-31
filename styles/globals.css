@@ -2,32 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
-/* UI redesign: design tokens as CSS variables (for future dark mode) */
+/* Propuesta visual Nosework: verde bosque + salvia + crema + oro cálido */
 :root {
-  --color-primary: #04162f;
-  --color-secondary: #506600;
-  --color-secondary-container: #c1f100;
-  --color-on-secondary-container: #546b00;
-  --color-surface: #f7f9fc;
-  --color-surface-container: #eceef1;
-  --color-surface-variant: #e0e3e6;
-  --color-on-surface: #191c1e;
-  --color-on-surface-variant: #44474d;
-  --color-outline: #75777e;
-  --color-outline-variant: #c5c6ce;
-  --color-navy: #0F2A44;
-  --color-navy-dark: #091C2E;
-  --color-gold: #F5B400;
-  --color-gold-hover: #E0A100;
+  --color-primary: #123a30;
+  --color-secondary: #4c745f;
+  --color-secondary-container: #e6f0e9;
+  --color-on-secondary-container: #41634c;
+  --color-surface: #f8f6f1;
+  --color-surface-container: #eaf1e8;
+  --color-surface-variant: #e0e6df;
+  --color-on-surface: #173129;
+  --color-on-surface-variant: #61716a;
+  --color-outline: #7b8c7d;
+  --color-outline-variant: #e6e8df;
+  --color-navy: #173129;
+  --color-navy-dark: #0f241c;
+  --color-gold: #d9b777;
+  --color-gold-hover: #c9a56c;
   --color-neutral-white: #FFFFFF;
-  --color-neutral-bg: #F4F6F8;
-  --color-neutral-border: #E2E8F0;
-  --color-neutral-text-dark: #1A202C;
-  --color-neutral-text-medium: #4A5568;
-  --container-max: 1200px;
+  --color-neutral-bg: #f8f6f1;
+  --color-neutral-border: #e6e8df;
+  --color-neutral-text-dark: #173129;
+  --color-neutral-text-medium: #61716a;
+  --color-mint: #eaf1e8;
+  --color-cream: #f8f6f1;
+  --container-max: 1340px;
   --container-padding: 24px;
   --font-inter: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-montserrat: 'Montserrat', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Source Serif 4', Georgia, 'Times New Roman', serif;
 }
 
 @layer base {
@@ -40,8 +43,14 @@
     font-family: var(--font-inter);
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-bold text-navy;
+  h1, h2 {
+    @apply font-medium text-navy;
+    font-family: var(--font-display);
+    letter-spacing: -0.04em;
+  }
+
+  h3, h4, h5, h6 {
+    @apply font-semibold text-navy;
     font-family: var(--font-montserrat);
   }
 
@@ -140,7 +149,7 @@
 
   /* UI redesign: container 1200px, 24px padding, centered (spec) */
   .container-redesign {
-    max-width: 1280px;
+    max-width: 1340px;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
@@ -154,6 +163,18 @@
 
   .hero-band {
     @apply bg-primary text-white py-16 md:py-20 text-center;
+  }
+
+  .proposal-eyebrow {
+    @apply inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.16em] text-secondary;
+  }
+
+  .proposal-eyebrow-dot {
+    @apply h-2 w-2 rounded-full bg-gold;
+  }
+
+  .proposal-card {
+    @apply overflow-hidden rounded-[19px] border border-outline-variant bg-white shadow-[0_10px_27px_rgba(26,50,32,0.028)];
   }
 
   .surface-card {

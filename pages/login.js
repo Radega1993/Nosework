@@ -92,6 +92,7 @@ export default function LoginPage() {
 
   return (
     <AuthShell
+      photoKey="loginSide"
       title="Iniciar sesión"
       subtitle="Accede a tu área privada con tu cuenta federada."
       footerLink={

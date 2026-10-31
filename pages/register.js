@@ -111,6 +111,7 @@ export default function RegisterPage() {
 
   return (
     <AuthShell
+      photoKey="registerSide"
       title="Crear cuenta"
       subtitle="Registro seguro para acceder al área privada y al panel deportista."
       footerLink={

@@ -1,9 +1,10 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
-import HeroSection from "@/components/HeroSection";
+import HeroSplit from "@/components/HeroSplit";
 import SEOHead from "@/components/SEOHead";
 import { useLocalizedLink } from "@/hooks/useLocalizedLink";
+import { PROPOSAL_PHOTOS } from "@/data/visualProposal";
 import {
   IconFeatureGrid,
   AlternatingTimeline,
@@ -53,12 +54,13 @@ export default function QueEsNoseworkTrial() {
 
       <Navbar />
 
-      <HeroSection
-        layout="interior"
-        eyebrow={QUE_ES_HERO.eyebrow}
+      <HeroSplit
+        eyebrow={QUE_ES_HERO.eyebrow || "Qué es Nosework"}
         title={QUE_ES_HERO.title}
-        subtitle={QUE_ES_HERO.subtitle}
-        backgroundImage="/images/hero-dog.webp"
+        description={QUE_ES_HERO.subtitle}
+        imageSrc={PROPOSAL_PHOTOS.noseworkHero.src}
+        imageAlt={PROPOSAL_PHOTOS.noseworkHero.alt}
+        objectPosition={PROPOSAL_PHOTOS.noseworkHero.objectPosition}
         primaryCTA={{
           href: localizedHref("/como-empezar"),
           label: "Empezar ahora",
@@ -69,7 +71,6 @@ export default function QueEsNoseworkTrial() {
           label: "Ver reglamento",
           ariaLabel: "Consultar el reglamento completo",
         }}
-        tertiaryCTA={null}
       />
 
       <main>

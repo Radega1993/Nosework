@@ -2,9 +2,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import Button from "@/components/Button";
-import HeroSection from "@/components/HeroSection";
+import HeroSplit from "@/components/HeroSplit";
 import dynamic from "next/dynamic";
 import { useLocalizedLink } from "@/hooks/useLocalizedLink";
+import { PROPOSAL_PHOTOS } from "@/data/visualProposal";
 import {
   ImageBadgeCardGrid,
   HorizontalProcessTimeline,
@@ -44,11 +45,14 @@ export default function Competiciones() {
 
       <Navbar />
 
-      <HeroSection
-        layout="compact"
+      <HeroSplit
+        compact
+        eyebrow="Competiciones"
         title={COMPETICIONES_HERO.title}
-        subtitle={COMPETICIONES_HERO.subtitle}
-        backgroundImage="/images/hero-dog.webp"
+        description={COMPETICIONES_HERO.subtitle}
+        imageSrc={PROPOSAL_PHOTOS.competitionsHero.src}
+        imageAlt={PROPOSAL_PHOTOS.competitionsHero.alt}
+        objectPosition={PROPOSAL_PHOTOS.competitionsHero.objectPosition}
       />
 
       <CompeticionesUpcomingStrip />

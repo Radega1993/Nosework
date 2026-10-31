@@ -11,7 +11,7 @@ export default function NivelesHero({ hero, reglamentoHref, eventosHref }) {
         <span className="inline-block px-3 py-1 bg-secondary-container text-on-secondary-container text-xs font-bold uppercase tracking-wider rounded-full">
           {hero.eyebrow}
         </span>
-        <h1 className="font-montserrat text-3xl md:text-4xl lg:text-5xl font-bold text-primary leading-tight tracking-tight">
+        <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-medium text-primary leading-tight tracking-tight">
           {hero.title}
         </h1>
         <p className="text-lg text-on-surface-variant max-w-xl leading-relaxed">{hero.description}</p>
@@ -31,19 +31,20 @@ export default function NivelesHero({ hero, reglamentoHref, eventosHref }) {
         </div>
       </div>
       <div className="flex-1 w-full relative">
-        <div className="aspect-[4/3] rounded-xl overflow-hidden shadow-xl border-8 border-white relative">
+        <div className="aspect-[4/5] md:aspect-[4/3] rounded-[20px] overflow-hidden shadow-xl border-8 border-white relative bg-mint">
           <Image
-            src="/images/hero-dog.webp"
-            alt="Perro en una prueba de detección deportiva Nosework Trial"
+            src="/images/proposal/foto-08.jpg"
+            alt="Perro concentrado junto a un Kong rojo"
             fill
             className="object-cover"
+            style={{ objectPosition: "50% 37%" }}
             sizes="(max-width: 768px) 100vw, 50vw"
             priority
           />
         </div>
-        <div className="absolute -bottom-4 -left-2 sm:-bottom-6 sm:-left-6 bg-secondary-fixed text-[#161e00] p-4 rounded-lg shadow-lg max-w-[220px]">
-          <span className="block font-montserrat font-bold text-xl">{hero.statValue}</span>
-          <span className="text-[11px] font-bold uppercase tracking-wide leading-snug">{hero.statLabel}</span>
+        <div className="absolute -bottom-4 -left-2 sm:-bottom-6 sm:-left-6 bg-primary text-white p-4 rounded-lg shadow-lg max-w-[220px]">
+          <span className="block font-display font-medium text-xl">{hero.statValue}</span>
+          <span className="text-[11px] font-bold uppercase tracking-wide leading-snug text-[#c1d8ca]">{hero.statLabel}</span>
         </div>
       </div>
     </section>

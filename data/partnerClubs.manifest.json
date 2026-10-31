@@ -243,6 +243,17 @@
       "badge": "Club participante"
     },
     {
+      "slug": "som-binomi",
+      "name": "Som Binomi",
+      "sourceFile": "som-binomi.png",
+      "province": null,
+      "city": null,
+      "tags": [
+        "Colaborador"
+      ],
+      "badge": "Club participante"
+    },
+    {
       "slug": "trebacan",
       "name": "Trebacan",
       "sourceFile": "TREBACAN TODO SVG.svg",

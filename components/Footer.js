@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useLocalizedLink } from "@/hooks/useLocalizedLink";
 
 const linkClass =
-    "text-white/80 hover:text-secondary-container transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary-container focus-visible:ring-offset-2 focus-visible:ring-offset-navy-dark rounded";
+    "text-white/80 hover:text-gold transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy-dark rounded";
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();

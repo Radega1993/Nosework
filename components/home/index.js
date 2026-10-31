@@ -8,6 +8,8 @@ export { default as HomeClubFinder } from "./HomeClubFinder";
 export { default as HomeRecentResultsTeaser } from "./HomeRecentResultsTeaser";
 export { default as HomeNewsCards } from "./HomeNewsCards";
 export { default as HomeCommunityCtaSection } from "./HomeCommunityCtaSection";
+export { default as HomeCommunityBanner } from "./HomeCommunityBanner";
+export { default as HomeDiscoverCards } from "./HomeDiscoverCards";
 export { default as HomePartnersSection } from "./HomePartnersSection";
 export {
   DEFAULT_JOURNEY_STEPS,

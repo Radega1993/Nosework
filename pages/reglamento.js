@@ -2,8 +2,9 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 import SEOHead from "@/components/SEOHead";
-import HeroSection from "@/components/HeroSection";
+import HeroSplit from "@/components/HeroSplit";
 import { useLocalizedLink } from "@/hooks/useLocalizedLink";
+import { PROPOSAL_PHOTOS } from "@/data/visualProposal";
 
 const REGLEMENTO_VERSION = "v1.0";
 const REGLEMENTO_DATE = "2025-02-01";
@@ -31,14 +32,14 @@ export default function Reglamento() {
 
       <Navbar />
 
-      <HeroSection
-        layout="compact"
-        compactOverlay="soft"
-        align="center"
+      <HeroSplit
+        compact
+        eyebrow="Documentación"
         title="Reglamento y normativa"
-        subtitle="Normativa oficial de Nosework Trial Community."
-        backgroundImage="/images/hero-dog.webp"
-        showActions={false}
+        description="Normativa oficial de Nosework Trial Community. Prioriza la lectura y la descarga del PDF."
+        imageSrc={PROPOSAL_PHOTOS.rulesHero.src}
+        imageAlt={PROPOSAL_PHOTOS.rulesHero.alt}
+        objectPosition={PROPOSAL_PHOTOS.rulesHero.objectPosition}
       />
 
       <main className="max-w-container-max mx-auto px-6 py-10 md:py-12 space-y-8">

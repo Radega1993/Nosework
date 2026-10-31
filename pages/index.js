@@ -1,24 +1,22 @@
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import HeroSection from "@/components/HeroSection";
+import HeroSplit from "@/components/HeroSplit";
 import SEOHead from "@/components/SEOHead";
 import { getSportsOrganizationSchema } from "@/utils/seo";
 import { useLocalizedLink } from "@/hooks/useLocalizedLink";
 import { useEffect, useMemo, useState } from "react";
 import {
-  HomeQuickAccessBento,
-  HomeWhatIsTrialSection,
-  HomeAthleteJourney,
+  HomeDiscoverCards,
+  HomeCommunityBanner,
   HomeUpcomingTrials,
   HomeEventsCalendarSection,
   HomeLevelsStrip,
   HomeClubFinder,
   HomeRecentResultsTeaser,
-  HomeNewsCards,
-  HomeCommunityCtaSection,
   HomePartnersSection,
 } from "@/components/home";
+import { PROPOSAL_PHOTOS } from "@/data/visualProposal";
 import { isEventOnSameLocalDay, parseEventLocalDate } from "@/utils/eventDates";
 
 export default function Home() {
@@ -75,6 +73,7 @@ export default function Home() {
   };
 
   const sportsOrganizationSchema = getSportsOrganizationSchema();
+  const heroPhoto = PROPOSAL_PHOTOS.homeHero;
 
   return (
     <>
@@ -82,7 +81,7 @@ export default function Home() {
         title="Nosework Trial – Deporte de olfato canino"
         description="Descubre Nosework Trial, la modalidad deportiva para perros detectores y trabajo de olfato. Pruebas oficiales, reglamento, calendario de competiciones y clubs en España."
         canonical="/"
-        ogImage="/images/og-image.jpg"
+        ogImage={heroPhoto.src}
         schema={sportsOrganizationSchema}
         additionalMeta={{
           keywords:
@@ -93,7 +92,12 @@ export default function Home() {
 
       <Navbar />
 
-      <HeroSection
+      <HeroSplit
+        title="Un mundo por descubrir con su olfato"
+        description="Transformamos el instinto de búsqueda en una experiencia compartida. Un deporte accesible donde cada perro y su guía crecen a su ritmo."
+        imageSrc={heroPhoto.src}
+        imageAlt={heroPhoto.alt}
+        objectPosition={heroPhoto.objectPosition}
         primaryCTA={{
           href: localizedHref("/como-empezar"),
           label: "Empezar en Nosework",
@@ -101,20 +105,15 @@ export default function Home() {
         }}
         secondaryCTA={{
           href: localizedHref("/eventos"),
-          label: "Ver próximas pruebas",
+          label: "Consultar pruebas",
           ariaLabel: "Ver el calendario de pruebas",
         }}
-        tertiaryCTA={{
-          href: localizedHref("/reglamento"),
-          label: "Consultar reglamento",
-          ariaLabel: "Consultar el reglamento de Nosework Trial",
-        }}
+        micro="UNA DISCIPLINA · MUCHAS FORMAS DE DISFRUTAR"
       />
 
       <main className="bg-surface text-on-surface">
-        <HomeQuickAccessBento localizedHref={localizedHref} />
-        <HomeWhatIsTrialSection localizedHref={localizedHref} />
-        <HomeAthleteJourney localizedHref={localizedHref} />
+        <HomeDiscoverCards localizedHref={localizedHref} />
+        <HomeCommunityBanner localizedHref={localizedHref} />
         <HomeUpcomingTrials events={upcomingTrials} localizedHref={localizedHref} />
         <HomeEventsCalendarSection
           events={events}
@@ -131,8 +130,6 @@ export default function Home() {
           localizedHref={localizedHref}
         />
         <HomeRecentResultsTeaser localizedHref={localizedHref} />
-        <HomeNewsCards localizedHref={localizedHref} />
-        <HomeCommunityCtaSection localizedHref={localizedHref} />
         <HomePartnersSection localizedHref={localizedHref} />
       </main>
 

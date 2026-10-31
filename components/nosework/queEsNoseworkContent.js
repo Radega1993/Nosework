@@ -70,10 +70,10 @@ export const QUE_ES_MODALITIES_INTRO = {
 
 /** Fotografías propias optimizadas (WebP); regenerar con `npm run optimize:brand-que-es`. */
 const IMG = {
-  contenedores: "/images/paqueteria.webp",
-  interior: "/images/interior.webp",
-  exterior: "/images/exterior.webp",
-  vehiculos: "/images/coche.webp",
+  contenedores: "/images/proposal/foto-28.jpg",
+  interior: "/images/proposal/foto-27.jpg",
+  exterior: "/images/proposal/foto-01.jpg",
+  vehiculos: "/images/proposal/foto-04.jpg",
 };
 
 export const QUE_ES_MODALITIES = [
@@ -85,7 +85,7 @@ export const QUE_ES_MODALITIES = [
 
 export const QUE_ES_BENEFITS = {
   title: "Beneficios para el perro",
-  imageSrc: "/images/exterior.webp",
+  imageSrc: "/images/proposal/foto-43.jpg",
   imageAlt: "Perro concentrado en una búsqueda de olor al aire libre",
   quote: "Nosework no es solo un deporte, es un lenguaje entre tú y tu perro.",
   items: [
